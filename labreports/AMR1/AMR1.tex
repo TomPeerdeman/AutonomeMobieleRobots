@@ -211,7 +211,7 @@ NXT_SetOutputState(MOTOR_C, phi, true, true, 'SPEED', 0, 'RUNNING', wentels-erro
 while(1)
     outB = NXT_GetOutputState(MOTOR_B);
     outC = NXT_GetOutputState(MOTOR_C);
-    if strcmp(outB.RunStateName, 'IDLE')
+    if strcmp(outB.RunStateName, 'IDLE') && strcmp(outC.RunStateName, 'IDLE')
         break
     end
 end
