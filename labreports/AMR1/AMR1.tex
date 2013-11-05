@@ -142,9 +142,9 @@ De theorie voor een rechte lijn rijden is eenvoudig. De robot moet weten wat de 
 \\
 Een bocht maken is wat minder eenvoudig. Hiervoor moet bekend zijn wat de afstand van elk wiel tot aan het middelpunt van de robot is $l$ (deze afstand is voor elk gemotoriseerd wiel hetzelfde). Daarnaast moet bekend zijn wat de radius $r$ van de cirkel is waar omheen gereden moet worden. Deze radius wordt bepaald vanaf het middelpunt $P$ van de robot tot aan het middelpunt van de cirkel die de bocht definieert. Er moet ook bekend zijn hoeveel graden $\alpha$ er moet worden gedraaid. De snelheid voor de wielen moet vervolgens per wiel berekend worden. De snelheid $\varphi_1$ voor het wiel aan de buitenkant van de bocht wordt geleverd. Om de snelheid voor het tweede wiel te bepalen moet eerst bepaald worden wat de afstand is die elk wiel moet afleggen. Dit wordt als volgt bepaald:\\\\
 voor het wiel aan de buitenkant van de bocht:
-$s_1 = \frac{2 * pi * (r + l)}{360}*\alpha$\\
+$s_1 = \frac{2\pi(r + l)}{360}\alpha$\\
 voor het wiel aan de binnenkant van de bocht:
-$s_2 = \frac{2 * pi * (r - l)}{360}*\alpha$\\\\
+$s_2 = \frac{2\pi(r - l)}{360}\alpha$\\\\
 Vervolgens kan de tijd $t$ bepaald worden door de afstand voor het buitenste wiel te delen door de meegeleverde bijbehorende snelheid. Deze berekende $t$ geeft aan hoelang het wiel moet draaien. Als $t$ bekend is kan ook de snelheid voor het binnenste wiel worden berekend. $\varphi_2=\frac{s_2}{t}$
 
 \subsection{Feedback  (b)}
@@ -152,7 +152,7 @@ Als bewegingen zijn uitgevoerd kan nagegaan worden of dit juist is verlopen. Doo
 
 \subsection{Implementatie (c)}
 \subsubsection{Rechte lijn}
-De implementatie voor de rechte lijn is vrij voor de hand liggend. Beide wielen krijgen dezelfde power mee. Voor de afstand is echter gekozen om aan te geven hoeveel graden de wielen moeten draaien. Dit is gedaan omdat de call naar de NXT-robot niet kan werken met afstanden maar wel met omwentelingen.
+De implementatie voor de rechte lijn is vrij voor de hand liggend. Beide wielen krijgen dezelfde power mee. Voor de afstand is echter gekozen om aan te geven hoeveel graden de wielen moeten draaien. Dit is gedaan omdat de call naar de NXT-robot niet kan werken met afstanden maar wel met omwentelingen aangegeven in het aantal graden.
 \begin{lstlisting}[caption=Rechte lijn, label=lst:line, numbers=left]
 function NXTLine(phi, wentels)
 NXT_SetOutputState(MOTOR_B, phi, true, true, 'SPEED', 0, 'RUNNING', wentels, 'dontreply');
@@ -162,11 +162,12 @@ NXT_SetOutputState(MOTOR_C, phi, true, true, 'SPEED', 0, 'RUNNING', wentels, 'do
 Voor de bocht moeten er meerdere berekeningen gedaan worden. De theorie blijft van kracht, er vormt zich echter een probleem voor de tijdseenheid. De snelheid die meegegeven wordt aan de functie, is niet het aantal rotaties/toeren per minuut maar de power die de motor levert. Echter blijkt dat het verband tussen de power ten opzichte van het aantal toeren per minuut lineair is. Dit betekent dat de vreemde snelheids eenheid, namelijk de power, geen invloed heeft op het berekenen van de tijd. De tijd wordt echter van de waarde afstand per power. Omdat continu met dezelfde eenheden wordt gewerkt wordt uiteindelijk de eenheid voor de snelheid van het tweede wiel gewoon power. Vervolgens wordt de afstand die afgelegd moet worden omgerekend naar het aantal graden dat elk wiel moet draaien, zodat dit aan de call kan worden meegegeven. Tenslotte moet er bekeken worden welke kant opgedraaid moet worden, links of rechts. Aan de hand van een if else statement kan hier op worden gecontroleerd.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.6\textwidth]{imgs/lineair.PNG}
+	\includegraphics[width=0.6\textwidth]{imgs/lineair.png}
 	\caption{Lineair verband, donkerblauw is voor een ongeladen motor, 9V NXT motor\protect\footnotemark}
 	\label{fig:lineairverband}
 \end{figure}
 \footnotetext{Original source: http://www.philohome.com/nxtmotor/nxtmotor.htm}
+\\\\
 \begin{lstlisting}[caption=Bocht, label=lst:bocht, numbers=left]
 function NXTBocht(radius, alpha, phi1, richting)
 s1 = (2*pi*(radius+5.85))/360 * alpha;
