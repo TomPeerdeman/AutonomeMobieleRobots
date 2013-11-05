@@ -55,7 +55,7 @@ Stel nu dat wiel 1 draait en wiel 2 stilstaat, we krijgen dan ook een rotatie, e
 De formule blijft dus hetzelfde op het feit na dat de draairichting, en dus de rotatiesnelheid negatief wordt:
 $\omega_{2}=-\frac{r\varphi_{2}}{2l}$\\
 Aangezien de rotatiesnelheid in situatie 1 in het punt P gelijk is aan dat van wiel 2, en in situatie 2 die van wiel 1 kunnen we deze optellen om zo de totale rotatiesnelheid te krijgen in punt P: $\omega=\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}$\\\\
-We weten nu alle benodigde snelheden in robot co\"ordinaten:\\
+We weten nu alle benodigde snelheden in robot co\"ordinaten:\\\\
 $
 \dot{\xi_{R}}
 \begin{bmatrix}
@@ -70,7 +70,7 @@ $
 \dot{\theta}
 \end{bmatrix}_{R}
 $
-\\
+\\\\
 We kunnen nu de snelheden omzetten naar wereld co\"ordinaten door de inverse van de rotatiematrix te gebruiken:\\
 $
 \dot{\xi_{I}}=
@@ -88,11 +88,11 @@ R(-\theta)
 \frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}
 \end{bmatrix}
 $
-\\\\
-b. ??Klopt dit?? -> 1. Als $\delta t$ kleiner wordt zal de robot kleinere aanpassingen kunnen doen van de snelheid, de precisie zal dus verbeteren.\\
+\\\\\\
+b. 1. De precisie van de inschatting verbetert naarmate de $\Delta t$ afneemt. Dit komt omdat als de positie net geschat is en de robot zich beweegt, de positie voor een tijd van $\Delta t$ incorrect is. Als $\Delta t$ afneemt zal de precisie van de gemiddelde inschatting dus toenemen.\\\\
 2. De rotatie snelheid in robot co\"ordinaten is uitgewerkt in opgave a. Aangzien de rotatiematrix echter niks doet met deze waarde is deze waarde dus gelijk aan de rotatiesnelheid in het wereldco\"ordinaten stelsel. De rotatiesnelheid is dus:\\
-$w(t) = \omega=\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}$\\
-3. De v vector heeft twee elementen: de snelheid in de x richting en de snelheid in de y richting. We kunnen de v vector dus berekenen door de x en y snelheid in robot co\"ordinaten te vermenigvuldigen met een niet homogene rotatiematrix over de hoek $-\theta$:\\
+$w(t) = \omega=\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}$\\\\
+3. De v vector heeft twee elementen: de snelheid in de x richting en de snelheid in de y richting. We kunnen de v vector dus berekenen door de x en y snelheid in robot co\"ordinaten te vermenigvuldigen met een niet homogene rotatiematrix over de hoek $-\theta$:\\\\
 $
 \vec{v}=
 \begin{bmatrix}
