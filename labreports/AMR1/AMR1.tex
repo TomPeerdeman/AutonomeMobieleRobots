@@ -176,6 +176,7 @@ Voor de bocht moeten er meerdere berekeningen gedaan worden. De theorie blijft v
 \end{figure}
 \footnotetext{Original source: http://www.philohome.com/nxtmotor/nxtmotor.htm}
 \\\\
+\vspace{5cm}
 \begin{lstlisting}[caption=Bocht, label=lst:bocht, numbers=left]
 function NXTBocht(radius, alpha, phi1, richting)
 s1 = (2*pi*(radius+5.85))/360 * alpha;
@@ -196,6 +197,7 @@ end
 \end{lstlisting}
 \subsubsection{Meerdere bewegingen}
 Tot slot moet er voor gezorgd worden dat er meerdere bewegingen achter elkaar kunnen worden uitgevoerd. Hiervoor moet per beweging worden gewacht totdat deze klaar is. Hier wordt op gecheckt door de status van de motors te bekijken. Zodra deze geen power meer leveren wordt het signaal 'IDLE' afgegeven. Zodra dit signaal is ontvangen kan een eventueel volgende beweging worden uitgevoerd.
+\\\\
 \begin{lstlisting}[caption=Meerdere moves, label=lst:moves, numbers=left]
 while(1)
     outB = NXT_GetOutputState(MOTOR_B);
