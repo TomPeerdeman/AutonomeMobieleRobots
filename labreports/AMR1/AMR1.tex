@@ -46,8 +46,69 @@ $\mathrm{[\dot{x}\; \dot{y}\; \dot{\theta}]^T} = f\mathrm{(l, r, \theta, \varphi
 
 
 \subsubsection{Odometry}
-a.\\
-b.
+a.De makkelijkste manier om te kijken naar de invloed van de draaisnelheiden van de wielen op de positie en de orientatie is door deze eerst te bepalen in het robot co\"ordinaten stelsel. Dit is makkelijker te bepalen aangezien de robot in dit co\"ordinaten stelsel nooit een snelheid kan krijgen in de y richting door de constraint dat er geen slip aanwezig is.\\
+De snelheid in de x richting is ook makkelijk te bepalen. Stel dat alleen wiel 1 draait met snelheid $\varphi_{1}$, aangezien P in het midden ligt van wiel 1 en 2 zal deze zich dus voorbewegen met een snelheid van $\frac{1}{2}r\varphi_{1}$ in de x richting. Aangezien dit ook geldt als alleen wiel 2 draait kunnen we deze optellen als allebei de wielen draaien.
+In het geval dat de wielen draaien met snelheden $\varphi_{1}$ en $\varphi_{2}$ zal de robot dus een snelheid krijgen van $\frac{1}{2}r\varphi_{1} + \frac{1}{2}r\varphi_{2}$ in de x richting.\\\\
+De rotatie is op een zelfde manier te berekenen. stel dat wiel 1 stil staat en wiel 2 zo draait dat er een positieve snelheid in de x richting ontstaat. In dit geval gaat de robot draaien om het contactpunt van wiel 1. We kunnen zeggen dat wiel 2 rijd op een circkel met radius 2l en als middelpunt het contactpunt van wiel 1. Aangezien we de draaisnelheid weten van wiel 2 kunnen we de rotatiesnelheid van dit wiel berekenen met de volgende formule:\\
+$\omega_{1}=\frac{r\varphi_{1}}{2l}$\\
+Stel nu dat wiel 1 draait en wiel 2 stilstaat, we krijgen dan ook een rotatie, echter in de andere richting dan eerst.
+De formule blijft dus hetzelfde op het feit na dat de draairichting, en dus de rotatiesnelheid negatief wordt:
+$\omega_{2}=-\frac{r\varphi_{2}}{2l}$\\
+Aangezien de rotatiesnelheid in situatie 1 in het punt P gelijk is aan dat van wiel 2, en in situatie 2 die van wiel 1 kunnen we deze optellen om zo de totale rotatiesnelheid te krijgen in punt P: $\omega=\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}$\\\\
+We weten nu alle benodigde snelheden in robot co\"ordinaten:\\
+$
+\dot{\xi_{R}}
+\begin{bmatrix}
+\frac{1}{2}r\varphi_{1} + \frac{1}{2}r\varphi_{2} \\
+0\\
+\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\dot{x} \\
+\dot{y} \\
+\dot{\theta}
+\end{bmatrix}_{R}
+$
+\\
+We kunnen nu de snelheden omzetten naar wereld co\"ordinaten door de inverse van de rotatiematrix te gebruiken:\\
+$
+\dot{\xi_{I}}=
+R(\theta)^{-1}
+\begin{bmatrix}
+\frac{1}{2}r\varphi_{1} + \frac{1}{2}r\varphi_{2} \\
+0\\
+\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}
+\end{bmatrix}
+=
+R(-\theta)
+\begin{bmatrix}
+\frac{1}{2}r\varphi_{1} + \frac{1}{2}r\varphi_{2} \\
+0\\
+\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}
+\end{bmatrix}
+$
+\\\\
+b. ??Klopt dit?? -> 1. Als $\delta t$ kleiner wordt zal de robot kleinere aanpassingen kunnen doen van de snelheid, de precisie zal dus verbeteren.\\
+2. De rotatie snelheid in robot co\"ordinaten is uitgewerkt in opgave a. Aangzien de rotatiematrix echter niks doet met deze waarde is deze waarde dus gelijk aan de rotatiesnelheid in het wereldco\"ordinaten stelsel. De rotatiesnelheid is dus:\\
+$w(t) = \omega=\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}$\\
+3. De v vector heeft twee elementen: de snelheid in de x richting en de snelheid in de y richting. We kunnen de v vector dus berekenen door de x en y snelheid in robot co\"ordinaten te vermenigvuldigen met een niet homogene rotatiematrix over de hoek $-\theta$:\\
+$
+\vec{v}=
+\begin{bmatrix}
+\dot{x} \\
+\dot{y}
+\end{bmatrix}
+=
+\begin{bmatrix}
+cos(-\theta) & sin(-\theta)\\
+-sin(-\theta) & cos(-\theta)
+\end{bmatrix}
+\begin{bmatrix}
+\frac{1}{2}r\varphi_{1} + \frac{1}{2}r\varphi_{2} \\
+0
+\end{bmatrix}
+$
 
 \section{Steering Experimenten}
 
