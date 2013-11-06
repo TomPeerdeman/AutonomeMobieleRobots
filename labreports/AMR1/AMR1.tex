@@ -160,9 +160,10 @@ Als bewegingen zijn uitgevoerd kan nagegaan worden of dit juist is verlopen. Doo
 
 \subsection{Implementatie (c)}
 \subsubsection{Rechte lijn}
-De implementatie voor de rechte lijn is vrij voor de hand liggend. Beide wielen krijgen dezelfde power mee. Voor de afstand is echter gekozen om aan te geven hoeveel graden de wielen moeten draaien. Dit is gedaan omdat de call naar de NXT-robot niet kan werken met afstanden maar wel met omwentelingen aangegeven in het aantal graden.
+De implementatie voor de rechte lijn is vrij voor de hand liggend. Beide wielen krijgen dezelfde power mee. De afstand wordt in cm meegegeven. Deze moet vervolgens worden omgerekend naar het aantal graden dat de wielen moeten draaien. Hiervoor is de omtrek van de gemotoriseerde wielen nodig. Dit kan berekend worden omdat de diameter bekend is, deze is namelijk 5.6cm. De omtrek wordt dan $\pi * 5.6 = 17.593cm$. Het aantal omwentelingen kan vervolgens worden bepaald door de te rijden afstand te delen door deze omtrek en te vermenigvuldigen met 360 graden.
 \begin{lstlisting}[caption=Rechte lijn, label=lst:line, numbers=left]
-function NXTLine(phi, wentels)
+function NXTLine(phi, afstand)
+wentels = afstand/17.593 * 360;
 NXT_SetOutputState(MOTOR_B, phi, true, true, 'SPEED', 0, 'RUNNING', wentels, 'dontreply');
 NXT_SetOutputState(MOTOR_C, phi, true, true, 'SPEED', 0, 'RUNNING', wentels, 'dontreply');
 \end{lstlisting}

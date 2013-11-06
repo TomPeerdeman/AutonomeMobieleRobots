@@ -1,4 +1,5 @@
-function NXTLine(phi, wentels)
+function NXTLine(phi, afstand)
+wentels = afstand/17.593 * 360;
 NXT_SetOutputState(MOTOR_B, phi, true, true, 'SPEED', 0, 'RUNNING', wentels, 'dontreply');
 NXT_SetOutputState(MOTOR_C, phi, true, true, 'SPEED', 0, 'RUNNING', wentels, 'dontreply');
 
