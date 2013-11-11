@@ -47,7 +47,7 @@ while 1
 	alpha = -error(3) + atan2(error(2), error(1));
 	beta = -error(3) -alpha;
 	
-	v = kp * [error(1); error(2)]
+	v = kp * [error(1); error(2)];
 	rotationspeed = ka * alpha + kb * beta;
 	
 	[phi1, phi2] = InvKinematics(v(1), v(2), rotationspeed, post, r, l);
@@ -66,10 +66,12 @@ NXT_SetOutputState(MOTOR_C, 0, true, true, 'IDLE', 0, 'RUNNING',  0, 'dontreply'
 
 function [p1, p2] = GetPower(phi1, phi2, maxpower)
 d = phi1/phi2;
+% Wheel 1 turns fastest and thus should have power = maxpower
 if d > 0
 	p1 = maxpower;
 	p2 = 1/d * maxpower;
 else
+    % Wheel 2 turns fastest and thus should have power = maxpower
 	p1 = d * maxpower;
 	p2 = maxpower;
 end
