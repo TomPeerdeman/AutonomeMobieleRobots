@@ -1,7 +1,17 @@
 function MoveWithFeedBack(dx, dy, do, maxpower, r, l, kp, ka, kb, dt)
+% Cumulative position in world coordinates
 posx = 0;
 posy = 0;
 post = 0;
+
+% Variance, at dest if the value is between var_ and -var_
+varx = 3;
+vary = 3;
+vart = 3;
+
+% Reset initial motor position to 0 rotations
+NXT_ResetMotorPosition(MOTOR_B, false);
+NXT_ResetMotorPosition(MOTOR_C, false);
 
 while 1
     m1 = NXT_GetOutputState(MOTOR_B);
@@ -28,8 +38,8 @@ while 1
 
 	error = [dx - posx; dy - posy; do - post];
 	
-    % error is 0, we are at the destination
-	if error(1) == 0 && error(2) == 0 && error(3) == 0
+    % error is approx at 0, we are at the destination
+	if error(1) >= -varx && error(1) <= varx && error(2) >= -vary && error(2) <= vary && error(3) >= -vart && error(3) <= vart
 		break;
 	end
 	
