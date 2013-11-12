@@ -18,8 +18,8 @@ while 1
     m2 = NXT_GetOutputState(MOTOR_C);
     
     % phi1 en phi2 over a period of dt time
-	v1 = m1.RotationCount / dt;
-	v2 = m2.RotationCount / dt;
+	v1 = (m1.RotationCount / 360 * 17.593) / dt
+	v2 = (m2.RotationCount / 360 * 17.593) / dt
 	
     NXT_ResetMotorPosition(MOTOR_B, false);
     NXT_ResetMotorPosition(MOTOR_C, false);
@@ -27,17 +27,18 @@ while 1
     % Get the speed we rotated with in dt time
 	dott = GetThetaSpeed(v1, v2, r, l);
     % Update the current rotation
-	post = post + (dott * dt);
+	post = post + (dott * dt)
 	
     % Get the speed in x and y using our current rotation
-	[dotx, doty] = GetSpeed(v1, v2, post, r);
+	[dotx, doty] = GetSpeed(v1, v2, post, r)
 	
     % Calculate our x and y pos since the start of this movement
 	posx = posx + (dotx * dt);
 	posy = posy + (doty * dt);
 
 	error = [dx - posx; dy - posy; do - post];
-	
+	error
+    
     % error is approx at 0, we are at the destination
 	if error(1) >= -varx && error(1) <= varx && error(2) >= -vary && error(2) <= vary && error(3) >= -vart && error(3) <= vart
 		break;
@@ -54,15 +55,16 @@ while 1
 	
     % Calculate the power, it is linair to the wheel rotation speed
 	[p1, p2] = GetPower(phi1, phi2, maxpower);
-	NXT_SetOutputState(MOTOR_B, p1, true, false, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
-	NXT_SetOutputState(MOTOR_C, p2, true, false, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
+
+	NXT_SetOutputState(MOTOR_B, p1, true, true, 'SPEED', 0, 'RUNNING',  0, 'dontreply');
+	NXT_SetOutputState(MOTOR_C, p2, true, true, 'SPEED', 0, 'RUNNING',  0, 'dontreply');
 	
 	pause(dt);
 end
 
 % Stop motor's
-NXT_SetOutputState(MOTOR_B, 0, true, true, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
-NXT_SetOutputState(MOTOR_C, 0, true, true, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
+NXT_SetOutputState(MOTOR_B, 0, true, false, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
+NXT_SetOutputState(MOTOR_C, 0, true, false, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
 
 function [p1, p2] = GetPower(phi1, phi2, maxpower)
 d = phi1/phi2;
@@ -82,9 +84,9 @@ speedt = r/(2*l) * phi1 - r/(2*l) * phi2;
 function [speedx, speedy] = GetSpeed(phi1, phi2, omega, r)
 % Xi_I = R(omega)-1*Xi_R*[phi1; phi2]
 Rinv = [cos(omega) -sin(omega); sin(omega) cos(omega)];
-XI_R = [1/2*r 1/2*r; 0 0;];
+XI_R = [1/2*r*phi1 1/2*r*phi2; 0 0;];
 
-XI_I = Rinv * XI_R * [phi1; phi2];
+XI_I = Rinv * XI_R;
 
 speedx = XI_I(1);
 speedy = XI_I(2);
