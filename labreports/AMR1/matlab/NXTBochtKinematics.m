@@ -1,7 +1,7 @@
 function NXTBochtKinematics(radius, alpha, richting)
 % bocht naar rechts
 if richting
-    [phi1, phi2] = InvKinematics(radius * cos(alpha), radius * sin(alpha), 0, alpha, 5.6, 5.85);
+    [phi1, phi2] = InvKinematics(radius * cos(alpha), radius * sin(alpha), alpha, 0, 5.6, 5.85);
     [p1, p2] = GetPower(phi1, phi2, 40);
     % Zet de gegeven power en het aantal berekende wentels per wiel
     NXT_SetOutputState(MOTOR_C, p1, true, true, 'SPEED', 0, 'RUNNING', phi1/(2*pi) * 360, 'dontreply');
@@ -9,7 +9,7 @@ if richting
 
 % bocht naar links
 else
-    [phi1, phi2] = InvKinematics(radius * cos(alpha), -1 * radius * sin(alpha), 0, alpha, 5.6, 5.85);
+    [phi1, phi2] = InvKinematics(radius * cos(alpha), -1 * radius * sin(alpha), alpha, 0, 5.6, 5.85);
     [p1, p2] = GetPower(phi1, phi2, 40);
     % Zet de gegeven power en het aantal berekende wentels per wiel
     NXT_SetOutputState(MOTOR_C, p2, true, true, 'SPEED', 0, 'RUNNING', phi2/(2*pi) * 360, 'dontreply');
