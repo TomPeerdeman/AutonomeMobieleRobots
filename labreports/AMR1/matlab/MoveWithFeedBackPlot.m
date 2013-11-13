@@ -1,34 +1,39 @@
-function MoveWithFeedBack(dx, dy, do, maxpower, r, l, kp, ka, kb, dt)
+function MoveWithFeedBackPlot(dx, dy, do, maxpower, r, l, kp, ka, kb, dt)
 % Cumulative position in world coordinates
 posx = 0;
 posy = 0;
 post = 0;
 
 % Variance, at dest if the value is between var_ and -var_
-varx = 3;
-vary = 3;
-vart = 3;
+varx = 0.5;
+vary = 0.2;
+vart = pi/10.0;
 
 % Reset initial motor position to 0 rotations
-NXT_ResetMotorPosition(MOTOR_B, false);
-NXT_ResetMotorPosition(MOTOR_C, false);
+phi1 = 0;
+phi2 = 0;
+
+% Plot data
+global xlist
+global ylist
+xlist = [0];
+ylist = [0];
+
+% Number of loops
+n = 0;
 
 while 1
-    m1 = NXT_GetOutputState(MOTOR_B);
-    m2 = NXT_GetOutputState(MOTOR_C);
+    n = n + 1;
     
     % phi1 en phi2 over a period of dt time
-	v1 = (m1.RotationCount / 360 * 2 * pi) / dt
-	v2 = (m2.RotationCount / 360 * 2 * pi) / dt
-	
-    NXT_ResetMotorPosition(MOTOR_B, false);
-    NXT_ResetMotorPosition(MOTOR_C, false);
+    v1 = phi1;
+    v2 = phi2;
 	
     % Get the speed we rotated with in dt time
 	dott = GetThetaSpeed(v1, v2, r, l);
 	
     % Get the speed in x and y using our current rotation
-	[dotx, doty] = GetSpeed(v1, v2, post, r)
+	[dotx, doty] = GetSpeed(v1, v2, post, r);
     
     % Update the current rotation
 	post = post + (dott * dt);
@@ -36,6 +41,10 @@ while 1
     % Calculate our x and y pos since the start of this movement
 	posx = posx + (dotx * dt);
 	posy = posy + (doty * dt);
+    
+    i = n + 1;
+    xlist(i) = posx;
+    ylist(i) = posy;
 
 	error = [dx - posx; dy - posy; do - post]
     
@@ -45,26 +54,33 @@ while 1
 	end
 	
     % Magic
-	alpha = -error(3) + atan2(error(2), error(1));
-	beta = -error(3) -alpha;
-	
-	v = kp * [error(1); error(2)];
+    rho = sqrt(error(1)^2 + error(2)^2);
+    % Dit komt niet uit het boek maar uit de solutions
+    lambda = atan2(error(2), error(1));
+	alpha = modangle(lambda - post);
+	beta = modangle(do - lambda);
+    
+	v = kp * rho;
 	rotationspeed = ka * alpha + kb * beta;
 	
-	[phi1, phi2] = InvKinematics(v(1), v(2), rotationspeed, post, r, l);
-	
-    % Calculate the power, it is linair to the wheel rotation speed
-	[p1, p2] = GetPower(phi1, phi2, maxpower);
-
-	NXT_SetOutputState(MOTOR_B, p1, true, true, 'SPEED', 0, 'RUNNING',  0, 'dontreply');
-	NXT_SetOutputState(MOTOR_C, p2, true, true, 'SPEED', 0, 'RUNNING',  0, 'dontreply');
+	[phi1, phi2] = InvKinematics(v, 0, rotationspeed, post, r, l);
+    
+    % Nog niet getest
+    % phi1 = phi1 + (rand() / 10.0);
+    % phi2 = phi2 + (rand() / 10.0);
 	
 	pause(dt);
 end
 
-% Stop motor's
-NXT_SetOutputState(MOTOR_B, 0, true, false, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
-NXT_SetOutputState(MOTOR_C, 0, true, false, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
+n
+
+plot(xlist, ylist);
+
+function [a] = modangle(angle)
+a = mod(angle, 2*pi);
+if a > pi
+    a = a - (2 * pi);
+end
 
 function [p1, p2] = GetPower(phi1, phi2, maxpower)
 d = phi1/phi2;
