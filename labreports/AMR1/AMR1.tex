@@ -240,7 +240,8 @@ error = [diffB-wentels diffC-wentels];
 Uit experimenten blijkt echter dat de berekende error-waarden erg fluctueren. Bij dezelfde gereden afstand met dezelfde snelheid verschilt de error tussen 20 en 60 graden (gemeten door de TachoCount). Er is dus geen verband tussen afstand en error te vinden, of tussen snelheid en error. Zonder te compenseren voor deze error-waarden worden betere resultaten bereikt. Dus is besloten voor de bocht geen error-compensatie door middel van TachoCount te maken.
 
 \subsection{Implementatie met Kinematica}
-Als er gebruik gemaat moet worden van kinematica moet de code verder worden aangepast. Er hoeven minder waarden aan de functie meegegeven te worden. Als de radius van de te maken bocht bekend is en de hoek waarover gedraaid moet gaan worden, kunnen alle overige waarden berekent worden. Bij een rechte lijn zijn de radius en de te maken hoek nul. Aan de hand van de meegegeven radius en de te rijden hoek alpha kan een onderlinge snelheidsverhouding worden bepaald. Dit wordt gedaan door gebruik te maken van inverse kinematica. De standaard formule om een nieuwe locatie van de robot te bepalen is:\\\\
+\subsubsection{Standaard implementatie}
+Als er gebruik gemaat moet worden van kinematica moet de code verder worden aangepast. Er hoeven minder waarden aan de functie meegegeven te worden. Als de radius van de te maken bocht en de hoek waarover gedraaid moet gaan worden in radialen bekend zijn, kunnen alle overige waarden berekent worden. Bij een rechte lijn zijn de radius en de te maken hoek nul, er is dan geen kinematica nodig. Aan de hand van de meegegeven radius en de te rijden hoek alpha kan een onderlinge snelheidsverhouding voor de wielen worden bepaald. Dit wordt gedaan door gebruik te maken van inverse kinematica. De standaard formule om een nieuwe locatie van de robot te bepalen is:\\\\
 $
 \begin{bmatrix}
 \dot{x}\\
@@ -285,8 +286,7 @@ cos(\theta) & sin(\theta) & 0\\
 \dot{\theta}
 \end{bmatrix}
 $\\\\
-De waarden voor phi geven het aantal te maken omwentelingen aan per wiel. Afhankelijk van de input van de te draaien hoek $\theta$ is dit in radialen of in graden\footnote{Geprogrammeerd in matlab gaf deze formule negatieve omwentelingen terug voor $\varphi_{2}$ hierdoor kon dit niet aan de NXT worden doorgegeven (negatieve omwentelingen mogen niet). De negatieve $\varphi_{2}$ resulteert dan ook in een negatieve power.}.
-Als een rechte lijn gereden moet worden hebben $\theta, \dot{\theta}, \dot{y}$ de waarde nul. Uit de rotatie matrix volgt dan de eenheids matrix, wat tot gevolg heeft dat $\varphi_{1} = \varphi_{2} $. Dit resulteert in een rechte lijn over de x-as van het wereld-coordinaten systeem.\\
+Hierbij is $\dot{x} = r*cos(\theta)$ en $\dot{y} = r*sin(alpha)$ als er naar rechts wordt gedraaid en $\dot{y} = -r*sin(alpha)$ als er naar links wordt gedraaid. $\dot{\theta}$ is gelijk aan de te maken draaihoek in radialen. Als $r$ en $l$ ook bekend zijn kunnen $\varphi_1$ en $\varphi_2$ berekent worden. De waarden voor phi geven het aantal totaal te maken omwentelingen aan per wiel in radialen. 
 Uit de te maken omwentelingen kan een snelheid bepaald worden. Omdat het aantal omwentelingen in verhouding van elkaar staan, kan door middel van een aangegeven maximale power de onderlinge power van de wielen worden bepaald. Bijvoorbeeld:\\\\
 $\varphi_{1} = 10$\\
 $\varphi_{2} = 8$\\
@@ -300,6 +300,6 @@ $else\{$\\
 $power_1 = \frac{power_{max}}{verhouding}$\\\\
 $power_2 = power_{max}$\\
 $\}$
-
+\subsubsection{Implementatie met feedback}
 
 \end{document}
