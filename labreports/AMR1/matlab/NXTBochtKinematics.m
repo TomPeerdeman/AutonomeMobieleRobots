@@ -1,33 +1,19 @@
-function NXTBocht(radius, alpha, richting)
-% bereken de afstand voor het buitenste wiel
-%s1 = (2*pi*(radius+5.85))/360 * alpha;
-% bereken de afstand voor het binnenste wiel
-%s2 = (2*pi*(radius-5.85))/360 * alpha;
-% bereken de bijbehorende tijd
-%t = s1 / phi1;
-% bereken de snelheid voor het binnenste wiel
-
-%phi2 = s2/t;
-% bereken met behulp van de afstand het aantal te draaien graden per wiel
-%wentel1 = s1/17.593 * 360;
-%wentel2 = s2/17.593 * 360;
-
-
+function NXTBochtKinematics(radius, alpha, richting)
 % bocht naar rechts
 if richting
-    [phi1, phi2] = InvKinematics(cos(radius), sin(radius), 0, alpha, 5.6, 5.85)
+    [phi1, phi2] = InvKinematics(radius * cos(alpha), radius * sin(alpha), 0, alpha, 5.6, 5.85);
     [p1, p2] = GetPower(phi1, phi2, 40);
-% Zet de gegeven power en het aantal berekende wentels per wiel
-    NXT_SetOutputState(MOTOR_C, p1, true, true, 'SPEED', 0, 'RUNNING', phi1, 'dontreply');
-    NXT_SetOutputState(MOTOR_B, p2, true, true, 'SPEED', 0, 'RUNNING', phi2, 'dontreply');
+    % Zet de gegeven power en het aantal berekende wentels per wiel
+    NXT_SetOutputState(MOTOR_C, p1, true, true, 'SPEED', 0, 'RUNNING', phi1/(2*pi) * 360, 'dontreply');
+    NXT_SetOutputState(MOTOR_B, p2, true, true, 'SPEED', 0, 'RUNNING', phi2/(2*pi) * 360, 'dontreply');
 
 % bocht naar links
 else
-    [phi1, phi2] = InvKinematics(cos(radius), sin(radius), alpha, 0, 5.6, 5.85);
+    [phi1, phi2] = InvKinematics(radius * cos(alpha), -1 * radius * sin(alpha), 0, alpha, 5.6, 5.85);
     [p1, p2] = GetPower(phi1, phi2, 40);
-% Zet de gegeven power en het aantal berekende wentels per wiel
-    NXT_SetOutputState(MOTOR_C, p2, true, true, 'SPEED', 0, 'RUNNING', phi2, 'dontreply');
-    NXT_SetOutputState(MOTOR_B, p1, true, true, 'SPEED', 0, 'RUNNING', phi1, 'dontreply');
+    % Zet de gegeven power en het aantal berekende wentels per wiel
+    NXT_SetOutputState(MOTOR_C, p2, true, true, 'SPEED', 0, 'RUNNING', phi2/(2*pi) * 360, 'dontreply');
+    NXT_SetOutputState(MOTOR_B, p1, true, true, 'SPEED', 0, 'RUNNING', phi1/(2*pi) * 360, 'dontreply');
 end
 
 % Wacht tot de beweging klaar is
