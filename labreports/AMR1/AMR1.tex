@@ -59,6 +59,7 @@
 \section{Materiaal}
 Om de experimenten uit dit rapport te kunnen uitvoeren zijn de volgende materialen gebruikt:\\
 - PC/Laptop met Matlab\\
+- Boek: Autonomous Mobile Robots 2th Edition - Roland Siegwart et al.
 - NXT-Robot\\
 - Pen en papier
 \section{Kinematica}
@@ -158,7 +159,7 @@ Vervolgens kan de tijd $t$ bepaald worden door de afstand voor het buitenste wie
 \subsection{Feedback  (b)}
 Als bewegingen zijn uitgevoerd kan nagegaan worden of dit juist is verlopen. Door tijdens het uitvoeren van een beweging bij te houden of de wielen de juiste afstand hebben afgelegd kan bepaald worden of er afgeweken is van de oorspronkelijke waarde. Als deze waarde afwijkt van de oorspronkelijke waarde moet hiervoor gecompensserd worden bij de volgende beweging. Dit kan worden gedaan door de afstand die teveel of te weinig is afgelegd, van de volgende beweging af te halen.
 
-\subsection{Implementatie (c)}
+\subsection{Implementatie zonder Kinematica (c)}
 \subsubsection{Rechte lijn}
 De implementatie voor de rechte lijn is vrij voor de hand liggend. Beide wielen krijgen dezelfde power mee. De afstand wordt in cm meegegeven. Deze moet vervolgens worden omgerekend naar het aantal graden dat de wielen moeten draaien. Hiervoor is de omtrek van de gemotoriseerde wielen nodig. Dit kan berekend worden omdat de diameter bekend is, deze is namelijk 5.6cm. De omtrek wordt dan $\pi * 5.6 = 17.593cm$. Het aantal omwentelingen kan vervolgens worden bepaald door de te rijden afstand te delen door deze omtrek en te vermenigvuldigen met 360 graden.
 \begin{lstlisting}[caption=Rechte lijn, label=lst:line, numbers=left]
@@ -234,6 +235,71 @@ afterC = outC.TachoCount;
 diffB = abs(afterB-beforeB)+error(1);
 diffC = abs(afterC-beforeC)+error(2);
 error = [diffB-wentels diffC-wentels];
+
 \end{lstlisting}
 Uit experimenten blijkt echter dat de berekende error-waarden erg fluctueren. Bij dezelfde gereden afstand met dezelfde snelheid verschilt de error tussen 20 en 60 graden (gemeten door de TachoCount). Er is dus geen verband tussen afstand en error te vinden, of tussen snelheid en error. Zonder te compenseren voor deze error-waarden worden betere resultaten bereikt. Dus is besloten voor de bocht geen error-compensatie door middel van TachoCount te maken.
+
+\subsection{Implementatie met Kinematica}
+Als er gebruik gemaat moet worden van kinematica moet de code verder worden aangepast. Er hoeven minder waarden aan de functie meegegeven te worden. Als de radius van de te maken bocht bekend is en de hoek waarover gedraaid moet gaan worden, kunnen alle overige waarden berekent worden. Bij een rechte lijn zijn de radius en de te maken hoek nul. Aan de hand van de meegegeven radius en de te rijden hoek alpha kan een onderlinge snelheidsverhouding worden bepaald. Dit wordt gedaan door gebruik te maken van inverse kinematica. De standaard formule om een nieuwe locatie van de robot te bepalen is:\\\\
+$
+\begin{bmatrix}
+\dot{x}\\
+\dot{y}\\
+\dot{\theta}
+\end{bmatrix}=
+\begin{bmatrix}
+cos(\theta) & -sin(\theta) & 0\\
+sin(\theta) & cos(\theta) & 0\\
+0 & 0 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+\frac{r}{2} & \frac{r}{2} & 0\\
+0 & 0 & 1\\
+\frac{r}{2l} & \frac{r}{2l} & 0\\
+\end{bmatrix}
+\begin{bmatrix}
+\varphi_{1}\\
+\varphi_{2} 
+\end{bmatrix}
+$\\\\
+Hieruit willen we $\varphi_{1}$ en $\varphi_{2}$ halen. Hiervoor moet de formule worden omgeschreven. De nieuwe formule wordt dan:\\\\
+$
+\begin{bmatrix}
+\varphi_{1}\\
+\varphi_{2} 
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{r}{2} & \frac{r}{2} & 0\\
+0 & 0 & 1\\
+\frac{r}{2l} & \frac{r}{2l} & 0\\
+\end{bmatrix}^{-1}
+\begin{bmatrix}
+cos(\theta) & sin(\theta) & 0\\
+-sin(\theta) & cos(\theta) & 0\\
+0 & 0 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+\dot{x}\\
+\dot{y}\\
+\dot{\theta}
+\end{bmatrix}
+$\\\\
+De waarden voor phi geven het aantal te maken omwentelingen aan per wiel. Afhankelijk van de input van de te draaien hoek $\theta$ is dit in radialen of in graden\footnote{Geprogrammeerd in matlab gaf deze formule negatieve omwentelingen terug voor $\varphi_{2}$ hierdoor kon dit niet aan de NXT worden doorgegeven (negatieve omwentelingen mogen niet). De negatieve $\varphi_{2}$ resulteert dan ook in een negatieve power.}.
+Als een rechte lijn gereden moet worden hebben $\theta, \dot{\theta}, \dot{y}$ de waarde nul. Uit de rotatie matrix volgt dan de eenheids matrix, wat tot gevolg heeft dat $\varphi_{1} = \varphi_{2} $. Dit resulteert in een rechte lijn over de x-as van het wereld-coordinaten systeem.\\
+Uit de te maken omwentelingen kan een snelheid bepaald worden. Omdat het aantal omwentelingen in verhouding van elkaar staan, kan door middel van een aangegeven maximale power de onderlinge power van de wielen worden bepaald. Bijvoorbeeld:\\\\
+$\varphi_{1} = 10$\\
+$\varphi_{2} = 8$\\
+$power_{max} = 40$\\
+$verhouding = \frac{\varphi_{1}}{\varphi_{2}}$\\\\
+$if (verhouding > 0) \{$\\
+$power_1 = power_{max}$\\
+$power_2 = \frac{power_{max}}{verhouding}$\\
+$\}$\\\\
+$else\{$\\
+$power_1 = \frac{power_{max}}{verhouding}$\\\\
+$power_2 = power_{max}$\\
+$\}$
+
+
 \end{document}
