@@ -26,7 +26,8 @@ angstep = 1.0;%       Angular step of the beam in degrees
 axislimit = 0.8;%     Axis limit
 
 calibrate_camera_offline
-
+Rmin
+Rmax
 %Rmin = 75;            % Overwrite value from calibration step.
 
 figure;
