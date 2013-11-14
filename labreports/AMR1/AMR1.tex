@@ -70,30 +70,30 @@ Om de experimenten uit dit rapport te kunnen uitvoeren zijn de volgende material
 \end{figure}
 \subsection{Kinematica van twee robots}
 Robot met twee wielen:\\
-$\mathrm{[\dot{x}\; \dot{y}\; \dot{\theta}]^T} = f\mathrm{(l, r, \theta, \varphi_{1}, \varphi_{2})}$\\
+$\mathrm{[\dot{x}\; \dot{y}\; \dot{\theta}]^T} = f\mathrm{(l, r, \theta, \dot{\varphi_{1}}, \dot{\varphi_{2}})}$\\
 \\
 De variabelen voor het castor-wiel hoeven niet meegenomen te worden in de functie, omdat het castor-wiel niet gemotoriseerd is. Omdat deze daarom geen invloed uitoefent op de richting of snelheid van het voertuig, kan het castor-wiel gezien worden als een sleepwiel dat in de functie te verwaarlozen valt.\\\\
 Robot met drie wielen:\\
-$\mathrm{[\dot{x}\; \dot{y}\; \dot{\theta}]^T} = f\mathrm{(l, r, \theta, \varphi_{1}, \varphi_{2}, \varphi_{3})}$\\
+$\mathrm{[\dot{x}\; \dot{y}\; \dot{\theta}]^T} = f\mathrm{(l, r, \theta, \dot{\varphi_{1}}, \dot{\varphi_{2}}, \dot{\varphi_{3}})}$\\
 
 
 \subsubsection{Odometry}
 a.De makkelijkste manier om te kijken naar de invloed van de draaisnelheiden van de wielen op de positie en de orientatie is door deze eerst te bepalen in het robot co\"ordinaten stelsel. Dit is makkelijker te bepalen aangezien de robot in dit co\"ordinaten stelsel nooit een snelheid kan krijgen in de y richting door de constraint dat er geen slip aanwezig is.\\
-De snelheid in de x richting is ook makkelijk te bepalen. Stel dat alleen wiel 1 draait met snelheid $\varphi_{1}$, aangezien P in het midden ligt van wiel 1 en 2 zal deze zich dus voorbewegen met een snelheid van $\frac{1}{2}r\varphi_{1}$ in de x richting. Aangezien dit ook geldt als alleen wiel 2 draait kunnen we deze optellen als allebei de wielen draaien.
-In het geval dat de wielen draaien met snelheden $\varphi_{1}$ en $\varphi_{2}$ zal de robot dus een snelheid krijgen van $\frac{1}{2}r\varphi_{1} + \frac{1}{2}r\varphi_{2}$ in de x richting.\\\\
+De snelheid in de x richting is ook makkelijk te bepalen. Stel dat alleen wiel 1 draait met snelheid $\dot{\varphi_{1}}$, aangezien P in het midden ligt van wiel 1 en 2 zal deze zich dus voorbewegen met een snelheid van $\frac{1}{2}r\dot{\varphi_{1}}$ in de x richting. Aangezien dit ook geldt als alleen wiel 2 draait kunnen we deze optellen als allebei de wielen draaien.
+In het geval dat de wielen draaien met snelheden $\dot{\varphi_{1}}$ en $\dot{\varphi_{2}}$ zal de robot dus een snelheid krijgen van $\frac{1}{2}r\dot{\varphi_{1}} + \frac{1}{2}r\dot{\varphi_{2}}$ in de x richting.\\\\
 De rotatie is op een zelfde manier te berekenen. stel dat wiel 1 stil staat en wiel 2 zo draait dat er een positieve snelheid in de x richting ontstaat. In dit geval gaat de robot draaien om het contactpunt van wiel 1. We kunnen zeggen dat wiel 2 rijd op een circkel met radius 2l en als middelpunt het contactpunt van wiel 1. Aangezien we de draaisnelheid weten van wiel 2 kunnen we de rotatiesnelheid van dit wiel berekenen met de volgende formule:\\
-$\omega_{1}=\frac{r\varphi_{1}}{2l}$\\
+$\omega_{1}=\frac{r\dot{\varphi_{1}}}{2l}$\\
 Stel nu dat wiel 1 draait en wiel 2 stilstaat, we krijgen dan ook een rotatie, echter in de andere richting dan eerst.
 De formule blijft dus hetzelfde op het feit na dat de draairichting, en dus de rotatiesnelheid negatief wordt:
-$\omega_{2}=-\frac{r\varphi_{2}}{2l}$\\
-Aangezien de rotatiesnelheid in situatie 1 in het punt P gelijk is aan dat van wiel 2, en in situatie 2 die van wiel 1 kunnen we deze optellen om zo de totale rotatiesnelheid te krijgen in punt P: $\omega=\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}$\\\\
+$\omega_{2}=-\frac{r\dot{\varphi_{2}}}{2l}$\\
+Aangezien de rotatiesnelheid in situatie 1 in het punt P gelijk is aan dat van wiel 2, en in situatie 2 die van wiel 1 kunnen we deze optellen om zo de totale rotatiesnelheid te krijgen in punt P: $\omega=\frac{r\dot{\varphi_{1}}}{2l}-\frac{r\dot{\varphi_{2}}}{2l}$\\\\
 We weten nu alle benodigde snelheden in robot co\"ordinaten:\\\\
 $
 \dot{\xi_{R}}
 \begin{bmatrix}
-\frac{1}{2}r\varphi_{1} + \frac{1}{2}r\varphi_{2} \\
+\frac{1}{2}r\dot{\varphi_{1}} + \frac{1}{2}r\dot{\varphi_{2}} \\
 0\\
-\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}
+\frac{r\dot{\varphi_{1}}}{2l}-\frac{r\dot{\varphi_{2}}}{2l}
 \end{bmatrix}
 =
 \begin{bmatrix}
@@ -108,22 +108,22 @@ $
 \dot{\xi_{I}}=
 R(\theta)^{-1}
 \begin{bmatrix}
-\frac{1}{2}r\varphi_{1} + \frac{1}{2}r\varphi_{2} \\
+\frac{1}{2}r\dot{\varphi_{1}} + \frac{1}{2}r\dot{\varphi_{2}} \\
 0\\
-\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}
+\frac{r\dot{\varphi_{1}}}{2l}-\frac{r\dot{\varphi_{2}}}{2l}
 \end{bmatrix}
 =
 R(-\theta)
 \begin{bmatrix}
-\frac{1}{2}r\varphi_{1} + \frac{1}{2}r\varphi_{2} \\
+\frac{1}{2}r\dot{\varphi_{1}} + \frac{1}{2}r\dot{\varphi_{2}} \\
 0\\
-\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}
+\frac{r\dot{\varphi_{1}}}{2l}-\frac{r\dot{\varphi_{2}}}{2l}
 \end{bmatrix}
 $
 \\\\\\
 b. 1. De precisie van de inschatting verbetert naarmate de $\Delta t$ afneemt. Dit komt omdat als de positie net geschat is en de robot zich beweegt, de positie voor een tijd van $\Delta t$ incorrect is. Als $\Delta t$ afneemt zal de precisie van de gemiddelde inschatting dus toenemen.\\\\
 2. De rotatie snelheid in robot co\"ordinaten is uitgewerkt in opgave a. Aangzien de rotatiematrix echter niks doet met deze waarde is deze waarde dus gelijk aan de rotatiesnelheid in het wereldco\"ordinaten stelsel. De rotatiesnelheid is dus:\\
-$w(t) = \omega=\frac{r\varphi_{1}}{2l}-\frac{r\varphi_{2}}{2l}$\\\\
+$w(t) = \omega=\frac{r\dot{\varphi_{1}}}{2l}-\frac{r\dot{\varphi_{2}}}{2l}$\\\\
 3. De v vector heeft twee elementen: de snelheid in de x richting en de snelheid in de y richting. We kunnen de v vector dus berekenen door de x en y snelheid in robot co\"ordinaten te vermenigvuldigen met een niet homogene rotatiematrix over de hoek $-\theta$:\\\\
 $
 \vec{v}=
@@ -137,7 +137,7 @@ cos(-\theta) & sin(-\theta)\\
 -sin(-\theta) & cos(-\theta)
 \end{bmatrix}
 \begin{bmatrix}
-\frac{1}{2}r\varphi_{1} + \frac{1}{2}r\varphi_{2} \\
+\frac{1}{2}r\dot{\varphi_{1}} + \frac{1}{2}r\dot{\varphi_{2}} \\
 0
 \end{bmatrix}
 $
@@ -159,7 +159,7 @@ Vervolgens kan de tijd $t$ bepaald worden door de afstand voor het buitenste wie
 \subsection{Feedback  (b)}
 Als bewegingen zijn uitgevoerd kan nagegaan worden of dit juist is verlopen. Door tijdens het uitvoeren van een beweging bij te houden of de wielen de juiste afstand hebben afgelegd kan bepaald worden of er afgeweken is van de oorspronkelijke waarde. Als deze waarde afwijkt van de oorspronkelijke waarde moet hiervoor gecompensserd worden bij de volgende beweging. Dit kan worden gedaan door de afstand die teveel of te weinig is afgelegd, van de volgende beweging af te halen.
 
-\subsection{Implementatie zonder Kinematica (c)}
+\subsection{Implementatie zonder kinematica}
 \subsubsection{Rechte lijn}
 De implementatie voor de rechte lijn is vrij voor de hand liggend. Beide wielen krijgen dezelfde power mee. De afstand wordt in cm meegegeven. Deze moet vervolgens worden omgerekend naar het aantal graden dat de wielen moeten draaien. Hiervoor is de omtrek van de gemotoriseerde wielen nodig. Dit kan berekend worden omdat de diameter bekend is, deze is namelijk 5.6cm. De omtrek wordt dan $\pi * 5.6 = 17.593cm$. Het aantal omwentelingen kan vervolgens worden bepaald door de te rijden afstand te delen door deze omtrek en te vermenigvuldigen met 360 graden.
 \begin{lstlisting}[caption=Rechte lijn, label=lst:line, numbers=left]
@@ -169,7 +169,7 @@ NXT_SetOutputState(MOTOR_B, phi, true, true, 'SPEED', 0, 'RUNNING', wentels, 'do
 NXT_SetOutputState(MOTOR_C, phi, true, true, 'SPEED', 0, 'RUNNING', wentels, 'dontreply');
 \end{lstlisting}
 \subsubsection{Bocht}
-Voor de bocht moeten er meerdere berekeningen gedaan worden. De theorie blijft van kracht, er vormt zich echter een probleem voor de tijdseenheid. De snelheid die meegegeven wordt aan de functie, is niet het aantal rotaties/toeren per minuut maar de power die de motor levert. Echter blijkt dat het verband tussen de power ten opzichte van het aantal toeren per minuut lineair is. Dit betekent dat de vreemde snelheids eenheid, namelijk de power, geen invloed heeft op het berekenen van de tijd. De tijd wordt echter van de waarde afstand per power. Omdat continu met dezelfde eenheden wordt gewerkt wordt uiteindelijk de eenheid voor de snelheid van het tweede wiel gewoon power. Vervolgens wordt de afstand die afgelegd moet worden omgerekend naar het aantal graden dat elk wiel moet draaien, zodat dit aan de call kan worden meegegeven. Tenslotte moet er bekeken worden welke kant opgedraaid moet worden, links of rechts. Aan de hand van een if else statement kan hier op worden gecontroleerd.
+Voor de bocht moeten er meerdere berekeningen gedaan worden. De theorie blijft van kracht, er vormt zich echter een probleem voor de tijdseenheid. De snelheid die meegegeven wordt aan de functie, is niet het aantal rotaties/toeren per minuut maar de power die de motor levert. Echter blijkt dat het verband tussen de power ten opzichte van het aantal toeren per minuut lineair is. (Zie figuur \ref{fig:lineairverband}) Dit betekent dat de vreemde snelheids eenheid, namelijk de power, geen invloed heeft op het berekenen van de tijd. De tijd wordt echter van de waarde afstand per power. Omdat continu met dezelfde eenheden wordt gewerkt wordt uiteindelijk de eenheid voor de snelheid van het tweede wiel gewoon power. Vervolgens wordt de afstand die afgelegd moet worden omgerekend naar het aantal graden dat elk wiel moet draaien, zodat dit aan de call kan worden meegegeven. Tenslotte moet er bekeken worden welke kant opgedraaid moet worden, links of rechts. Aan de hand van een if else statement kan hier op worden gecontroleerd.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.6\textwidth]{imgs/lineair.png}
@@ -209,7 +209,7 @@ while(1)
     end
 end
 \end{lstlisting}
-\subsubsection{feedback}
+\subsubsection{Feedback}
 Error compensatie bij rechte lijnen lijkt erg vanzelfsprekend. Er wordt bekeken hoeveel graden de motor voor de omwenteling heeft gemaakt voor de beweging, en hoeveel omwentelingen er gedaan zijn na de beweging. Het verschil tussen deze twee waarden zou gelijk moeten zijn aan de oorspronkelijk ingevoerde waarde voor de omwentelingen. Het verschil hiertussen is de error. Om zeker te weten dat er geen error compensatie wordt uitgevoerd van bewegingen uit een oud programma, moet deze worden geinitialisserd bij het starten van de bewegingen. 
 \begin{lstlisting}[caption=Error compensatie bij een lijn, label=lst:lineerror, numbers=left]
 function NXTLinet(phi, wentels)
@@ -240,7 +240,7 @@ error = [diffB-wentels diffC-wentels];
 Uit experimenten blijkt echter dat de berekende error-waarden erg fluctueren. Bij dezelfde gereden afstand met dezelfde snelheid verschilt de error tussen 20 en 60 graden (gemeten door de TachoCount). Er is dus geen verband tussen afstand en error te vinden, of tussen snelheid en error. Zonder te compenseren voor deze error-waarden worden betere resultaten bereikt. Dus is besloten voor de bocht geen error-compensatie door middel van TachoCount te maken.
 
 \subsection{Implementatie met Kinematica}
-\subsubsection{Standaard implementatie}
+\subsubsection{Open loop}
 Als er gebruik gemaat moet worden van kinematica moet de code verder worden aangepast. Er hoeven minder waarden aan de functie meegegeven te worden. Als de radius van de te maken bocht en de hoek waarover gedraaid moet gaan worden in radialen bekend zijn, kunnen alle overige waarden berekent worden. Bij een rechte lijn zijn de radius en de te maken hoek nul, er is dan geen kinematica nodig. Aan de hand van de meegegeven radius en de te rijden hoek alpha kan een onderlinge snelheidsverhouding voor de wielen worden bepaald. Dit wordt gedaan door gebruik te maken van inverse kinematica. De standaard formule om een nieuwe locatie van de robot te bepalen is:\\\\
 $
 \begin{bmatrix}
@@ -259,15 +259,15 @@ sin(\theta) & cos(\theta) & 0\\
 \frac{r}{2l} & \frac{r}{2l} & 0\\
 \end{bmatrix}
 \begin{bmatrix}
-\varphi_{1}\\
-\varphi_{2} 
+\dot{\varphi_{1}}\\
+\dot{\varphi_{2}} 
 \end{bmatrix}
 $\\\\
-Hieruit willen we $\varphi_{1}$ en $\varphi_{2}$ halen. Hiervoor moet de formule worden omgeschreven. De nieuwe formule wordt dan:\\\\
+Hieruit willen we $\dot{\varphi_{1}}$ en $\dot{\varphi_{2}}$ halen. Hiervoor moet de formule worden omgeschreven. De nieuwe formule wordt dan:\\\\
 $
 \begin{bmatrix}
-\varphi_{1}\\
-\varphi_{2} 
+\dot{\varphi_{1}}\\
+\dot{\varphi_{2}} 
 \end{bmatrix}
 =
 \begin{bmatrix}
@@ -288,19 +288,17 @@ cos(\theta) & sin(\theta) & 0\\
 $\\\\
 Hierbij is $\dot{x} = r*sin(\theta)$ en $\dot{y} = r-r*cos(\theta)$ als er naar rechts wordt gedraaid en $\dot{y} = r+r*cos(\theta)$ als er naar links wordt gedraaid. $\dot{\theta}$ is gelijk aan de te maken draaihoek in radialen. Als $r$ en $l$ ook bekend zijn kunnen $\varphi_1$ en $\varphi_2$ berekent worden. De waarden voor phi geven het aantal totaal te maken omwentelingen aan per wiel in radialen. 
 Uit de te maken omwentelingen kan een snelheid bepaald worden. Omdat het aantal omwentelingen in verhouding van elkaar staan, kan door middel van een aangegeven maximale power de onderlinge power van de wielen worden bepaald. Bijvoorbeeld:\\\\
-$\varphi_{1} = 10$\\
-$\varphi_{2} = 8$\\
-$power_{max} = 40$\\
-$verhouding = \frac{\varphi_{1}}{\varphi_{2}} = 1.25$\\\\
-$if (verhouding > 0) \{$\\
+$\dot{\varphi_{1}} = 10$\\
+$\dot{\varphi_{2}} = 8$\\
+$power_{max} = 40$\\\\
+$if (\dot{\varphi_{1}} > \dot{\varphi_{2}})\ \{$\\
 $power_1 = power_{max}$\\
-$power_2 = \frac{power_{max}}{verhouding}$\\
-$\}$\\\\
-$else\{$\\
-$power_1 = \frac{power_{max}}{verhouding}$\\\\
+$power_2 = \frac{\dot{\varphi_{2}}}{\dot{\varphi_{1}}}power_{max}$\\
+$\}\ else\ \{$\\
+$power_1 = \frac{\dot{\varphi_{1}}}{\dot{\varphi_{2}}}power_{max}$\\
 $power_2 = power_{max}$\\
 $\}$
-\subsubsection{Implementatie met feedback}
+\subsubsection{Feedback}
 In het boek van Siegwart et al. wordt een manier geopperd om de robot zijn fouten te laten corrigeren. Hiervoor wordt gebruik gemaakt van de volgende formule:\\\\
 $
 \begin{bmatrix}
@@ -334,5 +332,4 @@ $v = k_{\rho}\rho$\\
 $\omega = k_{\alpha}\alpha  + k_{\beta}\beta$\\\\
 Hierbij zijn $\Delta x$ en $\Delta y$ de afstanden in de $x$ en $y$ richting die de robot heeft afgelegd in een van te voren aangegeven interval $\Delta t$. $\theta$ is de hoek die totaal gedraaid moet worden vanaf begin tot eind. $k_{\rho}$, $k_{\alpha}$ en $k_{\beta}$ zijn drie variabelen die gekozen kunnen worden en bepalen hoe de robot wordt bijgestuurd als hij van zijn baan raakt.\\
 Zodra de robot dichter bij de eindlocatie komt, zullen $\rho$, $\alpha$ en $\beta$ richting $0$ gedrongen worden. Het is echter vrijwel onmogelijk om exact op $0$ uit te komen. Daarom moet gebruik gemaakt worden van een variantie. Als $\rho$, $\alpha$ en $\beta$ binnen deze variantie liggen, is de eindlocatie zo goed als bereikt. Als $\rho$, $\alpha$ en $\beta$ niet binnen de variantie vallen moet doorgereden worden. Met behulp van de te berekenen $v$ en $\omega$ kan weer door middel van inverse kinematica bepaald worden wat de snelheden per wiel zijn. Als vervolgens het aangegeven tijdinterval $\Delta t$ voorbij is kunnen opnieuw $\rho$, $\alpha$ en $\beta$ bepaald gaan worden, net zo lang totdat ze waarden binnen de variantie hebben bereikt.
-\subsubsection{Kinematica code}
 \end{document}

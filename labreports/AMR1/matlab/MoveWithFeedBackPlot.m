@@ -85,12 +85,12 @@ end
 function [p1, p2] = GetPower(phi1, phi2, maxpower)
 d = phi1/phi2;
 % Wheel 1 turns fastest and thus should have power = maxpower
-if d > 0
+if phi1 > phi2
 	p1 = maxpower;
-	p2 = 1/d * maxpower;
+	p2 = phi2/phi1 * maxpower;
 else
     % Wheel 2 turns fastest and thus should have power = maxpower
-	p1 = d * maxpower;
+	p1 = phi1/phi2 * maxpower;
 	p2 = maxpower;
 end
 
