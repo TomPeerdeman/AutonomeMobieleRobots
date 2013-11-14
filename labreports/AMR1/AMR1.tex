@@ -286,12 +286,12 @@ cos(\theta) & sin(\theta) & 0\\
 \dot{\theta}
 \end{bmatrix}
 $\\\\
-Hierbij is $\dot{x} = r*cos(\theta)$ en $\dot{y} = r*sin(alpha)$ als er naar rechts wordt gedraaid en $\dot{y} = -r*sin(alpha)$ als er naar links wordt gedraaid. $\dot{\theta}$ is gelijk aan de te maken draaihoek in radialen. Als $r$ en $l$ ook bekend zijn kunnen $\varphi_1$ en $\varphi_2$ berekent worden. De waarden voor phi geven het aantal totaal te maken omwentelingen aan per wiel in radialen. 
+Hierbij is $\dot{x} = r*sin(\theta)$ en $\dot{y} = r-r*cos(\theta)$ als er naar rechts wordt gedraaid en $\dot{y} = r+r*cos(\theta)$ als er naar links wordt gedraaid. $\dot{\theta}$ is gelijk aan de te maken draaihoek in radialen. Als $r$ en $l$ ook bekend zijn kunnen $\varphi_1$ en $\varphi_2$ berekent worden. De waarden voor phi geven het aantal totaal te maken omwentelingen aan per wiel in radialen. 
 Uit de te maken omwentelingen kan een snelheid bepaald worden. Omdat het aantal omwentelingen in verhouding van elkaar staan, kan door middel van een aangegeven maximale power de onderlinge power van de wielen worden bepaald. Bijvoorbeeld:\\\\
 $\varphi_{1} = 10$\\
 $\varphi_{2} = 8$\\
 $power_{max} = 40$\\
-$verhouding = \frac{\varphi_{1}}{\varphi_{2}}$\\\\
+$verhouding = \frac{\varphi_{1}}{\varphi_{2}} = 1.25$\\\\
 $if (verhouding > 0) \{$\\
 $power_1 = power_{max}$\\
 $power_2 = \frac{power_{max}}{verhouding}$\\
@@ -301,5 +301,38 @@ $power_1 = \frac{power_{max}}{verhouding}$\\\\
 $power_2 = power_{max}$\\
 $\}$
 \subsubsection{Implementatie met feedback}
-
+In het boek van Siegwart et al. wordt een manier geopperd om de robot zijn fouten te laten corrigeren. Hiervoor wordt gebruik gemaakt van de volgende formule:\\\\
+$
+\begin{bmatrix}
+\dot{\rho}\\
+\dot{\alpha}\\
+\dot{\beta}
+\end{bmatrix}
+=
+\begin{bmatrix}
+-k_{\rho}\rho cos(\alpha)\\
+k_{\rho}sin(\alpha)-k_{\alpha}\alpha-k_{\beta}\beta\\
+-k_{\rho}sin(\alpha)
+\end{bmatrix}
+=
+\begin{bmatrix}
+- cos(\alpha) & 0 \\
+\frac{sin(\alpha)}{\rho} & -1\\
+-\frac{sin(\alpha)}{\rho} & 0
+\end{bmatrix}
+\begin{bmatrix}
+v \\
+\omega
+\end{bmatrix}
+$
+\\\\
+waarbij:\\\\
+$\rho = \sqrt{\Delta x^2 + \Delta y^2}$\\
+$\alpha = -\theta + atan2(\Delta y, \Delta x)$\\
+$\beta = -\theta - \alpha$\\
+$v = k_{\rho}\rho$\\
+$\omega = k_{\alpha}\alpha  + k_{\beta}\beta$\\\\
+Hierbij zijn $\Delta x$ en $\Delta y$ de afstanden in de $x$ en $y$ richting die de robot heeft afgelegd in een van te voren aangegeven interval $\Delta t$. $\theta$ is de hoek die totaal gedraaid moet worden vanaf begin tot eind.\\
+Zodra de robot dichter bij de eindlocatie komt, zullen $\rho$, $\alpha$ en $\beta$ richting $0$ gedrongen worden. Het is echter vrijwel onmogelijk om exact op $0$ uit te komen. Daarom moet gebruik gemaakt worden van een variantie. Als $\rho$, $\alpha$ en $\beta$ binnen deze variantie liggen, is de eindlocatie zo goed als bereikt. Als $\rho$, $\alpha$ en $\beta$ niet binnen de variantie vallen moet doorgereden worden. Met behulp van de te berekenen $v$ en $\omega$ kan weer door middel van inverse kinematica bepaald worden wat de snelheden per wiel zijn. Als vervolgens het aangegeven tijdinterval $\Delta t$ voorbij is kunnen opnieuw $\rho$, $\alpha$ en $\beta$ bepaald gaan worden, net zo lang totdat ze waarden binnen de variantie hebben bereikt.
+\subsubsection{Kinematica code}
 \end{document}
