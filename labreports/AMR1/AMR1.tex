@@ -13,7 +13,7 @@
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \lstset{frame=tb,
-  language=Java,
+  language=Octave,
   aboveskip=3mm,
   belowskip=3mm,
   showstringspaces=false,
@@ -25,7 +25,7 @@
   commentstyle=\color{dkgreen},
   stringstyle=\color{mauve},
   breaklines=true,
-  breakatwhitespace=true
+  breakatwhitespace=true,
   tabsize=3
 }
 
@@ -332,4 +332,121 @@ $v = k_{\rho}\rho$\\
 $\omega = k_{\alpha}\alpha  + k_{\beta}\beta$\\\\
 Hierbij zijn $\Delta x$ en $\Delta y$ de afstanden in de $x$ en $y$ richting die de robot heeft afgelegd in een van te voren aangegeven interval $\Delta t$. $\theta$ is de hoek die totaal gedraaid moet worden vanaf begin tot eind en $\psi$ is de hoek die gedraaid is vanaf het begin tot het huidige moment . $k_{\rho}$, $k_{\alpha}$ en $k_{\beta}$ zijn drie variabelen die gekozen kunnen worden en bepalen hoe de robot wordt bijgestuurd als hij van zijn baan raakt.\\
 Zodra de robot dichter bij de eindlocatie komt, zullen $\rho$, $\alpha$ en $\beta$ richting $0$ gedrongen worden. Het is echter vrijwel onmogelijk om exact op $0$ uit te komen. Daarom moet gebruik gemaakt worden van een variantie. Er wordt een error vector bepaald, die bekijkt wat de te bereieken locatie is en wat de huidige locatie is. Door deze twee waarden te vergelijken met elkaar kan bekeken worden hoe dicht de robot bij zijn eindpunt is. Als deze error vector waarden binnen de aangegeven variantie liggen, is de eindlocatie zo goed als bereikt. Als de waarden niet binnen de variantie vallen moet doorgereden worden. Met behulp van de te berekenen $v$ en $\omega$ kan weer door middel van inverse kinematica bepaald worden wat de snelheden per wiel zijn. Als vervolgens een aangegeven tijdinterval $\Delta t$ voorbij is, kan opnieuw de error vector bepaald gaan worden, net zo lang totdat ze waarden binnen de variantie hebben bereikt.
+
+\begin{lstlisting}[caption= Kinematica met feedback code, label=lst:bocht, numbers=left]
+function MoveWithFeedBack(dx, dy, do, maxpower, r, l, kp, ka, kb, dt)
+% Cumulative position in world coordinates
+posx = 0;
+posy = 0;
+post = 0;
+
+% Variance, at dest if the value is between var_ and -var_
+varx = 0.5;
+vary = 0.2;
+vart = pi/10.0;
+
+% Reset initial motor position to 0 rotations
+NXT_ResetMotorPosition(MOTOR_B, false);
+NXT_ResetMotorPosition(MOTOR_C, false);
+
+while 1
+    m1 = NXT_GetOutputState(MOTOR_B);
+    m2 = NXT_GetOutputState(MOTOR_C);
+    
+    % phi1 en phi2 over a period of dt time
+	v1 = (m1.RotationCount / 180 * pi) / dt
+	v2 = (m2.RotationCount / 180 * pi) / dt
+	
+    NXT_ResetMotorPosition(MOTOR_B, false);
+    NXT_ResetMotorPosition(MOTOR_C, false);
+	
+    % Get the speed we rotated with in dt time
+	dott = GetThetaSpeed(v1, v2, r, l);
+	
+    % Get the speed in x and y using our current rotation
+	[dotx, doty] = GetSpeed(v1, v2, post, r)
+    
+    % Update the current rotation
+	post = post + (dott * dt);
+	
+    % Calculate our x and y pos since the start of this movement
+	posx = posx + (dotx * dt);
+	posy = posy + (doty * dt);
+
+	error = [dx - posx; dy - posy; do - post]
+    
+    % error is approx at 0, we are at the destination
+	if error(1) >= -varx && error(1) <= varx && error(2) >= -vary && error(2) <= vary && error(3) >= -vart && error(3) <= vart
+		break;
+	end
+	
+   
+    rho = sqrt(error(1)^2 + error(2)^2);
+	
+    lambda = atan2(error(2), error(1));
+	alpha = modangle(lambda - post);
+	beta = modangle(do - lambda);
+    
+	v = kp * rho;
+	rotationspeed = ka * alpha + kb * beta;
+	
+	[phi1, phi2] = InvKinematics(v, 0, rotationspeed, post, r, l);
+	
+    % Calculate the power, it is linair to the wheel rotation speed
+	[p1, p2] = GetPower(phi1, phi2, maxpower);
+
+	NXT_SetOutputState(MOTOR_B, p1, true, true, 'SPEED', 0, 'RUNNING',  0, 'dontreply');
+	NXT_SetOutputState(MOTOR_C, p2, true, true, 'SPEED', 0, 'RUNNING',  0, 'dontreply');
+	
+	pause(dt);
+end
+
+% Stop motors
+NXT_SetOutputState(MOTOR_B, 0, true, false, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
+NXT_SetOutputState(MOTOR_C, 0, true, false, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
+
+% Transform an angle to make sure it is in [-pi, pi]
+function [a] = modangle(angle)
+a = mod(angle, 2*pi);
+if a > pi
+    a = a - (2 * pi);
+end
+
+% Transform wheel rotation speeds to power
+function [p1, p2] = GetPower(phi1, phi2, maxpower)
+d = phi1/phi2;
+% Wheel 1 turns fastest and thus should have power = maxpower
+if phi1 > phi2
+	p1 = maxpower;
+	p2 = phi2/phi1 * maxpower;
+else
+    % Wheel 2 turns fastest and thus should have power = maxpower
+	p1 = phi1/phi2 * maxpower;
+	p2 = maxpower;
+end
+
+function [speedt] = GetThetaSpeed(phi1, phi2, r, l)
+speedt = r/(2*l) * phi1 - r/(2*l) * phi2;
+
+function [speedx, speedy] = GetSpeed(phi1, phi2, omega, r)
+% Xi_I = R(omega)-1*Xi_R*[phi1; phi2]
+Rinv = [cos(omega) -sin(omega); sin(omega) cos(omega)];
+XI_R = [1/2*r*phi1 1/2*r*phi2; 0 0;];
+
+XI_I = Rinv * XI_R;
+
+speedx = XI_I(1);
+speedy = XI_I(2);
+function [phi1, phi2] = InvKinematics(speedx, speedy, speedtTheta, theta, r, l)
+% Xi_I = R(omega)-1*Xi_R*[phi1; phi2]
+% R(omega) * Xi_I = Xi_R*[phi1; phi2]
+% Xi_R-1 * R(omega) * Xi_I = [phi1; phi2]
+XI_R = [1/2*r 1/2*r 0; 0 0 1; r/(2*l) -r/(2*l) 0];
+R = [cos(theta) sin(theta) 0; -sin(theta) cos(theta) 0; 0 0 1];
+
+phiVect = inv(XI_R) * R * [speedx; speedy; speedtTheta];
+phi1 = phiVect(1);
+phi2 = phiVect(2);
+
+\end{lstlisting}
 \end{document}
