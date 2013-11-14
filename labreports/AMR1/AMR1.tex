@@ -334,20 +334,9 @@ Hierbij zijn $\Delta x$ en $\Delta y$ de afstanden in de $x$ en $y$ richting die
 Zodra de robot dichter bij de eindlocatie komt, zullen $\rho$, $\alpha$ en $\beta$ richting $0$ gedrongen worden. Het is echter vrijwel onmogelijk om exact op $0$ uit te komen. Daarom moet gebruik gemaakt worden van een variantie. Er wordt een error vector bepaald, die bekijkt wat de te bereieken locatie is en wat de huidige locatie is. Door deze twee waarden te vergelijken met elkaar kan bekeken worden hoe dicht de robot bij zijn eindpunt is. Als deze error vector waarden binnen de aangegeven variantie liggen, is de eindlocatie zo goed als bereikt. Als de waarden niet binnen de variantie vallen moet doorgereden worden. Met behulp van de te berekenen $v$ en $\omega$ kan weer door middel van inverse kinematica bepaald worden wat de snelheden per wiel zijn. Als vervolgens een aangegeven tijdinterval $\Delta t$ voorbij is, kan opnieuw de error vector bepaald gaan worden, net zo lang totdat ze waarden binnen de variantie hebben bereikt.
 
 \subsubsection{Resultaten \& uiteindelijke code}
-Als een lage $\Delta t$ gekozen wordt zal het programma het beste werken. Bij een te hoge $\Delta t$ zal de robot kunnen doorschieten. Bij het plotten van de data komt er met een $\Delta t$ van $0.01s$ een mooie bocht uit. Bij een $\Delta t$ van $1s$ schiet de robot te ver door en zal hij zichzelf oneindig proberen te corrigeren.
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.55\textwidth]{imgs/example_plot.png}
-	\caption{Plot voor de call: MoveWithFeedBackPlot(10, 10, pi/2, -1, 5.6, 5.8, 3, 8, -1.5, 0.01)}
-	\label{fig:lineairverband }
-\end{figure}
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.55\textwidth]{imgs/fail_dt.png}
-	\caption{Plot voor de call: MoveWithFeedBackPlot(10, 10, pi/2, -1, 5.6, 5.8, 3, 8, -1.5, 1)}
-	\label{fig:lineairverband}
-\end{figure}
-\newpage
+Als een lage $\Delta t$ gekozen wordt zal het programma het beste werken. Bij een te hoge $\Delta t$ zal de robot kunnen doorschieten. Bij het plotten van de data komt er met een $\Delta t$ van $0.01s$ een mooie bocht uit (zie figuur: \ref{fig:goed}). Bij een $\Delta t$ van $1s$ schiet de robot te ver door en zal hij zichzelf oneindig proberen te corrigeren (zie figuur: \ref{fig:slecht}).\\
+Bij een lage variantie zal de robot zo exact mogelijk naar het einddoel proberen toe te rijden. Als de variante te laag is zal de robot nooit het doel bereiken en doorschieten, om zichzelf vervolgens te corrigeren (zie figuur: \ref{fig:lowvar}).
+
 \begin{lstlisting}[caption= Kinematica met feedback code, label=lst:bocht, numbers=left]
 function MoveWithFeedBack(dx, dy, do, maxpower, r, l, kp, ka, kb, dt)
 % Cumulative position in world coordinates
@@ -462,6 +451,24 @@ R = [cos(theta) sin(theta) 0; -sin(theta) cos(theta) 0; 0 0 1];
 phiVect = inv(XI_R) * R * [speedx; speedy; speedtTheta];
 phi1 = phiVect(1);
 phi2 = phiVect(2);
-
 \end{lstlisting}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{imgs/example_plot.png}
+	\caption{Plot voor de call: MoveWithFeedBackPlot(10, 10, pi/2, -1, 5.6, 5.8, 3, 8, -1.5, 0.01)}
+	\label{fig:goed}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{imgs/fail_dt.png}
+	\caption{Plot voor de call: MoveWithFeedBackPlot(10, 10, pi/2, -1, 5.6, 5.8, 3, 8, -1.5, 1)}
+	\label{fig:slecht}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{imgs/small_variance.png}
+	\caption{Plot met variantie varx = 0.1; vary = 0.1; vart = pi/20.0; en $\Delta t = 0.01$}
+	\label{fig:lowvar}
+\end{figure}
 \end{document}
