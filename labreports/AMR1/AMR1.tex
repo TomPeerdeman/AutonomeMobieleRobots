@@ -332,7 +332,7 @@ $\alpha = -\theta + atan2(\Delta y, \Delta x)$\\
 $\beta = -\theta - \alpha$\\
 $v = k_{\rho}\rho$\\
 $\omega = k_{\alpha}\alpha  + k_{\beta}\beta$\\\\
-Hierbij zijn $\Delta x$ en $\Delta y$ de afstanden in de $x$ en $y$ richting die de robot heeft afgelegd in een van te voren aangegeven interval $\Delta t$. $\theta$ is de hoek die totaal gedraaid moet worden vanaf begin tot eind.\\
+Hierbij zijn $\Delta x$ en $\Delta y$ de afstanden in de $x$ en $y$ richting die de robot heeft afgelegd in een van te voren aangegeven interval $\Delta t$. $\theta$ is de hoek die totaal gedraaid moet worden vanaf begin tot eind. $k_{\rho}$, $k_{\alpha}$ en $k_{\beta}$ zijn drie variabelen die gekozen kunnen worden en bepalen hoe de robot wordt bijgestuurd als hij van zijn baan raakt.\\
 Zodra de robot dichter bij de eindlocatie komt, zullen $\rho$, $\alpha$ en $\beta$ richting $0$ gedrongen worden. Het is echter vrijwel onmogelijk om exact op $0$ uit te komen. Daarom moet gebruik gemaakt worden van een variantie. Als $\rho$, $\alpha$ en $\beta$ binnen deze variantie liggen, is de eindlocatie zo goed als bereikt. Als $\rho$, $\alpha$ en $\beta$ niet binnen de variantie vallen moet doorgereden worden. Met behulp van de te berekenen $v$ en $\omega$ kan weer door middel van inverse kinematica bepaald worden wat de snelheden per wiel zijn. Als vervolgens het aangegeven tijdinterval $\Delta t$ voorbij is kunnen opnieuw $\rho$, $\alpha$ en $\beta$ bepaald gaan worden, net zo lang totdat ze waarden binnen de variantie hebben bereikt.
 \subsubsection{Kinematica code}
 \end{document}
