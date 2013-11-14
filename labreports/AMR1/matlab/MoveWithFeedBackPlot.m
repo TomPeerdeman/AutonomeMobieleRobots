@@ -23,6 +23,7 @@ ylist = [0];
 n = 0;
 
 while 1
+	% Increase the number of steps
     n = n + 1;
     
     % phi1 en phi2 over a period of dt time
@@ -42,6 +43,7 @@ while 1
 	posx = posx + (dotx * dt);
 	posy = posy + (doty * dt);
     
+	% Set data for the plot for this timestep
     i = n + 1;
     xlist(i) = posx;
     ylist(i) = posy;
@@ -53,9 +55,9 @@ while 1
 		break;
 	end
 	
-    % Magic
+    
     rho = sqrt(error(1)^2 + error(2)^2);
-    % Dit komt niet uit het boek maar uit de solutions
+	
     lambda = atan2(error(2), error(1));
 	alpha = modangle(lambda - post);
 	beta = modangle(do - lambda);
@@ -72,26 +74,17 @@ while 1
 	pause(dt);
 end
 
+% Print number of time steps
 n
 
+% Plot the trajectory
 plot(xlist, ylist);
 
+% Transform an angle to make sure it is in [-pi, pi]
 function [a] = modangle(angle)
 a = mod(angle, 2*pi);
 if a > pi
     a = a - (2 * pi);
-end
-
-function [p1, p2] = GetPower(phi1, phi2, maxpower)
-d = phi1/phi2;
-% Wheel 1 turns fastest and thus should have power = maxpower
-if phi1 > phi2
-	p1 = maxpower;
-	p2 = phi2/phi1 * maxpower;
-else
-    % Wheel 2 turns fastest and thus should have power = maxpower
-	p1 = phi1/phi2 * maxpower;
-	p2 = maxpower;
 end
 
 function [speedt] = GetThetaSpeed(phi1, phi2, r, l)

@@ -5,9 +5,9 @@ posy = 0;
 post = 0;
 
 % Variance, at dest if the value is between var_ and -var_
-varx = 3;
-vary = 3;
-vart = 3;
+varx = 0.5;
+vary = 0.2;
+vart = pi/10.0;
 
 % Reset initial motor position to 0 rotations
 NXT_ResetMotorPosition(MOTOR_B, false);
@@ -18,8 +18,8 @@ while 1
     m2 = NXT_GetOutputState(MOTOR_C);
     
     % phi1 en phi2 over a period of dt time
-	v1 = (m1.RotationCount / 360 * 2 * pi) / dt
-	v2 = (m2.RotationCount / 360 * 2 * pi) / dt
+	v1 = (m1.RotationCount / 180 * pi) / dt
+	v2 = (m2.RotationCount / 180 * pi) / dt
 	
     NXT_ResetMotorPosition(MOTOR_B, false);
     NXT_ResetMotorPosition(MOTOR_C, false);
@@ -44,14 +44,17 @@ while 1
 		break;
 	end
 	
-    % Magic
-	alpha = -error(3) + atan2(error(2), error(1));
-	beta = -error(3) -alpha;
+   
+    rho = sqrt(error(1)^2 + error(2)^2);
 	
-	v = kp * [error(1); error(2)];
+    lambda = atan2(error(2), error(1));
+	alpha = modangle(lambda - post);
+	beta = modangle(do - lambda);
+    
+	v = kp * rho;
 	rotationspeed = ka * alpha + kb * beta;
 	
-	[phi1, phi2] = InvKinematics(v(1), v(2), rotationspeed, post, r, l);
+	[phi1, phi2] = InvKinematics(v, 0, rotationspeed, post, r, l);
 	
     % Calculate the power, it is linair to the wheel rotation speed
 	[p1, p2] = GetPower(phi1, phi2, maxpower);
@@ -66,6 +69,14 @@ end
 NXT_SetOutputState(MOTOR_B, 0, true, false, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
 NXT_SetOutputState(MOTOR_C, 0, true, false, 'IDLE', 0, 'RUNNING',  0, 'dontreply');
 
+% Transform an angle to make sure it is in [-pi, pi]
+function [a] = modangle(angle)
+a = mod(angle, 2*pi);
+if a > pi
+    a = a - (2 * pi);
+end
+
+% Transform wheel rotation speeds to power
 function [p1, p2] = GetPower(phi1, phi2, maxpower)
 d = phi1/phi2;
 % Wheel 1 turns fastest and thus should have power = maxpower
