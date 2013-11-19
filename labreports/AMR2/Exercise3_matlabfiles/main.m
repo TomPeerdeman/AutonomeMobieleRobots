@@ -21,22 +21,32 @@ start(vid)
 %                     Rmin was already loaded when calling "calibrate_camera.m"
 alpha = 95;%          Radial distortion coefficient, YOU MAY NEED TO TUNE THIS PARAMETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 height = 0.17;%       camera height in meters, YOU MAY NEED TO TUNE THIS PARAMETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Bwthreshold = 200;%   Threshold for segment the image into Black & white colors, YOU MAY NEED TO TUNE THIS PARAMETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Bwthreshold = 100;%   Threshold for segment the image into Black & white colors, YOU MAY NEED TO TUNE THIS PARAMETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 angstep = 1.0;%       Angular step of the beam in degrees
 axislimit = 0.8;%     Axis limit
 
+calibrate_camera
+
+figure;
 % -------------------------------------------------------------------------
 % MAIN
 % -------------------------------------------------------------------------
-while 1
+for i=1:1
     tic;%                               Start counting elapsed time
     
     snapshot = getsnapshot(vid);%       Acquire image
     
     % READ THE PDF DOCUMENT AND FILL THIS LOOP 
     % REMEMBER THAT YOU HAVE TO FLIP THE IMAGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+    [undistortedimg, theta] =imunwrap(snapshot, center, angstep, Rmax, Rmin);
+    BWimg = img2bw(undistortedimg, Bwthreshold);
     
+    rho = getpixeldistance(BWimg, Rmin);
+    
+    imagesc(snapshot);
+    hold on;
+    drawlaserbeam(center,theta,rho);
+    hold off;
     
 % Compute the time per frame and effective frame rate.
 elapsedTime = toc;

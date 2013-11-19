@@ -21,7 +21,7 @@ DeviceID = videoinfo.DeviceInfo.DeviceID;% recover the address of the video devi
 
 %List the supported formats
 videoinfo.DeviceInfo.SupportedFormats
-format = 'RGB32_640x480';
+format = 'RGB24_960x720';
 
 %--------------------------------------------------------------------------
 %CREATE A VIDEO INPUT OBJECT
@@ -53,6 +53,7 @@ get(src)
 %List the video input object's configurable properties.
 set(vid)
 %List the video source object's configurable properties.
+set(src, 'Contrast', 100);
 set(src)
 %When an image acquisition object is no longer needed, remove it from
 %memory and clear the MATLAB workspace of the associated variable.
