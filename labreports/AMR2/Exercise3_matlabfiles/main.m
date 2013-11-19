@@ -27,25 +27,43 @@ axislimit = 0.8;%     Axis limit
 
 calibrate_camera
 
-figure;
+
+f1 = figure;
+f2 = figure;
+movegui(f1, 'northeast');
+movegui(f2, 'northwest');
 % -------------------------------------------------------------------------
 % MAIN
 % -------------------------------------------------------------------------
-for i=1:1
+while 1
     tic;%                               Start counting elapsed time
     
     snapshot = imflipud(getsnapshot(vid));%       Acquire image
     
-    % READ THE PDF DOCUMENT AND FILL THIS LOOP 
-    % REMEMBER THAT YOU HAVE TO FLIP THE IMAGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     [undistortedimg, theta] = imunwrap(snapshot, center, angstep, Rmax, Rmin);
-    BWimg = img2bw(undistortedimg, Bwthreshold);
+    BWimg = img2bw(undistortedimg, BWthreshold);
     
     rho = getpixeldistance(BWimg, Rmin);
+    % Set all 0 values to Rmin
+    rho(rho == 0) = Rmin;
     
+    figure(f1)
     imagesc(snapshot);
     hold on;
     drawlaserbeam(center,theta,rho);
+    hold off;
+    
+    figure(f2)
+    dist = undistort_dist_points(theta, rho, alpha, height);
+    draw_undistorted_beam(dist, theta, axislimit);
+    
+    % Remove all Inf values
+    ind = rho ~= Inf;
+    rho = rho(ind);
+    
+    sigma_dist = compute_uncertainty(rho, std(rho), alpha, height);
+    hold on;
+    draw_uncertainty(dist(ind), theta(ind), sigma_dist);
     hold off;
     
 % Compute the time per frame and effective frame rate.

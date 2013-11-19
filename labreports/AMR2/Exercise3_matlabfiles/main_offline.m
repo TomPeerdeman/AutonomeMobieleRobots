@@ -27,6 +27,7 @@ axislimit = 0.8;%     Axis limit
 
 calibrate_camera_offline
 
+
 f1 = figure;
 f2 = figure;
 movegui(f1, 'northeast');
@@ -38,8 +39,9 @@ movegui(f2, 'northwest');
 for i=1:35
     tic;%                               Start counting elapsed time
     
-    %snapshot = getsnapshot(vid);%       Acquire image
+    % Acquire image
     snapshot = imflipud(tmpsnapshot);
+    
     [undistortedimg, theta] = imunwrap(snapshot, center, angstep, Rmax, Rmin);
     BWimg = img2bw(undistortedimg, BWthreshold);
     
