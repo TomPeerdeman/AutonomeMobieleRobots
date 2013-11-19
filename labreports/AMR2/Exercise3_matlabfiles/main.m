@@ -34,11 +34,11 @@ figure;
 for i=1:1
     tic;%                               Start counting elapsed time
     
-    snapshot = getsnapshot(vid);%       Acquire image
+    snapshot = imflipud(getsnapshot(vid));%       Acquire image
     
     % READ THE PDF DOCUMENT AND FILL THIS LOOP 
     % REMEMBER THAT YOU HAVE TO FLIP THE IMAGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    [undistortedimg, theta] =imunwrap(snapshot, center, angstep, Rmax, Rmin);
+    [undistortedimg, theta] = imunwrap(snapshot, center, angstep, Rmax, Rmin);
     BWimg = img2bw(undistortedimg, Bwthreshold);
     
     rho = getpixeldistance(BWimg, Rmin);

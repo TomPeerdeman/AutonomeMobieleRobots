@@ -1,5 +1,5 @@
 
-tmpsnapshot = imread('../matlab/images/a.jpg');
+tmpsnapshot = imread('../matlab/images/live1.jpg');
 
 % Flip the image Up-Down
 snapshot = imflipud( tmpsnapshot );
@@ -15,12 +15,13 @@ Rmin = round( 80/480*size(snapshot,1) )
 % the image). Follow the directions on-line
 figure(1);
 %[center, radius] = get_circle(snapshot);
-center = [326.5; 224.6866]
-radius = 24.1684
+center = [444.2568; 333.2305];
+radius = 90.4013;
 
 % Draw the max and min radius
 draw2DCircle(center,Rmin,'m');
 draw2DCircle(center,Rmax,'m');
+Rmin = 125;
 
 
 % This function convert the omnidirectional picture into a rectangular
