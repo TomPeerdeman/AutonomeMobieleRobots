@@ -78,7 +78,7 @@ Enkele fotos waren meegeleverd waarmee getest kon worden. Echter is besloten nie
 \end{figure}
 \section{Parameters bepalen}
 \subsection{Calibreren van de camera}
-De eerste parameters die moeten worden gekozen zijn de coordinaten voor het middelpunt van de camera. Zodra deze coordinaten zijn gevonden, kunnen deze in de code worden vastgelegd, omdat het middelpunt van de camera nooit zal veranderen (hierbij wordt er van uitgegaan dat de camera goed op de robot is gemonteerd en niet beweegt). Als het middelpunt van de camera goed is gekozen zal het uitgeklapte beeld, de rand van de camera in een rechte lijn plaatsen (zie figuur \ref{fig:incorrectcenter} en figuur \ref{fig:correctcenter}. Als dit niet het geval is zal de rand een slinger vertonen. Het middelpunt van de camera licht in het midden van de webcam, op de coordinaten $x = 444.2568$ en $y =333.2305$. Daarnaast moet de radius van de blinde vlek (de vlek waar de camera zichzelf ziet) worden bepaald. De radius van dit beeld is $radius = 90.4013$.
+De eerste parameters die moeten worden gekozen zijn de coordinaten voor het middelpunt van de camera. Zodra deze coordinaten zijn gevonden, kunnen deze in de code worden vastgelegd, omdat het middelpunt van de camera nooit zal veranderen (hierbij wordt er van uitgegaan dat de camera goed op de robot is gemonteerd en niet beweegt). Als het middelpunt van de camera goed is gekozen zal het uitgeklapte beeld, de rand van de camera in een rechte lijn plaatsen (zie figuur \ref{fig:incorrectcenter} en figuur \ref{fig:correctcenter}. Als dit niet het geval is zal de rand een slinger vertonen. Het middelpunt van de camera licht in het midden van de webcam, op de coordinaten $x = 444.2568$ en $y = 333.2305$. Daarnaast moet de radius van de blinde vlek (de vlek waar de camera zichzelf ziet) worden bepaald. De radius van dit beeld is $radius = 90.4013$.
 \begin{figure}[htbp]
   \begin{minipage}[b]{0.5\linewidth}
     \centering
@@ -98,7 +98,7 @@ De eerste parameters die moeten worden gekozen zijn de coordinaten voor het midd
 Bij het calibreren van de camera moet ook aangegeven worden naar welke afstanden gekeken moet worden, wordt er te dichtbij het midden van de webcam gezocht, zal de robot zichzelf zien en zal dit ruis gaan vormen. Kijkt de camera te ver door dan zal het beeld buiten de bolling vallen of te vere weg zijn om nog een goed resultaat op te leveren. De sensoren die aan de robot hangen steken helaas ver uit, dus moet er begonnen worden met kijken op een redelijk grote afstand bij de robot vandaan, $Rmin = 125$. De afstand tot waar gekeken mag worden kan vrij gekozen worden, zolang deze maar niet te ver weg ligt, $Rmax = 215$ . De waarden van de coordinaten, de radius, Rmin en Rmax zijn in pixels.
 \subsection{Black-White Treshold}
 Als de camera is gecalibreerd kan het beeld dat van belang is (het beeld tussen Rmin en Rmax) uit elkaar worden getrokken. Dit beeld wordt vervolgens omgezet in een zwart wit beeld aan de hand van een meegegeven treshold. Uit dit beeld kunnen vervolgens de lijnen worden gevonden die het dichtste bij de robot in de buurt liggen. Als de treshold niet goed wordt gekozen, zal het algoritme niet de volledige lijn vinden. Er moet dus een treshold worden gekozen die voldoende ruis wegfilterd, maar die wel de echte lijnen intact laat. In figuur zijn de resultaten voor verschillende tresholds te zien. Een treshold van 100 levert het beste resultaat op.
-\begin{figure}[htbp]
+\begin{figure}[h!]
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[width=\linewidth]{img/BWTreshold_50.png}
@@ -113,7 +113,7 @@ Als de camera is gecalibreerd kan het beeld dat van belang is (het beeld tussen 
     \label{fig:bw100}
   \end{minipage}
 \end{figure}
-\begin{figure}[htbp]
+\begin{figure}[h!]
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[width=\linewidth]{img/BWTreshold_150.png}
@@ -128,8 +128,6 @@ Als de camera is gecalibreerd kan het beeld dat van belang is (het beeld tussen 
     \label{fig:bw200}
   \end{minipage}
 \end{figure}
-
-
 
 \section{Werkelijke afstand}
 Als alle parameters zijn gevonden, kan uit het zwart wit beeld een lijst met pixelafstanden waorden opgemaakt tot de dichtsbijzijnde lijn. Echter Is het voor de gebruiker veel fijner om de afstanden in meters terug te krijgen. Aan de hand van de bolling, de hoogte van deze bolling ten opzichte van de camera en een gemeten werkelijke afstand kan een formule worden opgesteld die de pixelafstanden om kan zetten in werkelijke afstanden. In figuur \textbf{insert figuur nodig die er niet is} is te zien hoe dit kan worden bepaald. $d$ is de afstand in meters op de grond, $\rho$ is de afstand in pixels op het camera vlak. De afstand voor een bepaalde hoek $\theta$ is dan $d(\theta)=h \cdot tan(\theta)$. De relatie tussen $\theta$ en $\rho$ kan worden  verkregen aan de hand van een eerste orde Taylor reeks: $\theta = \frac{1}{\alpha}\rho$. Hierin moet $\alpha$ worden bepaald. Dit is afhankelijk van de vorm van de bolling. Uiteindelijk verkrijgen we de formule $d(\rho)=h\cdot tan|\frac{\rho}{\alpha}|$. Deze formule zet de pixel afstanden om in afstanden in meters.\\
