@@ -19,9 +19,9 @@ start(vid)
 %                     Rmax was already loaded when calling "calibrate_camera.m"
 % Rmin = 77;%         Min detectable distance in pixels in VGA image
 %                     Rmin was already loaded when calling "calibrate_camera.m"
-alpha = 95;%          Radial distortion coefficient, YOU MAY NEED TO TUNE THIS PARAMETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-height = 0.17;%       camera height in meters, YOU MAY NEED TO TUNE THIS PARAMETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Bwthreshold = 100;%   Threshold for segment the image into Black & white colors, YOU MAY NEED TO TUNE THIS PARAMETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+alpha = 160;%          Radial distortion coefficient, YOU MAY NEED TO TUNE THIS PARAMETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+height = 0.21;%       camera height in meters, YOU MAY NEED TO TUNE THIS PARAMETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+BWthreshold = 100;%   Threshold for segment the image into Black & white colors, YOU MAY NEED TO TUNE THIS PARAMETER!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 angstep = 1.0;%       Angular step of the beam in degrees
 axislimit = 0.8;%     Axis limit
 
@@ -32,13 +32,15 @@ f1 = figure;
 f2 = figure;
 movegui(f1, 'northeast');
 movegui(f2, 'northwest');
+
 % -------------------------------------------------------------------------
 % MAIN
 % -------------------------------------------------------------------------
 while 1
     tic;%                               Start counting elapsed time
     
-    snapshot = imflipud(getsnapshot(vid));%       Acquire image
+    % Acquire image
+    snapshot = imflipud(getsnapshot(vid));
     
     [undistortedimg, theta] = imunwrap(snapshot, center, angstep, Rmax, Rmin);
     BWimg = img2bw(undistortedimg, BWthreshold);

@@ -20,12 +20,18 @@ Rmax = round( 150/480*size(snapshot,1) )
 % Rmax is automatically scaled according to the image size
 Rmin = round( 77/480*size(snapshot,1) )
 
-Rmin = 125;
 % This functrion allows you to calibrate the camera (extract the center of
 % the image). Follow the directions on-line
 %figure(1); [center, radius] = get_circle(snapshot);
+
+% Fixed best values found
 center = [444.2568; 333.2305];
 radius = 90.4013;
+
+Rmin = 125;
+Rmax = 215;
+
+imagesc(snapshot);
 
 % Draw the max and min radius
 draw2DCircle(center,Rmin,'m');
