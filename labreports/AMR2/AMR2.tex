@@ -131,7 +131,7 @@ Als de camera is gecalibreerd kan het beeld dat van belang is (het beeld tussen 
 
 \section{Werkelijke afstand}
 Als alle parameters zijn gevonden, kan uit het zwart wit beeld een lijst met pixelafstanden waorden opgemaakt tot de dichtsbijzijnde lijn. Echter Is het voor de gebruiker veel fijner om de afstanden in meters terug te krijgen. Aan de hand van de bolling, de hoogte van deze bolling ten opzichte van de camera en een gemeten werkelijke afstand kan een formule worden opgesteld die de pixelafstanden om kan zetten in werkelijke afstanden. In figuur \textbf{insert figuur nodig die er niet is} is te zien hoe dit kan worden bepaald. $d$ is de afstand in meters op de grond, $\rho$ is de afstand in pixels op het camera vlak. De afstand voor een bepaalde hoek $\theta$ is dan $d(\theta)=h \cdot tan(\theta)$. De relatie tussen $\theta$ en $\rho$ kan worden  verkregen aan de hand van een eerste orde Taylor reeks: $\theta = \frac{1}{\alpha}\rho$. Hierin moet $\alpha$ worden bepaald. Dit is afhankelijk van de vorm van de bolling. Uiteindelijk verkrijgen we de formule $d(\rho)=h\cdot tan|\frac{\rho}{\alpha}|$. Deze formule zet de pixel afstanden om in afstanden in meters.\\
-Om $\alpha$ te bepalen wordt een algoritme gebruikt. Alle alphas tussen 1 en 360 worden getest, en de alpha die een werkelijke afstand opleverd die daadwerkelijk opgemeten is, is de alpha die gebruikt kan worden. In figuur \ref{fig:anim_alpha} is een geanimeerd plaatje te zien voor vele alphas. De gekozen waarde voor alpha is $\alpha = 160$, dit is te zien in figuur \ref{fig:alpha160}.
+Om $\alpha$ te bepalen wordt een algoritme gebruikt. Alle alphas tussen 1 en 360 worden getest, en de alpha die een werkelijke afstand opleverd die daadwerkelijk opgemeten is, is de alpha die gebruikt kan worden. In figuur \ref{fig:anim_alpha} is een geanimeerd plaatje te zien voor vele alphas. De gekozen waarde voor alpha is $\alpha = 160$, dit is te zien in figuur \ref{fig:alpha160}. 
 
 \begin{figure}[htbp]
 	\animategraphics[height=0.7\linewidth, autoplay]{10}{img/alpha/alpha_}{0}{360}
@@ -154,6 +154,7 @@ Als $\sigma_\rho$ bepaald is, kan de error worden bepaald per punt. Dit wordt ge
 	\caption{Resultaat met error}
 	\label{fig:error}
 \section{Verbeteringen}
-Zoals te zien is in figuur \ref{fig:alpha160}, is er ruis te zien in het beeld linksonder de middelpunt van de robot. Deze ruis wordt veroorzaakt door een sensor die aan de robot hangt, deze sensor zou korter gemaakt, of zelfs verwijderd kunnen worden voor betere resultaten. 
+Zoals te zien is in figuur \ref{fig:alpha160}, is er ruis te zien in het beeld linksonder de middelpunt van de robot. Deze ruis wordt veroorzaakt door een sensor die aan de robot hangt, deze sensor zou korter gemaakt, of zelfs verwijderd kunnen worden voor betere resultaten.\\
+De gebruikte bolling was geen prefecte bolling. Als er een afwijking in de bolling zit zal het resultaat ook enige afwijking vertonen. Om een beter resultaat te krijgen kan een betere bolling gebruikt worden.
 \end{document}
 
