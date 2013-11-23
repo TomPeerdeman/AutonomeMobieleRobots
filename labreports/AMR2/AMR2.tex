@@ -7,6 +7,7 @@
 \usepackage{color}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{animate}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -126,5 +127,10 @@ Als de camera is gecalibreerd kan het beeld dat van belang is (het beeld tussen 
     \caption{Treshold = 200}
     \label{fig:bw200}
   \end{minipage}
+\end{figure}
+\begin{figure}[htbp]
+	\animategraphics[height=0.7\linewidth, autoplay]{10}{img/alpha/alpha_}{0}{360}
+	\caption{Animated figure of varying the alpha parameter}
+ 	\label{fig:anim_alpha}
 \end{figure}
 \end{document}
