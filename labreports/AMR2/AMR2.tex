@@ -77,7 +77,7 @@ Enkele fotos waren meegeleverd waarmee getest kon worden. Echter is besloten nie
 \end{figure}
 \section{Parameters bepalen}
 \subsection{Calibreren van de camera}
-De eerste parameters die moeten worden gekozen zijn de coordinaten voor het middelpunt van de camera. Zodra deze coordinaten zijn gevonden, kunnen deze in de code worden vastgelegd, omdat het middelpunt van de camera nooit zal veranderen (hierbij wordt er van uitgegaan dat de camera goed op de robot is gemonteerd en niet beweegt). Als het middelpunt van de camera goed is gekozen zal het uitgeklapte beeld, de rand van de camera in een rechte lijn plaatsen (zie figuur \ref{fig:incorrectcenter} en figuur \ref{fig:correctcenter}. Als dit niet het geval is zal de rand een slinger vertonen. Het middelpunt van de camera licht in het midden van de webcam, op de coordinaten $x = 444.2568$ en $y =333.2305$. Daarnaast moet de radius van de blinde vlek (de vlek waar de camera zichzelf ziet) worden bepaald. De radius van dit beeld is $radius = 90.4013$.\\
+De eerste parameters die moeten worden gekozen zijn de coordinaten voor het middelpunt van de camera. Zodra deze coordinaten zijn gevonden, kunnen deze in de code worden vastgelegd, omdat het middelpunt van de camera nooit zal veranderen (hierbij wordt er van uitgegaan dat de camera goed op de robot is gemonteerd en niet beweegt). Als het middelpunt van de camera goed is gekozen zal het uitgeklapte beeld, de rand van de camera in een rechte lijn plaatsen (zie figuur \ref{fig:incorrectcenter} en figuur \ref{fig:correctcenter}. Als dit niet het geval is zal de rand een slinger vertonen. Het middelpunt van de camera licht in het midden van de webcam, op de coordinaten $x = 444.2568$ en $y =333.2305$. Daarnaast moet de radius van de blinde vlek (de vlek waar de camera zichzelf ziet) worden bepaald. De radius van dit beeld is $radius = 90.4013$.
 \begin{figure}[htbp]
   \begin{minipage}[b]{0.5\linewidth}
     \centering
@@ -93,6 +93,7 @@ De eerste parameters die moeten worden gekozen zijn de coordinaten voor het midd
     \label{fig:correctcenter}
   \end{minipage}
 \end{figure}
+\\
 Bij het calibreren van de camera moet ook aangegeven worden naar welke afstanden gekeken moet worden, wordt er te dichtbij het midden van de webcam gezocht, zal de robot zichzelf zien en zal dit ruis gaan vormen. Kijkt de camera te ver door dan zal het beeld buiten de bolling vallen of te vere weg zijn om nog een goed resultaat op te leveren. De sensoren die aan de robot hangen steken helaas ver uit, dus moet er begonnen worden met kijken op een redelijk grote afstand bij de robot vandaan, $Rmin = 125$. De afstand tot waar gekeken mag worden kan vrij gekozen worden, zolang deze maar niet te ver weg ligt, $Rmax = 215$ . De waarden van de coordinaten, de radius, Rmin en Rmax zijn in pixels.
 
 \end{document}
