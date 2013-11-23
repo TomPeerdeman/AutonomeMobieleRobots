@@ -7,7 +7,7 @@
 \usepackage{color}
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage{animate}
+%\usepackage{animate}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -147,5 +147,10 @@ Om $\alpha$ te bepalen wordt een algoritme gebruikt. Alle alphas tussen 1 en 360
 	\caption{werkelijke afstand met alpha=160}
 	\label{fig:alpha160}
 \end{figure}
+\section{Error correctie}
+Er zal altijd ruis in de meting zitten. Om aan te geven hoe groot de afwijking waarschijnlijk per punt is moet de gemiddelde error bepaald worden per punt. Deze error kan bepaald worden. Hiervoor is om te beginnen de standaard deviatie $\sigma_\rho$ van $\rho$ (de pixelafstanden) voor nodig. Omdat het beeld niet altijd een gesloten omgeving ziet, moet de bepaling van $\rho$ worden aangepast. De pixelafstanden die niet worden gemeten worden standaard op oneindig gezet. Dit gooit de bepaling in de war, daarom worden deze waarden simpelweg uit $\rho$ verwijderd. Daarnaast worden de punten die dichtbij gemeten worden niet standaard geset naar 0 maar naar de waarde van Rmin.\\
+Als $\sigma_\rho$ bepaald is, kan de error worden bepaald per punt. Dit wordt gedaan met de volgende formule: $\sigma_{d(i)}=\frac{h}{\alpha}*(1+ tan(\frac{\rho_i}{alpha})^2*\sigma_\rho$. In figuur is het resultaat te zien.
+\section{Verbeteringen}
+Zoals te zien is in figuur \ref{fig:alpha160}, is er ruis te zien in het beeld linksonder de middelpunt van de robot. Deze ruis wordt veroorzaakt door een sensor die aan de robot hangt, deze sensor zou korter gemaakt, of zelfs verwijderd kunnen worden voor betere resultaten. 
 \end{document}
 
