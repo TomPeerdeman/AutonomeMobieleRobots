@@ -68,7 +68,7 @@ Om de experimenten uit dit rapport te kunnen uitvoeren zijn de volgende material
 \section{Introduction}
 Een autonome mobiele robot moet kunnen bepalen waar hij wel of niet mag rijden. Het is daarom nodig om de robot sensoren te geven die hem vertellen waar hij wel en niet kan rijden. Met behulp van een omni-directionele camera en een lijn-detectie algoritme kan de robot bepalen waar hij wel en niet naartoe kan rijden. Met behulp van een gewone webcam en een bolling met een weerkaatsend oppervlak kan eenvoudig een omni-directioneel beeld gemaakt worden. De code voor het rechttrekken van het beeld en het detecteren van lijnen is meegeleverd. Er hoeft slechts bepaald te worden wat de parameters voor de code zijn.
 \section{Methode}
-Enkele fotos waren meegeleverd waarmee getest kon worden. Echter is besloten nieuwe fotos te maken. De robot moest nog worden aangepast. Door op de webcam een plastic buis met daarop gemonteerd een gloeilamp aan de robot vast te tapen is de omni-directionele camera gemaakt. In figuur \ref{fig:opstelling} is te zien hoe de gebruikte robot er uit zag. Aan de hand van de live beelden die de camera doorstuurde, konden enkel fotos gemaakt worden, waarmee verder gewerkt kon worden. De gemaakte fotos zijn van het formaat 'RGB24: 960 x 720'. De meegeleverde fotos waren van het kleinere formaat 'RGB24: 640 x 480'. Als de webcam met dit kleinere formaat opnames maakte, werd het beeld echter te wazig. Het grotere formaat behoudt de verhoudingen, en is scherper.
+Enkele fotos waren meegeleverd waarmee getest kon worden. Echter is besloten nieuwe fotos te maken. De robot moest nog worden aangepast. Door op de webcam een plastic buis met daarop gemonteerd een gloeilamp aan de robot vast te tapen is de omni-directionele camera gemaakt. In figuur \ref{fig:opstelling} is te zien hoe de gebruikte robot er uit zag. Aan de hand van de live beelden die de camera doorstuurde, konden enkel fotos gemaakt worden, waarmee verder gewerkt kon worden. De gemaakte fotos zijn van het formaat 'RGB24: 960 x 720'. De meegeleverde fotos waren van het kleinere formaat 'RGB24: 640 x 480'. Als de webcam met dit kleinere formaat opnames maakte, werd het beeld echter te wazig. Het grotere formaat behoudt de verhoudingen, en is scherper. Daarnaast zijn de opnames gemaakt met een verhoogd contrast. Dit zorgt ervoor dat er minder kleurverschil en minder ruis in het beeld aanwezig is.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{img/opstelling.jpg}
@@ -95,5 +95,36 @@ De eerste parameters die moeten worden gekozen zijn de coordinaten voor het midd
 \end{figure}
 \\
 Bij het calibreren van de camera moet ook aangegeven worden naar welke afstanden gekeken moet worden, wordt er te dichtbij het midden van de webcam gezocht, zal de robot zichzelf zien en zal dit ruis gaan vormen. Kijkt de camera te ver door dan zal het beeld buiten de bolling vallen of te vere weg zijn om nog een goed resultaat op te leveren. De sensoren die aan de robot hangen steken helaas ver uit, dus moet er begonnen worden met kijken op een redelijk grote afstand bij de robot vandaan, $Rmin = 125$. De afstand tot waar gekeken mag worden kan vrij gekozen worden, zolang deze maar niet te ver weg ligt, $Rmax = 215$ . De waarden van de coordinaten, de radius, Rmin en Rmax zijn in pixels.
-
+\subsection{Black-White Treshold}
+Als de camera is gecalibreerd kan het beeld dat van belang is (het beeld tussen Rmin en Rmax) uit elkaar worden getrokken. Dit beeld wordt vervolgens omgezet in een zwart wit beeld aan de hand van een meegegeven treshold. Uit dit beeld kunnen vervolgens de lijnen worden gevonden die het dichtste bij de robot in de buurt liggen. Als de treshold niet goed wordt gekozen, zal het algoritme niet de volledige lijn vinden. Er moet dus een treshold worden gekozen die voldoende ruis wegfilterd, maar die wel de echte lijnen intact laat. In figuur zijn de resultaten voor verschillende tresholds te zien. Een treshold van 100 levert het beste resultaat op
+\begin{figure}[htbp]
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{img/BWTreshold_50.png}
+    \caption{Treshold = 50}
+    \label{fig:bw50}
+  \end{minipage}
+  \hspace{0.5cm}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{img/BWTreshold_100.png}
+    \caption{Treshold = 100}
+    \label{fig:bw100}
+  \end{minipage}
+\end{figure}
+\begin{figure}[htbp]
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{img/BWTreshold_150.png}
+    \caption{Treshold = 150}
+    \label{fig:bw150}
+  \end{minipage}
+  \hspace{0.5cm}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{img/BWTreshold_200.png}
+    \caption{Treshold = 200}
+    \label{fig:bw200}
+  \end{minipage}
+\end{figure}
 \end{document}
