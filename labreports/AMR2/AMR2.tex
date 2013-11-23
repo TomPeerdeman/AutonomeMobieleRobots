@@ -7,7 +7,7 @@
 \usepackage{color}
 \usepackage{amsmath}
 \usepackage{graphicx}
-%\usepackage{animate}
+\usepackage{animate}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -130,7 +130,7 @@ Als de camera is gecalibreerd kan het beeld dat van belang is (het beeld tussen 
 \end{figure}
 
 \section{Werkelijke afstand}
-Als alle parameters zijn gevonden, kan uit het zwart wit beeld een lijst met pixelafstanden waorden opgemaakt tot de dichtsbijzijnde lijn. Echter Is het voor de gebruiker veel fijner om de afstanden in meters terug te krijgen. Aan de hand van de bolling, de hoogte van deze bolling ten opzichte van de camera en een gemeten werkelijke afstand kan een formule worden opgesteld die de pixelafstanden om kan zetten in werkelijke afstanden. In figuur \textbf{insert figuur nodig die er niet is} is te zien hoe dit kan worden bepaald. $d$ is de afstand in meters op de grond, $\rho$ is de afstand in pixels op het camera vlak. De afstand voor een bepaalde hoek $\theta$ is dan $d(\theta)=h \cdot tan(\theta)$. De relatie tussen $\theta$ en $\rho$ kan worden  verkregen aan de hand van een eerste orde Taylor reeks: $\theta = \frac{1}{\alpha}\rho$. Hierin moet $\alpha$ worden bepaald. Dit is afhankelijk van de vorm van de bolling. Uiteindelijk verkrijgen we de formule $d(\rho)=h\cdot tan|\frac{\rho}{\alpha}|$. Deze formule zet de pixel afstanden om in afstanden in meters.\\
+Als alle parameters zijn gevonden, kan uit het zwart wit beeld een lijst met pixelafstanden worden opgemaakt tot de dichtsbijzijnde lijn. Echter Is het voor de gebruiker veel fijner om de afstanden in meters terug te krijgen. Aan de hand van de bolling, de hoogte van deze bolling ten opzichte van de camera en een gemeten werkelijke afstand kan een formule worden opgesteld die de pixelafstanden om kan zetten in werkelijke afstanden. In figuur \textbf{insert figuur nodig die er niet is} is te zien hoe dit kan worden bepaald. $d$ is de afstand in meters op de grond, $\rho$ is de afstand in pixels op het camera vlak. De afstand voor een bepaalde hoek $\theta$ is dan $d(\theta)=h \cdot tan(\theta)$. De relatie tussen $\theta$ en $\rho$ kan worden  verkregen aan de hand van een eerste orde Taylor reeks: $\theta = \frac{1}{\alpha}\rho$. Hierin moet $\alpha$ worden bepaald. Dit is afhankelijk van de vorm van de bolling. Uiteindelijk verkrijgen we de formule $d(\rho)=h\cdot tan|\frac{\rho}{\alpha}|$. Deze formule zet de pixel afstanden om in afstanden in meters.\\
 Om $\alpha$ te bepalen wordt een algoritme gebruikt. Alle alphas tussen 1 en 360 worden getest, en de alpha die een werkelijke afstand opleverd die daadwerkelijk opgemeten is, is de alpha die gebruikt kan worden. In figuur \ref{fig:anim_alpha} is een geanimeerd plaatje te zien voor vele alphas. De gekozen waarde voor alpha is $\alpha = 160$, dit is te zien in figuur \ref{fig:alpha160}.
 
 \begin{figure}[htbp]
@@ -146,13 +146,14 @@ Om $\alpha$ te bepalen wordt een algoritme gebruikt. Alle alphas tussen 1 en 360
 	\label{fig:alpha160}
 \end{figure}
 \section{Error correctie}
-Er zal altijd ruis in de meting zitten. Om aan te geven hoe groot de afwijking waarschijnlijk per punt is moet de gemiddelde error bepaald worden per punt. Deze error kan bepaald worden. Hiervoor is om te beginnen de standaard deviatie $\sigma_\rho$ van $\rho$ (de pixelafstanden) voor nodig. Omdat het beeld niet altijd een gesloten omgeving ziet, moet de bepaling van $\rho$ worden aangepast. De pixelafstanden die niet worden gemeten worden standaard op oneindig gezet. Dit gooit de bepaling in de war, daarom worden deze waarden simpelweg uit $\rho$ verwijderd. Daarnaast worden de punten die dichtbij gemeten worden niet standaard geset naar 0 maar naar de waarde van Rmin.\\
-Als $\sigma_\rho$ bepaald is, kan de error worden bepaald per punt. Dit wordt gedaan met de volgende formule: $\sigma_{d(i)}=\frac{h}{\alpha}*(1+ tan(\frac{\rho_i}{alpha})^2*\sigma_\rho$. In figuur \ref{fig:error} is het resultaat te zien.
+Er zal altijd ruis in de meting zitten. Om aan te geven hoe groot de afwijking waarschijnlijk per punt is moet de gemiddelde error bepaald worden per punt. Deze error kan bepaald worden. Hiervoor is om te beginnen de standaard deviatie $\sigma_\rho$ van $\rho$ (de pixelafstanden) voor nodig. Omdat het beeld niet altijd een gesloten omgeving ziet, moet de bepaling van $\rho$ worden aangepast. De pixelafstanden die niet worden gemeten worden standaard op oneindig gezet. Dit gooit de bepaling in de war, daarom worden deze waarden simpelweg uit $\rho$ verwijderd. Daarnaast zet het script dat de pixelafstanden berekend alle metingen waarvoor de pixelafstand gelijk is aan Rmin op 0. Aangezien dit de $\sigma_\rho$ veranderd wordt dit terug gezet naar Rmin. \\
+Als $\sigma_\rho$ bepaald is, kan de error worden bepaald per punt. Dit wordt gedaan met de volgende formule: $\sigma_{d(i)}=\frac{h}{\alpha}*(1+ tan(\frac{\rho_i}{alpha})^2)*\sigma_\rho$. In figuur \ref{fig:error} is het resultaat te zien.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{img/error.png}
 	\caption{Resultaat met error}
 	\label{fig:error}
+\end{figure}
 \section{Verbeteringen}
 Zoals te zien is in figuur \ref{fig:alpha160}, is er ruis te zien in het beeld linksonder de middelpunt van de robot. Deze ruis wordt veroorzaakt door een sensor die aan de robot hangt, deze sensor zou korter gemaakt, of zelfs verwijderd kunnen worden voor betere resultaten. 
 \end{document}
