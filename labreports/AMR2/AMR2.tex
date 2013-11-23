@@ -41,7 +41,7 @@
 \begin{center}
 \textsc{\Large Autonome Mobiele Robots}\\[0.5cm]
 \HRule \\[0,4cm]
-\textsc{\huge \bfseries NXT - line detection}
+\textsc{\huge \bfseries NXT - lijn detectie met behulp van een omni-directionele camera}
 \HRule \\[8cm]
 \begin{minipage}{0.4\textwidth}
 \begin{flushleft}\large
@@ -62,5 +62,16 @@ Om de experimenten uit dit rapport te kunnen uitvoeren zijn de volgende material
 - Boek: Autonomous Mobile Robots 2th Edition - Roland Siegwart et al.\\
 - NXT-Robot\\
 - Logitech Webcam\\
+- Gloeilamp\\
 - Zwarte tape
+
+\section{Introduction}
+Een autonome mobiele robot moet kunnen bepalen waar hij wel of niet mag rijden. Het is daarom nodig om de robot sensoren te geven die hem vertellen waar hij wel en niet kan rijden. Met behulp van een omni-directionele camera en een lijn-detectie algoritme kan de robot bepalen waar hij wel en niet naartoe kan rijden. Met behulp van een gewone webcam en een bolling met een weerkaatsend oppervlak kan eenvoudig een omni-directioneel beeld gemaakt worden. De code voor het rechttrekken van het beeld en het detecteren van lijnen is meegeleverd. Er hoeft slechts bepaald te worden wat de parameters voor de code zijn.
+\section{Methode}
+Enkele fotos waren meegeleverd waarmee getest kon worden. Echter is besloten nieuwe fotos te maken. De robot moest nog worden aangepast. Door op de webcam een plastic buis met daarop gemonteerd een gloeilamp aan de robot vast te tapen is de omni-directionele camera gemaakt. In figuur (insert reference hier) is te zien hoe de gebruikte robot er uit zag. Aan de hand van de live beelden die de camera doorstuurde, konden enkel fotos gemaakt worden, waarmee verder gewerkt kon worden. De gemaakte fotos zijn van het formaat 'RGB24: 960 x 720'. De meegeleverde fotos waren van het kleinere formaat 'RGB24: 640 x 480'. Als de webcam met dit kleinere formaat opnames maakte, werd het beeld echter te wazig. Het grotere formaat behoudt de verhoudingen, en is scherper.
+\section{Parameters bepalen}
+\subsection{Calibreren van de camera}
+De eerste parameters die moeten worden gekozen zijn de coordinaten voor het middelpunt van de camera. Zodra deze coordinaten zijn gevonden, kunnen deze in de code worden vastgelegd, omdat het middelpunt van de camera nooit zal veranderen (hierbij wordt er van uitgegaan dat de camera goed op de robot is gemonteerd en niet beweegt). Als het middelpunt van de camera goed is gekozen zal het uitgeklapte beeld, de rand van de camera in een rechte lijn plaatsen. Als dit niet het geval is zal de rand een slinger vertonen. Het middelpunt van de camera licht in het midden van de webcam, op de coordinaten $x = 444.2568$ en $y =333.2305$. Daarnaast moet de radius van de blinde vlek (de vlek waar de camera zichzelf ziet) worden bepaald. De radius van dit beeld is $radius = 90.4013$.\\
+Bij het calibreren van de camera moet ook aangegeven worden naar welke afstanden gekeken moet worden, wordt er te dichtbij het midden van de webcam gezocht, zal de robot zichzelf zien en zal dit ruis gaan vormen. Kijkt de camera te ver door dan zal het beeld buiten de bolling vallen of te vere weg zijn om nog een goed resultaat op te leveren. De sensoren die aan de robot hangen steken helaas ver uit, dus moet er begonnen worden met kijken op een redelijk grote afstand bij de robot vandaan, $Rmin = 125$. De afstand tot waar gekeken mag worden kan vrij gekozen worden, zolang deze maar niet te ver weg ligt, $Rmax = 150*(hoogte plaatje/480) = 150*(720/480) = 225$ . De waarden van de coordinaten, de radius, Rmin en Rmax zijn in pixels.
+
 \end{document}
