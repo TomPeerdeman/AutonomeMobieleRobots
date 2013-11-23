@@ -1,5 +1,5 @@
 
-tmpsnapshot = imread('../matlab/images/live1.jpg');
+tmpsnapshot = imread('images/live1.jpg');
 
 % Flip the image Up-Down
 snapshot = imflipud( tmpsnapshot );
