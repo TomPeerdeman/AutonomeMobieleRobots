@@ -19,6 +19,6 @@ function OUTim = img2bw( INim , Th )
         im = INim;
     end
     OUTim = im;
-    OUTim ( find(im<=Th) ) = 1;
-    OUTim ( find(im>Th) ) = 0;    
+    OUTim ( find(im<=Th) ) = 0;
+    OUTim ( find(im>Th) ) = 1;    
     

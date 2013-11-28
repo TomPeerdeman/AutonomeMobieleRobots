@@ -4,7 +4,21 @@ NumStrings = 0;
 PatStrings = {};
 PlaceID = [];
 
-training = input('Is it labeled or unlabeled data [l/u]:', 's');
+%training = input('Is it labeled or unlabeled data [l/u]:', 's');
+training = 'u';
+
+global Rmin;
+global Rmax;
+global center;
+global radius;
+
+center = [460; 340];
+radius = 90.4013;
+
+Rmin = 125;
+Rmax = 215;
+
+derp = 1;
 
 while true
   
@@ -17,7 +31,7 @@ while true
   end;
   
   % Get a new scan
-  XY = GetNextScan(derp);
+  XY = GetNextScan(NumStrings);
   XY = XY';
   
   % Plot raw scan
@@ -30,6 +44,8 @@ while true
 
   % Plot extracted segments
   figure(2), clf, axis([-0.5 0.5 -0.5 0.5]), grid on; hold on;
+  
+  
   color = 0;
   for i=1:NLines
     if color == 0, c = 'r'; elseif color == 1, c = 'b'; else c = 'g'; end
@@ -46,7 +62,6 @@ while true
   
   % Store the pattern string and place ID
   PatStrings{NumStrings} = S;
-    
 end
 
 
@@ -56,6 +71,6 @@ if training == 'l'
 else 
     save 'UnlabeledLineSignatures.mat' PatStrings;
 end
-close all
+%close all
 return
 
