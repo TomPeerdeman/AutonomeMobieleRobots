@@ -23,8 +23,8 @@ color_s = zeros(2,2);
 % color_s(2,:) = [0.52 0.58];
 
 % color_s(1,:) = [118 125] / 255; % green
-color_s(1,:) = [80 140] / 360; % green
-color_s(2,:) = [180 195] / 360;  %blue
+color_s(1,:) = [0 102] / 255; % green
+color_s(2,:) = [0 76] / 255;  %blue
 
 
 %% def values for saturation and luminance

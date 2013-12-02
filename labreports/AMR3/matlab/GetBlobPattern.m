@@ -6,14 +6,17 @@ configfile_blobs;
 
 % Loop - while the user wants, get image, compute pattern, store pattern
 NumStrings = 0;
-while true
+for i=0:7
 	% Get user input for looping
-	Option = input('Get a new image [1/0] : ');
-	if Option == 0, break; end
+	%Option = input('Get a new image [1/0] : ');
+	%if Option == 0, break; end
 	NumStrings = NumStrings + 1;
-	PlaceNum = input('Which place [1/2/3] : ');
+	%PlaceNum = input('Which place [1/2/3] : ');
+    PlaceNum = NumStrings;
 
-	img = getsnapshot(vid);
+	%img = getsnapshot(vid);
+    s = ['imgs/picture', int2str(NumStrings), '.jpg'];
+    img = imread(s);
  	figure(12), clf; imshow(img);
 
 	%% img center [row, col]
