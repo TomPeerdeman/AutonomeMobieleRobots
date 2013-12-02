@@ -5,7 +5,7 @@ PatStrings = {};
 PlaceID = [];
 
 %training = input('Is it labeled or unlabeled data [l/u]:', 's');
-training = 'u';
+training = 'l';
 
 global Rmin;
 global Rmax;
@@ -18,17 +18,17 @@ radius = 90.4013;
 Rmin = 125;
 Rmax = 215;
 
-derp = 1;
-
-while true
+for i=0:7
   
   % Get user input for looping
-  Option = input('Get a new scan [1/0] : ');
-  if Option == 0, break; end
+  %Option = input('Get a new scan [1/0] : ');
+  %if Option == 0, break; end
   NumStrings = NumStrings + 1;
-  if training == 'l'
-    PlaceID(NumStrings)= input('Which place [1/2/3] : ');
-  end;
+  %if training == 'l'
+  %  PlaceID(NumStrings)= input('Which place [1/2/3] : ');
+  %end;
+  
+  PlaceID(NumStrings) = NumStrings;
   
   % Get a new scan
   XY = GetNextScan(NumStrings);
