@@ -1,8 +1,9 @@
 
-global vid
 global center Rmax Rmin
 path(path, './scans/');
 configfile_blobs;
+
+training = input('Is it labeled or unlabeled data [l/u]:', 's');
 
 % Loop - while the user wants, get image, compute pattern, store pattern
 NumStrings = 0;
@@ -15,7 +16,11 @@ for i=0:7
     PlaceNum = NumStrings;
 
 	%img = getsnapshot(vid);
-    s = ['imgs/Trainset AMR/', int2str(NumStrings), '.jpg'];
+    if training == 'l'
+        s = ['imgs/Trainset AMR/', int2str(NumStrings), '.jpg'];
+    else
+        s = ['imgs/Testset AMR/', int2str(NumStrings), '.jpg'];
+    end
     imgtmp = imread(s);
     img = imflipud(imgtmp);
  	figure(12), clf; imshow(img);
@@ -49,9 +54,13 @@ for i=0:7
 	S = ComputePatStringBlobs( cl_angles , cl_type);
 	disp(sprintf('BLOB Pattern string:  %s', num2str(S)));
 
-	S_store(NumStrings).lev = S;
+	PatStrings{NumStrings} = S;
 	PlaceID(NumStrings) = PlaceNum;
 end
 
-save 'BlobSignatures.mat' S_store PlaceID;
+if training == 'l'
+    save 'LabeledBlobSignatures.mat' PatStrings PlaceID;
+else
+    save 'UnlabaledBlobSignatures.mat' PatStrings;
+end
 close all
