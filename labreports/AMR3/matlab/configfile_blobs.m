@@ -37,7 +37,7 @@ lum = [0.25 0.45];
 %% min pxl area
 % min_pxarea = 300;
 
-min_pxarea = 300;
+min_pxarea = 30;
 max_pxarea = 2000;
 
 %% std threshold for color blob
