@@ -12,11 +12,11 @@ global Rmax;
 global center;
 global radius;
 
-center = [460; 340];
+center = [545; 402];
 radius = 90.4013;
 
-Rmin = 125;
-Rmax = 215;
+Rmin = 115;
+Rmax = 190;
 
 for i=0:7
   
