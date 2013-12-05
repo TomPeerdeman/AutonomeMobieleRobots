@@ -15,8 +15,9 @@ for i=0:7
     PlaceNum = NumStrings;
 
 	%img = getsnapshot(vid);
-    s = ['imgs/picture', int2str(NumStrings), '.jpg'];
-    img = imread(s);
+    s = ['imgs/Trainset AMR/', int2str(NumStrings), '.jpg'];
+    imgtmp = imread(s);
+    img = imflipud(imgtmp);
  	figure(12), clf; imshow(img);
 
 	%% img center [row, col]
