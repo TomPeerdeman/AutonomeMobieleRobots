@@ -1,4 +1,4 @@
-function dist = GetLaserScans(N, derp)
+function dist = GetLaserScans(N, derp, training)
 
 
 %   GetLaserScans()
@@ -27,7 +27,11 @@ axislimit = 0.8;%     Axis limit
 global center Rmax Rmin BWimg undistortedimg
 
 %start(vid);
-tmpderp = ['imgs/picture', int2str(derp), '.jpg'];
+if training == 'u'
+    tmpderp = ['imgs/Testset AMR/', int2str(derp), '.jpg'];
+else
+    tmpderp = ['imgs/Trainset AMR/', int2str(derp), '.jpg'];
+end
 tmpsnapshot = imread(tmpderp);
 
 % Flip the image Up-Down

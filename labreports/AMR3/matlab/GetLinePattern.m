@@ -4,8 +4,7 @@ NumStrings = 0;
 PatStrings = {};
 PlaceID = [];
 
-%training = input('Is it labeled or unlabeled data [l/u]:', 's');
-training = 'l';
+training = input('Is it labeled or unlabeled data [l/u]:', 's');
 
 global Rmin;
 global Rmax;
@@ -24,14 +23,12 @@ for i=0:7
   %Option = input('Get a new scan [1/0] : ');
   %if Option == 0, break; end
   NumStrings = NumStrings + 1;
-  %if training == 'l'
-  %  PlaceID(NumStrings)= input('Which place [1/2/3] : ');
-  %end;
-  
-  PlaceID(NumStrings) = NumStrings;
+  if training == 'l'
+    PlaceID(NumStrings) = NumStrings;
+  end;
   
   % Get a new scan
-  XY = GetNextScan(NumStrings);
+  XY = GetNextScan(NumStrings, training);
   XY = XY';
   
   % Plot raw scan
