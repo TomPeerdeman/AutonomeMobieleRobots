@@ -7,7 +7,7 @@
 \usepackage{color}
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage{animate}
+\usepackage{tabulary}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -132,9 +132,9 @@ Een tweede manier om de fingerprints te combineren is door de fingerprints te co
 In tabel \ref{tab:normal} en tabel \ref{tab:combo} is te zien bij welk plaatje uit de train-set de robot hoort te zijn ten op zichte van het plaatje uit de test-set. Daarnaast staat in de tabel aangegeven waar de robot denkt te zijn aan de hand van de verschillende methoden.
 \begin{table}[h]
   \centering
-  \begin{tabular}{| c | c | c | c |}
+  \begin{tabulary}{\textwidth}{| C | C | C | C |}
     \hline
-    Test-set nummer & Train-set nummer &  Lijnsegment fingerprint location &  Blob fingerprint location\\ \hline
+    Test-set \newline nummer & Train-set \newline nummer &  Lijnsegment fingerprint \newline location &  Blob fingerprint \newline location\\ \hline
     1 & 7 of 8 & 3 of 5 & 8\\ \hline
     2 & 7 of 8 & 7 & 1\\ \hline
     3 & 4 of 5 & 5 & 6\\ \hline
@@ -143,16 +143,16 @@ In tabel \ref{tab:normal} en tabel \ref{tab:combo} is te zien bij welk plaatje u
     6 & 8 & 2 of 4 & 1 of 6\\ \hline
     7 & 6 of 7 & 8 & 8\\ \hline
     8 & 1 of 2 & 1 & 4 of 8\\ \hline
-  \end{tabular}
+  \end{tabulary}
   \caption{Resultaten losse localisering}
   \label{tab:normal}
 \end{table}
 \newpage
 \begin{table}[h]
   \centering
-  \begin{tabular}{| c | c | c | c |}
+  \begin{tabulary}{\textwidth}{| C | C | C | C |}
     \hline
-    Test-set nummer & Train-set nummer &  Gewogen fingerprints location &  Geconcateneerde fingerprints location\\ \hline
+    Test-set \newline nummer & Train-set  \newline nummer &  Gewogen fingerprints \newline location &  Geconcateneerde fingerprints \newline location\\ \hline
     1 & 7 of 8 &  8 & 8\\ \hline
     2 & 7 of 8 &  7 & 1 of 7\\ \hline
     3 & 4 of 5 &  6& 6\\ \hline
@@ -161,7 +161,7 @@ In tabel \ref{tab:normal} en tabel \ref{tab:combo} is te zien bij welk plaatje u
     6 & 8 & 8 & 8\\ \hline
     7 & 6 of 7 & 8 & 8 \\ \hline
     8 & 1 of 2 & 4 of 8 & 8\\ \hline
-  \end{tabular}
+  \end{tabulary}
   \caption{Resultaten gecombineerde localisering}
   \label{tab:combo}
 \end{table}
