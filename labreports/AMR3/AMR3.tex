@@ -76,16 +76,29 @@ Tevens was het bestand imflipud.m aangepast. Het bestand imflipud.m zou een func
 
 \section{Maken van een dataset}
 \subsection{Foto's maken}
-Om experimenten uit te kunnen voeren is een dataset nodig. Deze dataset moet bestaan uit fotos die een afgeplakt parcour volledig omschrijven. Er moet hiervoor een parcour gemaakt worden met behulp van tape. Vervolgens moeten er voldoende fotos gemaakt worden zodat het gehele parcour gezien wordt. Voor de experimenten is het ook nodig dat het parcour gesloten is. Na het maken van de eerste dataset bleek er echter geen rekening gehouden te zijn met het maken van een tweede testset. Er moet opnieuw een dataset gemaakt worden op een nieuw parcour (het oude parcour is al weggegooid). Dit nieuwe parcour wordt gebruikt voor zowel de Training-set als de Test-set.
+Om experimenten uit te kunnen voeren is een dataset nodig. Deze dataset moet bestaan uit fotos die een afgeplakt parcour volledig omschrijven. Er moet hiervoor een parcour gemaakt worden met behulp van tape. Vervolgens moeten er voldoende fotos gemaakt worden zodat het gehele parcour gezien wordt. Voor de experimenten is het ook nodig dat het parcour gesloten is. Na het maken van de eerste dataset bleek er echter geen rekening gehouden te zijn met het maken van een tweede testset. Er moet opnieuw een dataset gemaakt worden op een nieuw parcour (het oude parcour is al weggegooid). Dit nieuwe parcour wordt gebruikt voor zowel de Training-set als de Test-set. In figuur \ref{fig:datasetmaken} is te zien hoe er te werk is gegaan bij het maken van een dataset. In figuur \ref{fig:plattegrond} is te zien hoe de uiteindelijke plattegrond van de dataset er uit is komen te zien.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{dataset1.jpg}
-	\caption{Het maken van een dataset}
+	\caption{Het maken van een dataset (niet gebruikte dataset)}
 	\label{fig:datasetmaken}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{opzet.png}
+	\caption{Plattegrond en locaties van de gemaakte fotos}
+	\label{fig:plattegrond}
 \end{figure}
 
 \subsection{Parameters}
 De parameters moeten worden aangepast aan de nieuwe dataset. De camera is lichtelijk verschoven en moest verstevigd worden waardoor de positie van de lamp en het middelpunt van de camera is verplaatst ten op zichte van de vorige proeven. Het middelpunt heeft de coordinaten $x = 545$, $y = 402$. De radius blijft hetzelfde. Er zijn nog enkele uitwendige niet gebruikte sensoren van de robot afgehaald waardoor de waarden voor Rmin kan worden verlaagd. De waarde wordt verlaagd naar Rmin $= 115$. De waarde voor Rmax wordt aangepast vanwege de verplaatste locatie van de bolling ten opzichte van de camera. De waarde van Rmax wordt: Rmax $= 190$. De waarde van $\alpha$ wordt geschat door te kijken naar de manier waarop het gemeten beeld wordt 'rechtgetrokken'. De waarde veranderd naar $\alpha = 140$. Tot slot wordt de treshold voor de zwart-wit beelden aangepast. Dit wordt gedaan omdat de nieuwe opnamen geen verhoogd contrast hebben (dit was bij de vorige dataset wel het geval). De nieuwe waarde wordt  $treshold = 130$.
+
+
+\section{Line fingerprints}
+
+
+\section{Blob fingerprints}
+\section{Gecombineerde fingerprints}
 
 \section{Verbeteringen}
 Momenteel worden blobs gedetecteerd die niet per se altijd in de wereld aanwezig zijn. Denk aan mensen die in de Training set als blob zijn gedetecteerd, die hoeven niet de hele tijd op dezelfde locatie te blijven staan. Daarnaast zijn de lijnen allemaal zwart. Als elke lijn een eigen kleur had gekregen had de blobdetectie waarschijnlijk beter gewerkt.
