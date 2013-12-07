@@ -110,7 +110,7 @@ Als de robot vervolgens de testset bekijkt, worden de fingerprints die opgebouwd
 \section{Blob fingerprints}
 Met behulp van meegeleverde code wordt gezocht naar blobs. Er moet echter aangegeven worden naar welke kleurwaarden er gekeken moet worden. Aangezien er geen kleuren in het parcour zijn verwerkt moet dit worden aangepast. Door dit aan te passen zodat er alleen een onderscheidt wordt gemaakt tussen zwart en wit wordt dit overkomen. In de originele code wordt gekeken naar twee kleuren. Er wordt dan een blob gedetecteerd als er een blob in een van de twee kleuren voorkomt.  Aangezien de aangepaste versie niet meer gebruikt maakt van kleur is de detectie van de tweede kleur compleet verwijderd. 
 De combinatie van de blobs in een beeld vormt een fingerprint, een voorbeeld is te zien in figuur \ref{fig:blobfinger}. In dit figuur staan een heleboel blobs, echter word net als bij de lijn alleen de blobs gebruikt die tussen Rmin en Rmax vallen. 
-De confusion matrix voor blobs is weergegegeven in figuur \ref{fig:confusion_blobs}.
+De confusion matrix voor blobs is weergegegeven in figuur \ref{fig:confusion_blob}.
 Bij het testen moet er worden gezocht naar een match tussen de bekende fingerprints en de huidige gemeten set blobs. Er kan weer een waarschijnlijkheid worden bepaald voor de locatie van de robot en deze kan worden weergegeven met behulp van een matrix (figuur \ref{fig:blob_prob}).
 
 \begin{figure}[h]
