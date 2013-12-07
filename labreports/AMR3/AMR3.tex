@@ -76,7 +76,7 @@ Tevens was het bestand imflipud.m aangepast. Het bestand imflipud.m zou een func
 
 \section{Maken van een dataset}
 \subsection{Foto's maken}
-Om experimenten uit te kunnen voeren is een dataset nodig. Deze dataset moet bestaan uit fotos die een afgeplakt parcour volledig omschrijven. Er moet hiervoor een parcour gemaakt worden met behulp van tape. Vervolgens moeten er voldoende fotos gemaakt worden zodat het gehele parcour gezien wordt. Voor de experimenten is het ook nodig dat het parcour gesloten is. Na het maken van de eerste dataset bleek er echter geen rekening gehouden te zijn met het maken van een tweede testset. Er moet opnieuw een dataset gemaakt worden op een nieuw parcour (het oude parcour is al weggegooid). Dit nieuwe parcour wordt gebruikt voor zowel de Training-set als de Test-set. In figuur \ref{fig:datasetmaken} is te zien hoe er te werk is gegaan bij het maken van een dataset. In figuur \ref{fig:plattegrond} is te zien hoe de uiteindelijke plattegrond van de dataset er uit is komen te zien.
+Om experimenten uit te kunnen voeren is een dataset nodig. Deze dataset moet bestaan uit fotos die een afgeplakt parcour volledig omschrijven. Er moet hiervoor een parcour gemaakt worden met behulp van tape. Vervolgens moeten er voldoende fotos gemaakt worden zodat het gehele parcour gezien wordt. Voor de experimenten is het ook nodig dat het parcour gesloten is. Na het maken van de eerste dataset bleek er echter geen rekening gehouden te zijn met het maken van een tweede testset. Er moet opnieuw een dataset gemaakt worden op een nieuw parcour (het oude parcour is al weggegooid). Dit nieuwe parcour wordt gebruikt voor zowel de train-set als de test-set. In figuur \ref{fig:datasetmaken} is te zien hoe er te werk is gegaan bij het maken van een dataset. In figuur \ref{fig:plattegrond} is te zien hoe de uiteindelijke plattegrond van de dataset er uit is komen te zien.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{dataset1.jpg}
@@ -95,13 +95,19 @@ De parameters moeten worden aangepast aan de nieuwe dataset. De camera is lichte
 
 
 \section{Line fingerprints}
-
+Met behulp van de code uit het vorige labexperiment kunnen lijnen worden gedetecteerd. Met behulp van deze code kunnen deze gevonden lijnsegmenten worden opgebouwd. Dit wordt gedaan met een meegeleverd algoritme. De gecombineerde lijnsegmenten in een foto vormen een fingerprint voor de lijnen op die locatie. In figuur \ref{fig:lijnfinger} is zo een fingerprint te zien. Door eerst te leren hoe de lijnsegmenten er uit zien. Als de robot vervolgens de testset bekijkt, worden de fingerprints die opgebouwd worden voor de test-set vergeleken met de fingerprints van de train-set. Hieruit kan de waarschijnlijkheid bepaald worden voor de huidige locatie van de robot. Dit kan worden weergegeven in een confusion matrix, zoals te zien is in figuur \ref{fig:bla}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{fingerprint.png}
+	\caption{Fingerprint voor een lijnsegment}
+	\label{fig:lijnfinger}
+\end{figure}
 
 \section{Blob fingerprints}
 \section{Gecombineerde fingerprints}
 
 \section{Verbeteringen}
-Momenteel worden blobs gedetecteerd die niet per se altijd in de wereld aanwezig zijn. Denk aan mensen die in de Training set als blob zijn gedetecteerd, die hoeven niet de hele tijd op dezelfde locatie te blijven staan. Daarnaast zijn de lijnen allemaal zwart. Als elke lijn een eigen kleur had gekregen had de blobdetectie waarschijnlijk beter gewerkt.
+Momenteel worden blobs gedetecteerd die niet per se altijd in de wereld aanwezig zijn. Denk aan mensen die in de train-set als blob zijn gedetecteerd, die hoeven niet de hele tijd op dezelfde locatie te blijven staan. Daarnaast zijn de lijnen allemaal zwart. Als elke lijn een eigen kleur had gekregen had de blobdetectie waarschijnlijk beter gewerkt.
 
 \end{document}
 
