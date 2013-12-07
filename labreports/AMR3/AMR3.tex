@@ -1,0 +1,82 @@
+\documentclass[a4paper]{article}
+
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage[top=3cm,bottom=3cm,left=3cm,right=3cm]{geometry}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{animate}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Octave,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\pagestyle{fancy}
+\lfoot{\small \color{gray}Tom Peerdeman - 10266186}
+\cfoot{\thepage}
+\rfoot{\small \color{gray}Ren\'e Aparicio Sa\'ez - 10214054}
+\lhead{\small \color{gray}Autonome Mobiele Robots}
+
+\begin{document}
+\begin{titlepage}
+\begin{center}
+\textsc{\Large Autonome Mobiele Robots}\\[0.5cm]
+\HRule \\[0,4cm]
+\textsc{\huge \bfseries NXT - Localisering door middel van lijnen en blobs}
+\HRule \\[8cm]
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft}\large
+\emph{Auteurs: Tom Peerdeman \& Ren\'e Aparicio Saez}\\
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright}\large
+\emph{Datum: \today\\\hspace{1cm}}\\
+\end{flushright}
+\end{minipage}
+\end{center}
+\end{titlepage}
+
+\section{Materiaal}
+Om de experimenten uit dit rapport te kunnen uitvoeren zijn de volgende materialen gebruikt:\\
+- PC/Laptop met Matlab\\
+- Boek: Autonomous Mobile Robots 2th Edition - Roland Siegwart et al.\\
+- NXT-Robot\\
+- Logitech Webcam\\
+- Gloeilamp\\
+- Zwarte tape
+
+\section{Introduction}
+Een autonome mobiele robot moet weten waar in de wereld hij momenteel is. Als er een kaart bekend is kan aan de hand van de omgeving die de robot momenteel detecteert bepaald worden waar in de wereld hij is. Dit kan gedaan worden aan de hand van de detectie van lijnen en blobs in zijn huidige omgeving en deze te vergelijken met de bekende blobs die opgeslagen zijn in de kaart. Gecombineerd zullen de lijnen en blobs een goede indicatie kunnen geven over de locatie van de robot.
+
+\section{Fouten in meegeleverde code}
+De meegeleverde code bevatte enkele fouten. Zo was het omzetten van het opgenomen beeld naar een zwart wit beeld 'geinverteerd' (zwart was wit en andersom). 
+%imunwrap ook toch? weet de naam vd file niet meer%
+De parameters moesten ook aangepast worden, de camera is lichtelijk veschoven en moest verstevigd worden waardoor de positie van de lamp en het middelpunt van de camera zijn verschoven. Het middelpunt heeft de coordinaten $x = 545$, $y = 402$. De radius blijft hetzelfde. Er zijn nog enkele uitwendige niet gebruikte sensoren van de robot afgehaald waardoor de waarden voor Rmin kan worden verlaagd. De waarde wordt verlaagd naar Rmin $= 115$. De waarde voor Rmax wordt aangepast vanwege de verplaatste locatie van de bolling ten op sichte van de camera. De waarde van Rmax wordt: Rmax $= 190$. De waarde van $\alpha$ wordt geschat door te kijken naar de manier waarop het gemeten beeld wordt 'rechtgetrokken'. De waarde veranderd naar $\alpha = 140$. Tot slot wordt de treshold voor de zwart-wit beelden aangepast. Dit wordt gedaan omdat de nieuwe opnamen geen verhoogd contrast hebben (dit was bij de vorige dataset wel het geval). De niuwe waarde wordt  $treshold = 130$.
+% Note: Getlaserscans bevat onze parameter waarden maar calibratescans bevat ander waarden voor alpha etc. whats up with that%
+
+\section{Verbeteringen}
+Momenteel worden blobs gedetecteerd die niet per se altijd in de wereld aanwezig zijn. Denk aan mensen die in de Training set als blob zijn gedetecteerd, die hoeven niet de hele tijd op dezelfde locatie te blijven staan.
+
+\end{document}
+
