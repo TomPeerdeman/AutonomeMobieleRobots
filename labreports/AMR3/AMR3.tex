@@ -99,12 +99,26 @@ Met behulp van de code uit het vorige labexperiment kunnen lijnen worden gedetec
 In figuur \ref{fig:confusion_line} is te zien hoe uniek deze fingerprints zijn. Als de fingerprints namelijk veel overeenkomen, dan is de Levenshtein afstand tussen deze fingerprints ook laag. Indien de Levenshtein afstand laag is zal het moeilijker worden om een duidelijke locatie aan te geven omdat de kans dat de robot dan op de ene locatie is heel erg dicht bij de kans voor een andere locatie liggen kan. 
 Als de robot vervolgens de testset bekijkt, worden de fingerprints die opgebouwd worden voor de test-set vergeleken met de fingerprints van de train-set. Hieruit kan de waarschijnlijkheid bepaald worden voor de huidige locatie van de robot. Dit kan worden weergegeven in een matrix, zoals te zien is in figuur \ref{fig:line_prob}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{fingerprint.png}
+	\caption{Fingerprint voor lijnsegmenten}
+	\label{fig:lijnfinger}
+\end{figure}
+
 
 \section{Blob fingerprints}
 Met behulp van meegeleverde code wordt gezocht naar blobs. Er moet echter aangegeven worden naar welke kleurwaarden er gekeken moet worden. Aangezien er geen kleuren in het parcour zijn verwerkt moet dit worden aangepast. Door dit aan te passen zodat er alleen een onderscheidt wordt gemaakt tussen zwart en wit wordt dit overkomen. In de originele code wordt gekeken naar twee kleuren. Er wordt dan een blob gedetecteerd als er een blob in een van de twee kleuren voorkomt.  Aangezien de aangepaste versie niet meer gebruikt maakt van kleur is de detectie van de tweede kleur compleet verwijderd. 
 De combinatie van de blobs in een beeld vormt een fingerprint, een voorbeeld is te zien in figuur \ref{fig:blobfinger}. In dit figuur staan een heleboel blobs, echter word net als bij de lijn alleen de blobs gebruikt die tussen Rmin en Rmax vallen. 
 De confusion matrix voor blobs is weergegegeven in figuur \ref{fig:confusion_blobs}.
 Bij het testen moet er worden gezocht naar een match tussen de bekende fingerprints en de huidige gemeten set blobs. Er kan weer een waarschijnlijkheid worden bepaald voor de locatie van de robot en deze kan worden weergegeven met behulp van een matrix (figuur \ref{fig:blob_prob}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{fingerprintblob.png}
+	\caption{Fingerprint voor blobs}
+	\label{fig:blobfinger}
+\end{figure}
 
 
 \section{Gecombineerde fingerprints}
@@ -158,12 +172,6 @@ In tabel \ref{tab:normal} en tabel \ref{tab:combo} is te zien bij welk plaatje u
 Momenteel worden blobs gedetecteerd die niet per se altijd in de wereld aanwezig zijn. Denk aan mensen die in de train-set als blob zijn gedetecteerd, die hoeven niet de hele tijd op dezelfde locatie te blijven staan. Daarnaast zijn de lijnen allemaal zwart. Als elke lijn een eigen kleur had gekregen had de blobdetectie waarschijnlijk beter gewerkt.
 
 \section{Confusion matrices}
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.8\textwidth]{fingerprint.png}
-	\caption{Fingerprint voor lijnsegmenten}
-	\label{fig:lijnfinger}
-\end{figure}
 
 \begin{figure}[h]
 	\centering
@@ -177,12 +185,6 @@ Momenteel worden blobs gedetecteerd die niet per se altijd in de wereld aanwezig
 	\includegraphics[width=0.8\textwidth]{line_prob.jpg}
 	\caption{Waarschijnlijkheids matrix voor lijnsegmenten. Op de x as de test locaties en op de y as de train locaties. Hoe lichter het vakje des te groter de berekende kans.}
 	\label{fig:line_prob}
-\end{figure}
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.7\textwidth]{fingerprintblob.png}
-	\caption{Fingerprint voor blobs}
-	\label{fig:blobfinger}
 \end{figure}
 
 \begin{figure}[h]
