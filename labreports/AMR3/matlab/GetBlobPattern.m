@@ -63,4 +63,4 @@ if training == 'l'
 else
     save 'UnlabaledBlobSignatures.mat' PatStrings;
 end
-close all
+%close all
