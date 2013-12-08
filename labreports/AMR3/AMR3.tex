@@ -95,7 +95,7 @@ De parameters moeten worden aangepast aan de nieuwe dataset. De camera is lichte
 
 
 \section{Line fingerprints}
-Met behulp van de code uit het vorige labexperiment kunnen lijnen worden gedetecteerd. Met behulp van deze code kunnen deze gevonden lijnsegmenten worden opgebouwd. Dit wordt gedaan met een meegeleverd algoritme. De gecombineerde lijnsegmenten in een foto vormen een fingerprint voor de lijnen op die locatie. In figuur \ref{fig:lijnfinger} is zo een fingerprint te zien. 
+Met behulp van de code uit het vorige labexperiment kunnen lijnen worden gedetecteerd. Met behulp van deze code kunnen deze gevonden lijnsegmenten worden opgebouwd. Dit wordt gedaan met een meegeleverd 'split \& merge' algoritme. De gecombineerde lijnsegmenten in een foto vormen een fingerprint voor de lijnen op die locatie. In figuur \ref{fig:lijnfinger} is zo een fingerprint te zien. 
 In figuur \ref{fig:confusion_line} is te zien hoe uniek deze fingerprints zijn. Als de fingerprints namelijk veel overeenkomen, dan is de Levenshtein afstand tussen deze fingerprints ook laag. Indien de Levenshtein afstand laag is zal het moeilijker worden om een duidelijke locatie aan te geven omdat de kans dat de robot dan op de ene locatie is heel erg dicht bij de kans voor een andere locatie liggen kan. 
 Als de robot vervolgens de testset bekijkt, worden de fingerprints die opgebouwd worden voor de test-set vergeleken met de fingerprints van de train-set. Hieruit kan de waarschijnlijkheid bepaald worden voor de huidige locatie van de robot. Dit kan worden weergegeven in een matrix, zoals te zien is in figuur \ref{fig:line_prob}
 
