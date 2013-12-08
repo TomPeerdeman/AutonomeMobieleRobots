@@ -56,6 +56,8 @@ for i=0:7
 
 	PatStrings{NumStrings} = S;
 	PlaceID(NumStrings) = PlaceNum;
+    
+    break;
 end
 
 if training == 'l'
