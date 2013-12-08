@@ -52,7 +52,6 @@ hold off;
 % [L_b, num_b] = bwlabel(valid_b, 4);
 
 figure(13)
-subplot(2,1,1);
 axis equal;
 RGB = label2rgb(L_a);
 imshow(RGB);
