@@ -58,6 +58,7 @@
 \end{titlepage}
 
 \tableofcontents
+\newpage
 
 \section{Materiaal}
 Om de experimenten uit dit rapport te kunnen uitvoeren zijn de volgende materialen gebruikt:\\
@@ -167,6 +168,7 @@ In tabel \ref{tab:normal} en tabel \ref{tab:combo} is te zien bij welk plaatje u
   \caption{Resultaten gecombineerde localisering}
   \label{tab:combo}
 \end{table}
+De gecombineerde gewogen fingerprints methode is de beste methode met een correcte evaluatie van ongeveer 40 tot 65 \% (slechts 3 van de 8 volledig goed, maar ook enkele bijna goed). Dit komt doordat de errors van beide fingerprints worden geconvolueerd en deze hierdoor een kleinere error opleveren. Door een juist gewicht uit te zoeken kan dit verder beinvloed worden om een goed resultaat te vinden.
 
 \section{Verbeteringen}
 Momenteel worden blobs gedetecteerd die niet per se altijd in de wereld aanwezig zijn. Denk aan mensen die in de train-set als blob zijn gedetecteerd, die hoeven niet de hele tijd op dezelfde locatie te blijven staan. Daarnaast zijn de lijnen allemaal zwart. Als elke lijn een eigen kleur had gekregen had de blobdetectie waarschijnlijk beter gewerkt.\\
@@ -198,7 +200,6 @@ end
 colormap('gray')
 imagesc(confusion);
 \end{lstlisting}
-
 De file CheckPatternCombined is geschreven om een confusionmatrix op te stellen voor het vergelijken van de gewogen gecombineerde methode. Hierbij moeten de gewichten aan de functie wordenmeegegeven.
 
 \begin{lstlisting}[caption= CheckPatternCombined.m, label=lst:checkcombined, numbers=left]
@@ -223,7 +224,7 @@ for i = 1:st
 	for j = 1:sz
         ltl = length(PatStringsLine{i});
         ltb = length(PatStringsBlob{i});
-	    q1 = ((ltl - LevenshteinDistance(PatStringsLine{i}, PatStringsUnLine{j})) / ltl) * 100;
+        q1 = ((ltl - LevenshteinDistance(PatStringsLine{i}, PatStringsUnLine{j})) / ltl) * 100;
         q2 = ((ltb - LevenshteinDistance(PatStringsBlob{i}, PatStringsUnBlob{j})) / ltb) * 100;
         confusion(j,i) = wline * q1 + wblob * q2;
 	end
@@ -233,7 +234,6 @@ end
 colormap('gray')
 imagesc(confusion);
 \end{lstlisting}
-
 De file CheckPatternCombined is geschreven om een confusionmatrix op te stellen voor het vergelijken van de geconcateneerde gecombineerde methode.
 
 \begin{lstlisting}[caption= CombineSignatures.m, label=lst:checkconcat, numbers=left]
@@ -266,7 +266,7 @@ save 'UnlabeledSignatures.mat' PatStrings;
 
 \end{lstlisting}
 
-\section{Confusion matrices}
+\section{Probability \& Confusion matrices}
 
 \begin{figure}[h]
 	\centering
