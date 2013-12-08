@@ -169,7 +169,8 @@ In tabel \ref{tab:normal} en tabel \ref{tab:combo} is te zien bij welk plaatje u
 
 
 \section{Verbeteringen}
-Momenteel worden blobs gedetecteerd die niet per se altijd in de wereld aanwezig zijn. Denk aan mensen die in de train-set als blob zijn gedetecteerd, die hoeven niet de hele tijd op dezelfde locatie te blijven staan. Daarnaast zijn de lijnen allemaal zwart. Als elke lijn een eigen kleur had gekregen had de blobdetectie waarschijnlijk beter gewerkt.
+Momenteel worden blobs gedetecteerd die niet per se altijd in de wereld aanwezig zijn. Denk aan mensen die in de train-set als blob zijn gedetecteerd, die hoeven niet de hele tijd op dezelfde locatie te blijven staan. Daarnaast zijn de lijnen allemaal zwart. Als elke lijn een eigen kleur had gekregen had de blobdetectie waarschijnlijk beter gewerkt.\\
+Daarnaast is het algoritme niet rotatie invariant. Dit zorgt ervoor dat de gebruikte train en test set geen extreem hoge nauwkeurigheid oplevert. Er kan bijvoorbeeld gebruik gemaakt worden van SIFT in combinatie met een algoritme als RANSAC om dit wel te bewerkstelligen. Dit zal de nauwkeurigheid verbeteren.
 
 \section{Confusion matrices}
 
