@@ -289,6 +289,29 @@ PatStrings = PatStringsUn;
 save 'UnlabeledSignatures.mat' PatStrings;
 
 \end{lstlisting}
+Code om de line lengths mee te bepalen voor rotatie invariantie.
+\begin{lstlisting}[caption= ComputePatStringLineLengths.m, label=lst:checkconcat, numbers=left]
+% this function computes the pattern string based on the extracted segments
+% and openings. The input segments are in a sequence. 
+function  S = ComputePatStringLineLengths(NLines, ~, seglen, multiplier)
+S = [];
+
+j = 1;
+for q=1:10
+    bins(j:(j + 25)) = q;
+    j = j + 25;
+end
+
+
+for i=1:NLines
+    S = [S, bins(round(seglen(i)*multiplier))];
+end
+
+S
+
+return
+\end{lstlisting}
+
 
 \section{Probability \& Confusion matrices}
 
