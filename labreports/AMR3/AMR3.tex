@@ -126,10 +126,13 @@ Bij het testen moet er worden gezocht naar een match tussen de bekende fingerpri
 
 \section{Gecombineerde fingerprints}
 \subsection{Gewogen fingerprints}
-De eerste manier om de fingerprints te combineren is aan de hand van het toekennen van gewichten. Door een gewicht toe te kennen voor de fingerprint van de lijnsegmenten en een tweede gewicht toe te kennen aan de fingerprint van de blobs kan aangegeven worden welk van de twee zwaarder meetelt. Het gewicht voor de lijnsegmenten wordt vermenigvuldigt met de gevonden waarschijnlijkheid voor die specifieke fingerprint. Ditzelfde wordt gedaan voor de blobs en deze gewogen waarden worden bij elkaar opgeteld. Vervolgens kan aan de hand van de confusion matrix bekeken worden wat de waaarschijnlijkheid is op een locatie te zijn als gebruik is gemaakt van deze gecombineerde methode. De confusion matrix is zichtbaar in figuur \ref{fig:combinedconfusion}.
+De eerste manier om de fingerprints te combineren is aan de hand van het toekennen van gewichten. Door een gewicht toe te kennen voor de fingerprint van de lijnsegmenten en een tweede gewicht toe te kennen aan de fingerprint van de blobs kan aangegeven worden welk van de twee zwaarder meetelt. Het gewicht voor de lijnsegmenten wordt vermenigvuldigt met de gevonden waarschijnlijkheid voor die specifieke fingerprint. Ditzelfde wordt gedaan voor de blobs en deze gewogen waarden worden bij elkaar opgeteld. Vervolgens kan aan de hand van de confusion matrix bekeken worden wat de waaarschijnlijkheid is op een locatie te zijn als gebruik is gemaakt van deze gecombineerde methode. De waarschijnlijkheids matrix is zichtbaar in figuur \ref{fig:combinedconfusion}.
 
 \subsection{Geconcateneerde fingerprints}
-Een tweede manier om de fingerprints te combineren is door de fingerprints te concateneren. De gevonden lijnsegmenten fingerprint en de blob fingerprint voor de train-set worden geconcateneerd en vervolgens vergeleken met de geconcateneerde fingerprint voor de lijnsegmenten die momenteel worden gezien en de fingerprint van de blobs die momenteel worden waargenomen. Hieruit volgt een confusionmatrix die een waarschijnlijkheid opleverd. De confusion matrix is zichtbaar in figuur \ref{fig:combinedconfusion_concat}.
+Een tweede manier om de fingerprints te combineren is door de fingerprints te concateneren. De gevonden lijnsegmenten fingerprint en de blob fingerprint voor de train-set worden geconcateneerd en vervolgens vergeleken met de geconcateneerde fingerprint voor de lijnsegmenten die momenteel worden gezien en de fingerprint van de blobs die momenteel worden waargenomen. Hieruit volgt een confusionmatrix die een waarschijnlijkheid opleverd. De waarschijnlijkheids matrix is zichtbaar in figuur \ref{fig:combinedconfusion_concat}.
+
+\section{Line segment lengths}
+Aangezien de code niet rotatie invariant is, moet hier een oplossing voor worden gevonden. Een mogelijkheid is het bekijken van de lengte van de lijnsegmenten. Door deze lengtes van de lijnsegmenten in de fingerprint op te slaan en deze te vergelijken met de lengte van gemeten lijnsegmenten kan een vorm van rotatieinvariantie worden bereikt. Om ruis en error te voorkomen wordt gebruik gemaakt van een bereik van lengtes. Lengtes kunnen immers op een foutieve manier worden berekend. De matrix voor de resultaten is te zien in figuur \ref{fig:linelength}.
 
 \section{Resultaten}
 In tabel \ref{tab:normal} en tabel \ref{tab:combo} is te zien bij welk plaatje uit de train-set de robot hoort te zijn ten op zichte van het plaatje uit de test-set. Daarnaast staat in de tabel aangegeven waar de robot denkt te zijn aan de hand van de verschillende methoden.
@@ -155,7 +158,7 @@ In tabel \ref{tab:normal} en tabel \ref{tab:combo} is te zien bij welk plaatje u
   \centering
   \begin{tabulary}{\textwidth}{| C | C | C | C |}
     \hline
-    Test-set \newline nummer & Train-set  \newline nummer &  Gewogen fingerprints \newline location &  Geconcateneerde fingerprints \newline location\\ \hline
+    Test-set \newline nummer & Train-set  \newline nummer &  Gewogen fingerprints location \newline gewicht line = 0.5; gewicht blob = 1 &  Geconcateneerde fingerprints \newline location\\ \hline
     1 & 7 of 8 &  8 & 8\\ \hline
     2 & 7 of 8 &  7 & 1 of 7\\ \hline
     3 & 4 of 5 &  6& 6\\ \hline
@@ -168,7 +171,28 @@ In tabel \ref{tab:normal} en tabel \ref{tab:combo} is te zien bij welk plaatje u
   \caption{Resultaten gecombineerde localisering}
   \label{tab:combo}
 \end{table}
+\hspace{-0.68cm}
 De gecombineerde gewogen fingerprints methode is de beste methode met een correcte evaluatie van ongeveer 40 tot 65 \% (slechts 3 van de 8 volledig goed, maar ook enkele bijna goed). Dit komt doordat de errors van beide fingerprints worden geconvolueerd en deze hierdoor een kleinere error opleveren. Door een juist gewicht uit te zoeken kan dit verder beinvloed worden om een goed resultaat te vinden.
+\begin{table}[h]
+  \centering
+  \begin{tabulary}{\textwidth}{| C | C | C |}
+    \hline
+    Test-set \newline nummer & Train-set  \newline nummer & Line-length locatie \\ \hline
+    1 & 7 of 8 &  1 \\ \hline
+    2 & 7 of 8 &  7 of 8\\ \hline
+    3 & 4 of 5 &  7\\ \hline
+    4 & 2 &  1 \\ \hline
+    5 & 8 &  4 \\ \hline
+    6 & 8 &  8 \\ \hline
+    7 & 6 of 7 & 1 \\ \hline
+    8 & 1 of 2 & 7\\ \hline
+  \end{tabulary}
+  \caption{Resultaten line-length localisering}
+  \label{tab:linelength}
+\end{table}
+
+\hspace{-0.68cm}
+De localisering met behulp van de line-length werkt niet goed. Dit kan te maken hebben met een foute implementatie of verkeerde parameters waardoor lengtes van lijnen niet even lang zijn in verschillende locaties in het beeld.
 
 \section{Verbeteringen}
 Momenteel worden blobs gedetecteerd die niet per se altijd in de wereld aanwezig zijn. Denk aan mensen die in de train-set als blob zijn gedetecteerd, die hoeven niet de hele tijd op dezelfde locatie te blijven staan. Daarnaast zijn de lijnen allemaal zwart. Als elke lijn een eigen kleur had gekregen had de blobdetectie waarschijnlijk beter gewerkt.\\
@@ -299,14 +323,20 @@ save 'UnlabeledSignatures.mat' PatStrings;
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{combinedconfusion.jpg}
-	\caption{Confusion matrix voor de gewogen fingerprints. Op de x as de test locaties en op de y as de train locaties. Hoe lichter de kleur des te groter de waarschijnlijkheid om op die locatie te zijn\\gewicht line = 0.5; gewicht blob = 1}
+	\caption{Waarschijnlijkheids matrix voor de gewogen fingerprints. Op de x as de test locaties en op de y as de train locaties. Hoe lichter de kleur des te groter de waarschijnlijkheid om op die locatie te zijn\\gewicht line = 0.5; gewicht blob = 1}
 	\label{fig:combinedconfusion}
 \end{figure}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{combinedconfusion_concat.jpg}
-	\caption{Confusion matrix voor de geconcateneerde fingerprints.  Op de x as de test locaties en op de y as de train locaties. Hoe lichter de kleur des te groter de waarschijnlijkheid om op die locatie te zijn}
+	\caption{Waarschijnlijkheids matrix voor de geconcateneerde fingerprints.  Op de x as de test locaties en op de y as de train locaties. Hoe lichter de kleur des te groter de waarschijnlijkheid om op die locatie te zijn}
 	\label{fig:combinedconfusion_concat}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{linelength.jpg}
+	\caption{Waarschijnlijkheids matrix voor de line length fingerprint localisatie.}
+	\label{fig:linelength}
 \end{figure}
 \end{document}
 
