@@ -21,7 +21,7 @@ function [r, alpha] = FitLine(XY)
   % compute parameter alpha (see exercise pages)
   nom = 0;
   denom = 0;
-  for i=1:size(XY,1)
+  for i=1:size(XY,2)
       nom = nom + ((XY(1,i) - xmw) * (XY(2,i) - ymw));
       denom = denom + ((XY(2,i) - ymw)^2 - (XY(1,i) - xmw)^2);
   end
