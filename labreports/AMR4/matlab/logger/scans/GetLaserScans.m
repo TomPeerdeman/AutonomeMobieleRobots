@@ -20,7 +20,7 @@ height = 0.21;%     camera height in meters
 %height = 0.17;%       camera height in meters
 %% ---------------------------
 
-BWthreshold = 130; %   Threshold for segment the image into Black & white colors
+BWthreshold = 100; %   Threshold for segment the image into Black & white colors
 angstep = 360/N;%         Angular step of the beam in degrees
 axislimit = 0.8;%     Axis limit
 
@@ -29,7 +29,7 @@ global center Rmax Rmin BWimg undistortedimg radius
 center = [465; 343];
 radius = 90.4013; % hetzelfde
 
-Rmin = 95; % misg iets groter
+Rmin = 100; % misg iets groter
 Rmax = 180;
 
 %start(vid);
@@ -47,7 +47,10 @@ BWimg = img2bw( undistortedimg , BWthreshold ); % Binarize rectangular image int
 
 rho = getpixeldistance( BWimg , Rmin );%     Get radial distance (this distance is still affected by radial distortion)
 
-figure(3); imagesc(snapshot); hold on; drawlaserbeam( center, theta, rho ); %pause;
+figure(3); imagesc(snapshot); hold on; 
+drawlaserbeam( center, theta, rho ); %pause;
+draw2DCircle(center,Rmin,'m');
+draw2DCircle(center,Rmax,'m');
 
 dist = undistort_dist_points( theta , rho , alpha , height );
 
