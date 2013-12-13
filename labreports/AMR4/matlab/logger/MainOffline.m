@@ -45,7 +45,6 @@ Log_name = 'log.txt';
 FILE = fopen(Log_name, 'w')
 
 tic;
-figure(2)
 for i=1:40
     % Schat hier dx en dtheta
     dx = est_odo(i, 1);
