@@ -43,7 +43,7 @@ FILE = fopen(Log_name, 'w')
 
 tic;
 figure(2)
-for i=1:60
+for i=1:40
     rem_time = T_b_S;
     
     %% DURING X SECONDS, THE ROBOT EVOLVES AND SAVE THE ODOMETRY MEASURES
@@ -68,9 +68,5 @@ for i=1:60
 end
 
 fclose(FILE);
-
-SetSpeed([0 0]);
-pause(0.5);
-StopRobotCommunication();
 
 display('Execution Complete!');
