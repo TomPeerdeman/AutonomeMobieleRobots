@@ -34,7 +34,7 @@ Rmax = 180;
 
 %start(vid);
 
-tmpderp = ['imgs/Picture ', int2str(derp), '.jpg'];
+tmpderp = ['../imgs/Picture ', int2str(derp), '.jpg'];
 
 tmpsnapshot = imread(tmpderp);
 

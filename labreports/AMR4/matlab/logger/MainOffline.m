@@ -18,6 +18,9 @@
 clc; % clear console
 
 path(path, './scans/');
+path(path, './odometry/');
+
+load('est_odo.mat');
 
 
 %===================================%
@@ -44,27 +47,16 @@ FILE = fopen(Log_name, 'w')
 tic;
 figure(2)
 for i=1:40
-    rem_time = T_b_S;
-    
-    %% DURING X SECONDS, THE ROBOT EVOLVES AND SAVE THE ODOMETRY MEASURES
-    while(rem_time>0 & ~Stop_Robot)
-        t_time = toc;
-        robotData = GetRobotData(); % retrieve data packet from NXT
-        [dEncoder, encoder] = GetEncoder(robotData, encoder); % get wheel encoder values
-        dS = dEncoder * robotConst(1); % calculate change in displacement from previous time step
-        [dx, dtheta]=Odometry(dS, robotConst(2)); % gets the odometry in the robot-centered reference system
-        
-        % Schat hier dx en dtheta
-        SaveEncoderData(FILE, toc, dx, dtheta, N);
+    % Schat hier dx en dtheta
+    dx = est_odo(i, 1);
+    dtheta = est_odo(i, 2);
+    SaveEncoderData(FILE, toc, dx, dtheta, N);
 
-        pause(1/F_O_U);
-        rem_time = rem_time - (toc - t_time);
-    end
-
-    disp('Taking laser data');
+    disp(sprintf('Taking laser data %d', (i + 10)));
     laser_scans = GetLaserScans(N, i+10);
     SaveLaserData(FILE, toc, laser_scans); 
     
+    pause(T_b_S);
 end
 
 fclose(FILE);
