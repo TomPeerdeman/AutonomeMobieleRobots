@@ -38,6 +38,7 @@ t0 = 0;
 
 % Main loop
 for logrow=1:m_size,
+    logrow
     rho = [];
     theta = [];
     
@@ -108,6 +109,7 @@ for logrow=1:m_size,
     % plot particle set
     do_plot(h, particles);
     
+    pause(0.5);
   
 end
 
