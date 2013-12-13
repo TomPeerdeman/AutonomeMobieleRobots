@@ -44,8 +44,6 @@ while 1
 %    figure(1); imagesc(snapshot); hold on; drawlaserbeam( center, theta, rho );        
     
     dist = undistort_dist_points( theta , rho , alpha , height );
-    
-    dist = [dist((181):end) dist(1:(180))];
 
     figure(2); draw_undisdtorted_beam( dist , theta , axislimit ); drawnow;
 

@@ -20,7 +20,7 @@ AdaptorName = videoinfo.AdaptorName;
 DeviceID = videoinfo.DeviceInfo.DeviceID;% recover the address of the video device
 
 %List the supported formats
-videoinfo.DeviceInfo.SupportedFormats
+videoinfo.DeviceInfo.SupportedFormats'
 format = 'RGB32_640x480';
 
 %--------------------------------------------------------------------------

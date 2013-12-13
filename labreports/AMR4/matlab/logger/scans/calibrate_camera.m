@@ -1,10 +1,9 @@
-function [response, center, Rmax, Rmin] = calibrate_camera(vid)
+function response = calibrate_camera()
 
-%global vid
-%global center Rmax Rmin
-
+global vid
+global center Rmax Rmin
 disp('starting acquisition. Please wait...');
-for i=1:1
+for i=1:80
     tmpsnapshot = getsnapshot(vid);
 end
 

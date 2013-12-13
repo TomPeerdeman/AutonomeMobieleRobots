@@ -22,14 +22,13 @@ AdaptorName = videoinfo.AdaptorName;
 DeviceID = videoinfo.DeviceInfo.DeviceID;% recover the address of the video device
 
 %List the supported formats
-videoinfo.DeviceInfo.SupportedFormats;
+videoinfo.DeviceInfo.SupportedFormats';
 format = 'RGB32_640x480';
 
 %--------------------------------------------------------------------------
 %CREATE A VIDEO INPUT OBJECT
 %--------------------------------------------------------------------------
 global vid
-global center Rmax Rmin
 
 vid = videoinput( AdaptorName, DeviceID, format );
 
@@ -45,8 +44,8 @@ start(vid)
 %% This lunches the camera calibration
 cal = 1;
 while(cal == 1)     %% It will keep calibrating until you are satisfied
-    [response, center, Rmax, Rmin] = calibrate_camera(vid);
-    if response == 'y'
+    rep = calibrate_camera();
+    if rep == 'y'
         cal = 0;
     end
 end

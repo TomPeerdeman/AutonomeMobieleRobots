@@ -9,7 +9,7 @@ for i = 1 : size( BWradialimage , 1 );
     if isempty( ind )
         dist(i) = 0;
     else
-        tmp = ind(find(ind>=min_dist)); 
+        tmp = ind(find(ind>min_dist)); 
         if isempty( tmp )
             dist(i) = 0;
         else
