@@ -49,7 +49,7 @@ figure(2)
 for i=1:40
     % Schat hier dx en dtheta
     dx = est_odo(i, 1);
-    dtheta = est_odo(i, 2);
+    dtheta = deg2rad(est_odo(i, 2));
     SaveEncoderData(FILE, toc, dx, dtheta, N);
 
     disp(sprintf('Taking laser data %d', (i + 10)));
