@@ -93,20 +93,19 @@ $nom =  -2\sum\limits_{i=1}^n (x_i - x_c)(y_i - y_c)$\\
 $dennom =  \sum\limits_{i=1}^n (y_i - y_c)^2 - (x_i - x_c)^2$\\
 $\alpha = 0.5\mbox{ atan2}(nom, denom)$\\\\
 Hierbij zijn $x_c$ en $y_c$ de co\"ordinaten van het middelpunt van alle punten. Hiervoor nemen we simpelweg het gemiddelde van de $x$ dan niet de $y$ waardes van alle punten. Aan de hand van de $\alpha$ parameter kunnen we de $r$ parameter vinden.
-Het is namelijk zo dat een punt op een lijn uitgedrukt in polaire co\"ordinaten voldoet aan de vergelijking $x cos(\alpha) + y sin(\alpha) = r$. We kunnen hiermee de $r$ parameter vinden als we een punt weten dat zeker op de lijn ligt. 
+Het is namelijk zo dat een punt op een lijn uitgedrukt in polaire co\"ordinaten voldoet aan de vergelijking $x cos(\alpha) + y sin(\alpha) = r$. We kunnen hiermee de $r$ parameter vinden als we een punt weten dat zeker op de lijn ligt. Dit punt is....
+% WELK PUNT???
 
+Als we nu naar de punten kijken die het verste op de lijn liggen kunnen we de uiteindes van dit lijnsegment bepalen. Het wordt nu ook makkelijk om hoeken te zoeken door alleen naar deze uiteindes te kijken en zien of ze een hoek vormen met een ander lijnsegment. 
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{img/stolenline.png}
-	\caption{Fitten van de lijn door de som van D te minimaliseren}
+	\caption{Fitten van de lijn door de som van D kwadraat te minimaliseren}
 	\label{fig:linefit}
 \end{figure}
 
-
-\section{Deel 1, Gegeven data}
-\subsection{Formules}
-\subsection{Parameters bepalen}
+\section{fastSLAM parameters}
 \section{Deel 2, Eigen data}
 \subsection{Offline SLAM met behulp van een dataset}
 Er moet worden gewerkt met een offline dataset, in verband met tijdgebrek en het niet aanwezig zijn van voldoende robots. De meegeleverde dataset bestaat uit 61 fotos.
