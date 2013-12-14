@@ -1,7 +1,7 @@
 function [z,z_nf] = extract_beacon(dist_pt, angle_pt)
 
 % configuration file
-configfile
+configfile;
 
 corners = [];
 corners_nf= [];
@@ -22,21 +22,22 @@ end
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % select just nearby corners
- 
-for i=1:NLines-1
-	if(r(i) > 0.01 && r(i + 1) > 0.01 )
-        
-        sq_dist = (segend(i,3) - segend(i + 1,1))^2 + (segend(i,4) - segend(i + 1,2))^2;
- 
-        if (sq_dist < LINKMIN_SQ)
-            corners = [corners, [segend(i,3) ; segend(i,4)] ]; 
-        end
-    end     
-end
-sq_dist = (segend(NLines,3) - segend(1, 1))^2 + (segend(NLines,4) - segend(1, 2))^2;
+if(NLines ~= 0)
+    for i=1:NLines-1
+        if(r(i) > 0.01 && r(i + 1) > 0.01 )
 
-if (sq_dist < LINKMIN_SQ)
-    corners = [corners, [segend(NLines,3) ; segend(NLines,4)] ];
+            sq_dist = (segend(i,3) - segend(i + 1,1))^2 + (segend(i,4) - segend(i + 1,2))^2;
+
+            if (sq_dist < LINKMIN_SQ)
+                corners = [corners, [segend(i,3) ; segend(i,4)] ]; 
+            end
+        end     
+    end
+    sq_dist = (segend(NLines,3) - segend(1, 1))^2 + (segend(NLines,4) - segend(1, 2))^2;
+
+    if (sq_dist < LINKMIN_SQ)
+        corners = [corners, [segend(NLines,3) ; segend(NLines,4)] ];
+    end
 end
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 

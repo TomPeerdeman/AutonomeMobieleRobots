@@ -26,10 +26,14 @@ axislimit = 0.8;%     Axis limit
 
 global center Rmax Rmin BWimg undistortedimg radius
 
-center = [465; 343];
-radius = 90.4013; % hetzelfde
+if(derp <= 50)
+    center = [465; 343];
+else
+    center = [465; 335];
+end
+radius = 90.4013;
 
-Rmin = 100; % misg iets groter
+Rmin = 100;
 Rmax = 180;
 
 %start(vid);

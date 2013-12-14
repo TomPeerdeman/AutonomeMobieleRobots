@@ -45,7 +45,7 @@ Log_name = 'log.txt';
 FILE = fopen(Log_name, 'w')
 
 tic;
-for i=1:40
+for i=1:61
     % Schat hier dx en dtheta
     dx = est_odo(i, 1);
     dtheta = deg2rad(est_odo(i, 2));
