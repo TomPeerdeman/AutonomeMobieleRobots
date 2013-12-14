@@ -124,7 +124,8 @@ $\\\\
 Hierbij is $pi2pi$ een functie die hoeken omzet van de range $[0 2\pi]$ naar $[0,pi], (-pi, 0]$.
 $dth_n$ is de toegevoegde noise voor de afgelegde hoek $dth$.
 $dr_n$ is de toegevoegde noise voor de afgelegde afstand.\\
-Het is belangrijk te vermelden dat er meerdere odometrie updates kunnen voorkomen voordat stap 2 uitgevoerd wordt. Hierdoor kan de error in de particle positie vrij hoog oplopen. Deze error moet dat naar beneden gebracht worden door de data uit de laserscan (stap 2).\\\\
+Het is belangrijk te vermelden dat er meerdere odometrie updates kunnen voorkomen voordat stap 2 uitgevoerd wordt. Hierdoor kan de error in de particle positie vrij hoog oplopen. Deze error moet dat naar beneden gebracht worden door de data uit de laserscan (stap 2).\\
+\\
 Stap 2 is de laserscan update
 
 \section{Deel 2, Eigen data}
@@ -157,9 +158,9 @@ Het resultaat met geoptimaliseerde odometrie is zichtbaar in figuur \ref{fig:fin
 	\label{fig:final}
 \end{figure}
 \subsection{Discussie}
-Er is ruis zichtbaar in het resultaat. Ditheeft te maken met het mogelijk nog meer te optimaliseren van de odometrie of door het optimaliseren van de parameters.
+Er is ruis zichtbaar in het resultaat. Dit heeft te maken met het mogelijk nog meer te optimaliseren van de odometrie of door het optimaliseren van de parameters.
 Omdat de dataset twee verschillende centers heeft, ontstaat ruis vanaf plaatje 41. Dit zorgt voor meer ruis (de dikkere muur) rechtsboven in figuur \ref{fig:final}.\\
-De gevonden afstanden kloppen grotendeels. Ze zijn niet volledig accuraat vanwege meerdere factoren. Zo speelt de ruis een grote rol, maar ook de omzetting van het gebolde beeld naar een 2D-beeld zorgt voor een significante afwijking. Omdat de bolling van de gebruikte gloeilamp niet een perfecte bolling is, is het moeiilijk om een goede alpha te kiezen waarbij de werkelijke afstand klopt ten opzichte van de pixelwaarden, zonder dat het beeld vervormds raakt. Dit zorgt voor een kleine afwijking in werkelijke afstanden.
+De gevonden afstanden kloppen grotendeels. Ze zijn niet volledig accuraat vanwege meerdere factoren. Zo speelt de ruis een grote rol, maar ook de omzetting van het gebolde beeld naar een 2D-beeld zorgt voor een significante afwijking. Omdat de bolling van de gebruikte gloeilamp niet een perfecte bolling is, is het moeiilijk om een goede alpha te kiezen waarbij de werkelijke afstand klopt ten opzichte van de pixelwaarden, zonder dat het beeld vervormd raakt. Dit zorgt voor een kleine afwijking in werkelijke afstanden.
 \subsection{Verbeteringen}
 De odometrie houdt momenteel alleen rekening met de afgelegde afstand in de huidige rijrichting van de robot. Het is hierdoor niet mogelijk om met behulp van fotos een daadwerkelijke bocht aan te geven. Het algoritme denkt nu dat er een rechte lijn wordt gereden en vervolgens wordt gedraaid, in plaats van een continue draaiing over de af te leggen afstand uit te voeren. Daarnaast zullen er betere resultaten worden verkregen als er per locatie meerdere metingen worden gemaakt en de afstand tussen de metingen verkleind wordt. Daar komt bij dat tijdens het maken van de dataset het aan te raden is de afgelegde afstanden en draaihoeken worden opgeschreven, zodat deze niet achteraf geschat hoeven te worden. Tot slot zou een verbeterde omni-directionele camera, die op een juiste manier de pixelafstanden om kan zetten naar werkelijke afstanden een uitkomst bieden op betere resultaten.
 
