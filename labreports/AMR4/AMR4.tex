@@ -86,7 +86,15 @@ else split si at P into si1 and si2, replace si , in L, by si1 and si2. Continue
 When all sets (segments) in L have been checked, merge collinear segments.
 \end{lstlisting}
 
-\noindent Het fitten van een lijn wordt hierbij gedaan door het zoeken naar een lijn zodanig dat de som van de afstanden van de punten tot de lijn minimaal is. De lijn wordt hierbij uitgedrukt in polaire co\"ordinaten $r$ en $\alpha$ (zie figuur \ref{fig:linefit}).
+\noindent Het fitten van een lijn wordt hierbij gedaan door het zoeken naar een lijn zodanig dat de som van de afstanden in het kwadraat van de punten tot de lijn minimaal is. De lijn wordt hierbij uitgedrukt in polaire co\"ordinaten $r$ en $\alpha$ (zie figuur \ref{fig:linefit}). 
+Dat is dus als de formule $D^2 = \sum\limits_{i=1}^n r-x_i cos(\alpha) - y_i sin(\alpha)$ minimaal is. Om de waardes van $r$ en $\alpha$ te kunnen vinden kunnen we dan gebruik maken van de afgeleiden. Oftewel $\frac{d(D^2)}{dr} = 0$ en $\frac{d(D^2)}{d\alpha} = 0$.
+We krijgen hieruit de vergelijkingen:\\
+$nom =  -2\sum\limits_{i=1}^n (x_i - x_c)(y_i - y_c)$\\
+$dennom =  \sum\limits_{i=1}^n (y_i - y_c)^2 - (x_i - x_c)^2$\\
+$\alpha = 0.5\mbox{ atan2}(nom, denom)$\\\\
+Hierbij zijn $x_c$ en $y_c$ de co\"ordinaten van het middelpunt van alle punten. Hiervoor nemen we simpelweg het gemiddelde van de $x$ dan niet de $y$ waardes van alle punten. Aan de hand van de $\alpha$ parameter kunnen we de $r$ parameter vinden.
+Het is namelijk zo dat een punt op een lijn uitgedrukt in polaire co\"ordinaten voldoet aan de vergelijking $x cos(\alpha) + y sin(\alpha) = r$. We kunnen hiermee de $r$ parameter vinden als we een punt weten dat zeker op de lijn ligt. 
+
 
 \begin{figure}[h]
 	\centering
