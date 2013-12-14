@@ -72,6 +72,29 @@ Om de experimenten uit dit rapport te kunnen uitvoeren zijn de volgende material
 \section{Introduction}
 Een autonome mobiele robots moet een kaart kunnen opbouwen van zijn omgeving. Aan de hand van zijn eigen gemaakte kaart zou hij met behulp van bekende kaarten kunnen bepalen waar hij zich in de wereld bevindt. Een veel gebruikte methode om een kaart al rijdend op te bouwen is SLAM (Simultaneous Localization And Mapping). Er kan dan met een bepaalde zekerheid bepaald worden waar de robot zich momenteel bevindt. Het is de bedoeling dat de robot in een gebied rond kan rijden en hierbij een goede kaart kan maken. Zo moet hij bijvoorbeeld na het rijden van een rondje weer hetzelfde deel van de kaart zien (mits er niks veranderd is aan de omgeving).
 
+\section{Feature detection}
+De gebruikte versie van SLAM, fastSLAM, maakt gebruik van ruwe odometrie data en features welke gedetecteerd worden door de laserscan.
+Als feature zal gebruik gemaakt worden van hoeken van lijnen. Om de corners te kunnen vinden zullen eerst de lijnen gevonden moeten worden uit de ruwe punten data die de laserscan aanlevert. Om deze lijnen te kunnen detecteren wordt gebruik gemaakt van het split \& merge algoritme. Het split en merge algoritme is in stappen uitgelegd in listing \ref{lst:splitmerge}.
+
+\begin{lstlisting}[caption= Split \& merge algorithm, label=lst:splitmerge, numbers=left]
+Initially: set s1 consists of all N points. Insert s1 to the list L. Set index i=1
+Fit a line to the next set si in L
+Detect the point P with the maximum distance D to the line
+if D is less than a threshold then continue to step 2
+else split si at P into si1 and si2, replace si , in L, by si1 and si2. Continue to step 2
+When all sets (segments) in L have been checked, merge collinear segments.
+\end{lstlisting}
+
+\noindent Het fitten van een lijn wordt hierbij gedaan door het zoeken naar een lijn zodanig dat de som van de afstanden van de punten tot de lijn minimaal is. De lijn wordt hierbij uitgedrukt in polaire co\"ordinaten $r$ en $\alpha$ (zie figuur \ref{fig:linefit}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{img/stolenline.png}
+	\caption{Fitten van de lijn door de som van D te minimaliseren}
+	\label{fig:linefit}
+\end{figure}
+
+
 \section{Deel 1, Gegeven data}
 \subsection{Formules}
 \subsection{Parameters bepalen}
