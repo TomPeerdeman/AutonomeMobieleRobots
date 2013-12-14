@@ -108,10 +108,37 @@ Het is namelijk zo dat een punt op een lijn uitgedrukt in polaire co\"ordinaten 
 \subsection{Parameters bepalen}
 \section{Deel 2, Eigen data}
 \subsection{Offline SLAM met behulp van een dataset}
-\subsection{Odometrie bepalen}
-\subsection{Resultaten}
-\subsection{Discussie}
-\subsection{Verbeteringen}
+Er moet worden gewerkt met een offline dataset, in verband met tijdgebrek en het niet aanwezig zijn van voldoende robots. De meegeleverde dataset bestaat uit 61 fotos.
+Voordat begonnen kan worden met het opbouwen van een kaart moeten eerst de parameters voor de camera worden gecalibreerd. De fotos bevatten echter twee verschillende centers. Na het 40e plaatje veranderd de center enigszins (Picture 51.jpg tot het einde van de dataset). De centers zijn respectievelijk $centre1 = [465;343]$ voor de eerste 40 fotos en $centre2=[465;335]$ voor de overige fotos. Alle fotos maken gebruik van $\alpha = 140$ en $Rmin = 100$ en $Rmax = 180$. Er is gebruik gemaakt van een BWtreshold van 100, behalve voor Picture 17.jpg tot Picture 22.jpg. Hierbij is de treshold verlaagd naar 90. Dit is gedaan omdat bij deze fotos de draad die de camera met de laptop verbind de data beinvloed. In figuur \ref{fig:route} is te zien welke route gereden is.
+Deze kaart met bijbehorende route zal ongeveer overeen moeten komen met de opgebouwde kaart door het SLAM algoritme.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{matlab/imgs/route.png}
+	\caption{Afgelegde route}
+	\label{fig:route}
+\end{figure}
 
+\subsection{Odometrie bepalen}
+Omdat er gebruik gemaakt wordt van een dataset van fotos en niet van de meegeleverde GUI, moet de odometrie met de hand worden gemaakt. Aan de hand van de meegegeven layout en het bekijken van de locatie van de robot aan de hand van de fotos kan een schatting gemaakt worden van de afgelegde afstanden.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{matlab/imgs/layout.png}
+	\caption{Layout van de kaart}
+	\label{fig:layout}
+\end{figure}
+Deze schatting kan aan de hand van experimenten worden geoptimaliseerd. Deze optimalisatie wordt gedaan door afgelegde afstanden te vergroten of te verkleinen. In een enkel geval moet de draaihoek worden aangepast.
+\subsection{Resultaten}
+Het resultaat met geoptimaliseerde odometrie is zichtbaar in figuur \ref{fig:final}. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{img/statusnow.png}
+	\caption{Uiteindelijk resultaat}
+	\label{fig:final}
+\end{figure}
+\subsection{Discussie}
+Er is ruis zichtbaar in het resultaat. Ditheeft te maken met het mogelijk nog meer te optimaliseren van de odometrie of door het optimaliseren van de parameters.
+Omdat de dataset twee verschillende centers heeft, ontstaat ruis vanaf plaatje 41. Dit zorgt voor meer ruis rechtsboven in figuur \ref{}.
+\subsection{Verbeteringen}
+De odometrie houdt momenteel alleen rekening met de afgelegde afstand in één enkele as van de robot. Het is hierdoor niet mogelijk om met behulp van fotos een daadwerkelijke bocht aan te geven. Het algoritme denkt nu dat er een rechte lijn wordt gereden en vervolgens wordt gedraaid, in plaats van een continue draaiing over de af te leggen afstand uit te voeren.
 
 \end{document}
