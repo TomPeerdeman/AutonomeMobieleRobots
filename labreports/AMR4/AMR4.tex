@@ -105,7 +105,28 @@ Als we nu naar de punten kijken die het verste op de lijn liggen kunnen we de ui
 	\label{fig:linefit}
 \end{figure}
 
-\section{fastSLAM parameters}
+\section{fastSLAM algoritme}
+Het fastSLAM algoritme maakt gebruik van particles. Hierbij kan elk particle voorgesteld worden als een kans dat de robot aanwezig is op de positie van de robot, de stand van de robot maakt hierbij ook deel uit van de positie. Het algoritme werkt met twee stappen.\\
+Stap 1 is de odometrie update. In deze stap wordt gekeken naar de verplaatsing van de robot. Aan de hand van de encoderwaardes kan worden uitgerekend welke afstand gereden is. Aangezien de kans op een verschil tussen de gemeten waarde en de echt afgelegde afstand groot kunnen we voorspellen dat de particles ook met een bepaalde error zich zullen voortbewegen. Deze error wordt aangenomen gaussisch te zijn. De nieuwe positie van een particle kunnen we dan voorspellen met \\\\
+$
+\begin{bmatrix}
+x\\
+y\\
+\theta
+\end{bmatrix}^{t+1}
+=
+\begin{bmatrix}
+(x_t + dr_n cos(dth_n + \theta_t))\\
+(y_t + dr_n sin(dth_n + \theta_t)) \\
+pi2pi(pi2pi(\theta) + dth)
+\end{bmatrix}
+$\\\\
+Hierbij is $pi2pi$ een functie die hoeken omzet van de range $[0 2\pi]$ naar $[0,pi], (-pi, 0]$.
+$dth_n$ is de toegevoegde noise voor de afgelegde hoek $dth$.
+$dr_n$ is de toegevoegde noise voor de afgelegde afstand.\\
+Het is belangrijk te vermelden dat er meerdere odometrie updates kunnen voorkomen voordat stap 2 uitgevoerd wordt. Hierdoor kan de error in de particle positie vrij hoog oplopen. Deze error moet dat naar beneden gebracht worden door de data uit de laserscan (stap 2).\\\\
+Stap 2 is de laserscan update
+
 \section{Deel 2, Eigen data}
 \subsection{Offline SLAM met behulp van een dataset}
 Er moet worden gewerkt met een offline dataset, in verband met tijdgebrek en het niet aanwezig zijn van voldoende robots. De meegeleverde dataset bestaat uit 61 fotos.
