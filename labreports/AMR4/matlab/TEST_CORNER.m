@@ -59,12 +59,13 @@ for logrow=1:m_size,
                 
             % Plot
             plot(x, y, 'm*')
- 
+            title(['TEST CORNER ' int2str(logrow)])
+            saveas(2, ['imgs/test/corner/TEST_CORNER' int2str(logrow) '.png']);
         end
    
         grid on
-        disp 'Press ENTER to extract corner from the following laser set'
-        pause
+        %disp 'Press ENTER to extract corner from the following laser set'
+        %pause
         hold off
 
     end
