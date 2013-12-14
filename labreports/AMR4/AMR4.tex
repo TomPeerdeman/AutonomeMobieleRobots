@@ -128,7 +128,7 @@ Omdat er gebruik gemaakt wordt van een dataset van fotos en niet van de meegelev
 \end{figure}
 Deze schatting kan aan de hand van experimenten worden geoptimaliseerd. Deze optimalisatie wordt gedaan door afgelegde afstanden te vergroten of te verkleinen. In een enkel geval moet de draaihoek worden aangepast. De meeste bochten die gemaakt worden bestaan uit twee korte bochten van elk $\SI{45}{\degree}$. Er zijn echter twee bochten waarbij eerst een draaiing wordt gemaakt van $\SI{60}{\degree}$ gevolgd door een draaiing van $\SI{30}{\degree}$.
 \subsection{Resultaten}
-Het resultaat met geoptimaliseerde odometrie is zichtbaar in figuur \ref{fig:final}. 
+Het resultaat met geoptimaliseerde odometrie is zichtbaar in figuur \ref{fig:final}. Er is duidelijk zichtbaar dat de gevonden kaart grotendeels overeenkomt met de layout uit figuur \ref{fig:route}. De gemaakte kaart is een kwartslag gedraaid, maar dit maakt voor de metingen niet uit. De gevonden afstanden voor de lengtes van de lijnen klopt in grote lijnen. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{img/statusnow.png}
@@ -137,8 +137,9 @@ Het resultaat met geoptimaliseerde odometrie is zichtbaar in figuur \ref{fig:fin
 \end{figure}
 \subsection{Discussie}
 Er is ruis zichtbaar in het resultaat. Ditheeft te maken met het mogelijk nog meer te optimaliseren van de odometrie of door het optimaliseren van de parameters.
-Omdat de dataset twee verschillende centers heeft, ontstaat ruis vanaf plaatje 41. Dit zorgt voor meer ruis (de dikkere muur) rechtsboven in figuur \ref{fig:final}.
+Omdat de dataset twee verschillende centers heeft, ontstaat ruis vanaf plaatje 41. Dit zorgt voor meer ruis (de dikkere muur) rechtsboven in figuur \ref{fig:final}.\\
+De gevonden afstanden kloppen grotendeels. Ze zijn niet volledig accuraat vanwege meerdere factoren. Zo speelt de ruis een grote rol, maar ook de omzetting van het gebolde beeld naar een 2D-beeld zorgt voor een significante afwijking. Omdat de bolling van de gebruikte gloeilamp niet een perfecte bolling is, is het moeiilijk om een goede alpha te kiezen waarbij de werkelijke afstand klopt ten opzichte van de pixelwaarden, zonder dat het beeld vervormds raakt. Dit zorgt voor een kleine afwijking in werkelijke afstanden.
 \subsection{Verbeteringen}
-De odometrie houdt momenteel alleen rekening met de afgelegde afstand in de huidige rijrichting van de robot. Het is hierdoor niet mogelijk om met behulp van fotos een daadwerkelijke bocht aan te geven. Het algoritme denkt nu dat er een rechte lijn wordt gereden en vervolgens wordt gedraaid, in plaats van een continue draaiing over de af te leggen afstand uit te voeren.
+De odometrie houdt momenteel alleen rekening met de afgelegde afstand in de huidige rijrichting van de robot. Het is hierdoor niet mogelijk om met behulp van fotos een daadwerkelijke bocht aan te geven. Het algoritme denkt nu dat er een rechte lijn wordt gereden en vervolgens wordt gedraaid, in plaats van een continue draaiing over de af te leggen afstand uit te voeren. Daarnaast zullen er betere resultaten worden verkregen als er per locatie meerdere metingen worden gemaakt en de afstand tussen de metingen verkleind wordt. Daar komt bij dat tijdens het maken van de dataset het aan te raden is de afgelegde afstanden en draaihoeken worden opgeschreven, zodat deze niet achteraf geschat hoeven te worden. Tot slot zou een verbeterde omni-directionele camera, die op een juiste manier de pixelafstanden om kan zetten naar werkelijke afstanden een uitkomst bieden op betere resultaten.
 
 \end{document}
