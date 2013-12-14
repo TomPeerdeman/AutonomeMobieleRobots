@@ -87,16 +87,16 @@ When all sets (segments) in L have been checked, merge collinear segments.
 \end{lstlisting}
 
 \noindent Het fitten van een lijn wordt hierbij gedaan door het zoeken naar een lijn zodanig dat de som van de afstanden in het kwadraat van de punten tot de lijn minimaal is. De lijn wordt hierbij uitgedrukt in polaire co\"ordinaten $r$ en $\alpha$ (zie figuur \ref{fig:linefit}). 
-Dat is dus als de formule $D^2 = \sum\limits_{i=1}^n r-x_i cos(\alpha) - y_i sin(\alpha)$ minimaal is. Om de waardes van $r$ en $\alpha$ te kunnen vinden kunnen we dan gebruik maken van de afgeleiden. Oftewel $\frac{d(D^2)}{dr} = 0$ en $\frac{d(D^2)}{d\alpha} = 0$.
-We krijgen hieruit de vergelijkingen:\\
+Dit is het geval wanneer de formule $D^2 = \sum\limits_{i=1}^n r-x_i cos(\alpha) - y_i sin(\alpha)$ minimaal is. Om de waardes van $r$ en $\alpha$ te kunnen vinden kan gebruik gemaakt worden van de afgeleiden, $\frac{d(D^2)}{dr} = 0$ en $\frac{d(D^2)}{d\alpha} = 0$.
+Hieruit worden de volgende vergelijkingen verkregen:\\
 $nom =  -2\sum\limits_{i=1}^n (x_i - x_c)(y_i - y_c)$\\
 $dennom =  \sum\limits_{i=1}^n (y_i - y_c)^2 - (x_i - x_c)^2$\\
 $\alpha = 0.5\mbox{ atan2}(nom, denom)$\\\\
-Hierbij zijn $x_c$ en $y_c$ de co\"ordinaten van het middelpunt van alle punten. Hiervoor nemen we simpelweg het gemiddelde van de $x$ dan niet de $y$ waardes van alle punten. Aan de hand van de $\alpha$ parameter kunnen we de $r$ parameter vinden.
-Het is namelijk zo dat een punt op een lijn uitgedrukt in polaire co\"ordinaten voldoet aan de vergelijking $x cos(\alpha) + y sin(\alpha) = r$. We kunnen hiermee de $r$ parameter vinden als we een punt weten dat zeker op de lijn ligt. Dit punt is....
+Hierbij zijn $x_c$ en $y_c$ de co\"ordinaten van het middelpunt van alle punten. Om deze co\"ordinaten te vinden wordt simpelweg het gemiddelde van de $x$ en het gemiddelde van de $y$ waarden van alle punten genomen. Aan de hand van de $\alpha$ parameter kan de $r$ parameter worden gevonden.
+Het is namelijk zo dat een punt op een lijn uitgedrukt in polaire co\"ordinaten voldoet aan de vergelijking $x cos(\alpha) + y sin(\alpha) = r$. De $r$ parameter kan worden gevonden als we van een punt zeker weten dat het op de lijn ligt. Dit punt is....
 % WELK PUNT???
 
-Als we nu naar de punten kijken die het verste op de lijn liggen kunnen we de uiteindes van dit lijnsegment bepalen. Het wordt nu ook makkelijk om hoeken te zoeken door alleen naar deze uiteindes te kijken en zien of ze een hoek vormen met een ander lijnsegment. 
+Als nu naar de punten wordt gekeken die het verste op de lijn liggen kunnen de uiteindes van dit lijnsegment bepalen worden bepaald. Het wordt nu ook makkelijker om hoeken te zoeken door alleen naar deze uiteindes te kijken en te bekijken of ze een hoek vormen met een ander lijnsegment. 
 
 \begin{figure}[h]
 	\centering
@@ -107,7 +107,7 @@ Als we nu naar de punten kijken die het verste op de lijn liggen kunnen we de ui
 
 \section{fastSLAM algoritme}
 Het fastSLAM algoritme maakt gebruik van particles. Hierbij kan elk particle voorgesteld worden als een kans dat de robot aanwezig is op de positie van de robot, de stand van de robot maakt hierbij ook deel uit van de positie. Het algoritme werkt met twee stappen.\\
-Stap 1 is de odometrie update. In deze stap wordt gekeken naar de verplaatsing van de robot. Aan de hand van de encoderwaardes kan worden uitgerekend welke afstand gereden is. Aangezien de kans op een verschil tussen de gemeten waarde en de echt afgelegde afstand groot kunnen we voorspellen dat de particles ook met een bepaalde error zich zullen voortbewegen. Deze error wordt aangenomen gaussisch te zijn. De nieuwe positie van een particle kunnen we dan voorspellen met \\\\
+Stap 1 is de odometrie update. In deze stap wordt gekeken naar de verplaatsing van de robot. Aan de hand van de encoderwaardes kan worden uitgerekend welke afstand gereden is. Aangezien de kans op een verschil tussen de gemeten waarde en de echt afgelegde afstand groeit kan worden voorspeld dat de particles zich met een bepaalde error zullen voortbewegen. Er wordt aangenomen dat deze error gaussisch is. De nieuwe positie van een particle kan dan worden voorspeld met de vergelijking \\\\
 $
 \begin{bmatrix}
 x\\
@@ -131,20 +131,20 @@ Stap 2 is de laserscan update
 \section{Deel 2, Eigen data}
 \subsection{Offline SLAM met behulp van een dataset}
 Er moet worden gewerkt met een offline dataset, in verband met tijdgebrek en het niet aanwezig zijn van voldoende robots. De meegeleverde dataset bestaat uit 61 fotos.
-Voordat begonnen kan worden met het opbouwen van een kaart moeten eerst de parameters voor de camera worden gecalibreerd. De fotos bevatten echter twee verschillende centers. Na het 40e plaatje veranderd de center enigszins (Picture 51.jpg tot het einde van de dataset). De centers zijn respectievelijk $centre1 = [465;343]$ voor de eerste 40 fotos en $centre2=[465;335]$ voor de overige fotos. Alle fotos maken gebruik van $\alpha = 140$ en $Rmin = 100$ en $Rmax = 180$. Er is gebruik gemaakt van een BWtreshold van 100, behalve voor Picture 17.jpg tot Picture 22.jpg. Hierbij is de treshold verlaagd naar 90. Dit is gedaan omdat bij deze fotos de draad die de camera met de laptop verbind gemeten wordt. De draad beinvloed hiermee de data. In figuur \ref{fig:route} is te zien welke route gereden is.
+Voordat begonnen kan worden met het opbouwen van een kaart moeten eerst de parameters voor de camera worden gecalibreerd. De fotos bevatten echter twee verschillende centers. Na het 40e plaatje veranderd de center enigszins (Picture 51.jpg tot het einde van de dataset). De centers zijn respectievelijk $centre_1 = [465;343]$ voor de eerste 40 fotos en $centre_2=[465;335]$ voor de overige fotos. Alle fotos maken gebruik van $\alpha = 140$ en $Rmin = 100$ en $Rmax = 180$. Er is gebruik gemaakt van een BWtreshold van 100, behalve voor Picture 17.jpg tot Picture 22.jpg. Hierbij is de treshold verlaagd naar 90. Dit is gedaan omdat bij deze fotos de draad die de camera met de laptop verbind gemeten wordt. De draad beinvloed hiermee de data. In figuur \ref{fig:route} is te zien welke route gereden is.
 Deze kaart met bijbehorende route zal ongeveer overeen moeten komen met de opgebouwde kaart door het SLAM algoritme.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{matlab/imgs/route.png}
+	\includegraphics[width=0.8\textwidth]{matlab/imgs/route.png}
 	\caption{Afgelegde route}
 	\label{fig:route}
 \end{figure}
 
 \subsection{Odometrie bepalen}
-Omdat er gebruik gemaakt wordt van een dataset van fotos en niet van de meegeleverde GUI, moet de odometrie met de hand worden gemaakt. Aan de hand van de meegegeven layout en het bekijken van de locatie van de robot aan de hand van de fotos kan een schatting gemaakt worden van de afgelegde afstanden.
+Omdat er gebruik gemaakt wordt van een dataset van fotos en niet van de meegeleverde GUI, moet de odometrie met de hand worden gemaakt. Aan de hand van de meegegeven layout, te zien in figuur \ref{fig:layout}, en het bekijken van de locatie van de robot aan de hand van de fotos kan een schatting gemaakt worden van de afgelegde afstanden.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{matlab/imgs/layout.png}
+	\includegraphics[width=0.8\textwidth]{matlab/imgs/layout.png}
 	\caption{Layout van de kaart}
 	\label{fig:layout}
 \end{figure}
