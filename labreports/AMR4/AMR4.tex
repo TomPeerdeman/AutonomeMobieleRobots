@@ -8,6 +8,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{tabulary}
+\usepackage{siunitx}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -118,7 +119,7 @@ Omdat er gebruik gemaakt wordt van een dataset van fotos en niet van de meegelev
 	\caption{Layout van de kaart}
 	\label{fig:layout}
 \end{figure}
-Deze schatting kan aan de hand van experimenten worden geoptimaliseerd. Deze optimalisatie wordt gedaan door afgelegde afstanden te vergroten of te verkleinen. In een enkel geval moet de draaihoek worden aangepast. De meeste bochten die gemaakt worden bestaan uit twee korte bochten van elk $45\degree$. Er zijn echter twee bochten waarbij eerst een draaiing wordt gemaakt van $60\degree$ gevolgd door een draaiing van $30\degree$.
+Deze schatting kan aan de hand van experimenten worden geoptimaliseerd. Deze optimalisatie wordt gedaan door afgelegde afstanden te vergroten of te verkleinen. In een enkel geval moet de draaihoek worden aangepast. De meeste bochten die gemaakt worden bestaan uit twee korte bochten van elk $\SI{45}{\degree}$. Er zijn echter twee bochten waarbij eerst een draaiing wordt gemaakt van $\SI{60}{\degree}$ gevolgd door een draaiing van $\SI{30}{\degree}$.
 \subsection{Resultaten}
 Het resultaat met geoptimaliseerde odometrie is zichtbaar in figuur \ref{fig:final}. 
 \begin{figure}[h]
@@ -131,6 +132,6 @@ Het resultaat met geoptimaliseerde odometrie is zichtbaar in figuur \ref{fig:fin
 Er is ruis zichtbaar in het resultaat. Ditheeft te maken met het mogelijk nog meer te optimaliseren van de odometrie of door het optimaliseren van de parameters.
 Omdat de dataset twee verschillende centers heeft, ontstaat ruis vanaf plaatje 41. Dit zorgt voor meer ruis (de dikkere muur) rechtsboven in figuur \ref{fig:final}.
 \subsection{Verbeteringen}
-De odometrie houdt momenteel alleen rekening met de afgelegde afstand in één enkele as van de robot. Het is hierdoor niet mogelijk om met behulp van fotos een daadwerkelijke bocht aan te geven. Het algoritme denkt nu dat er een rechte lijn wordt gereden en vervolgens wordt gedraaid, in plaats van een continue draaiing over de af te leggen afstand uit te voeren.
+De odometrie houdt momenteel alleen rekening met de afgelegde afstand in de huidige rijrichting van de robot. Het is hierdoor niet mogelijk om met behulp van fotos een daadwerkelijke bocht aan te geven. Het algoritme denkt nu dat er een rechte lijn wordt gereden en vervolgens wordt gedraaid, in plaats van een continue draaiing over de af te leggen afstand uit te voeren.
 
 \end{document}
