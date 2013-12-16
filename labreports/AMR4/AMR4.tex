@@ -211,7 +211,7 @@ De odometrie houdt momenteel alleen rekening met de afgelegde afstand in de huid
 \caption{Rangesensor variantie,\\ links $sigmaR=0.0001$ en $sigmaB=0.0001$ \\ rechts $sigmaR=0.7$ en $sigmaB=0.7$}
 \label{fig:rangeexp}
 \end{figure}
-
+\clearpage
 \section{Code snippets}
 Hieronder zijn enkele code snippets te vinden van files die flink zijn aangepast ten opzichte van hoe ze zijn geleverd.\\
 FitLine.m bevat de code om de hoek en de afstand tot een lijn te bepalen.
@@ -260,6 +260,8 @@ function [r, alpha] = FitLine(XY)
   
   return  % function FitLine
 \end{lstlisting}
+\newpage
+\noindent
 predict\_odo.m bevat de code die de odometrie voorspelt aan de hand van meegegeven variantie parameters.
 \begin{lstlisting}[caption= predict\_odo.m, label=lst:checkconcat, numbers=left]
 function particle = predict_odo(particle, dr, dth, Q)
