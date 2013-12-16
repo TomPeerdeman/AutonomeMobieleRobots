@@ -74,6 +74,7 @@ Om de experimenten uit dit rapport te kunnen uitvoeren zijn de volgende material
 Een autonome mobiele robots moet een kaart kunnen opbouwen van zijn omgeving. Aan de hand van zijn eigen gemaakte kaart zou hij met behulp van bekende kaarten kunnen bepalen waar hij zich in de wereld bevindt. Een veel gebruikte methode om een kaart al rijdend op te bouwen is SLAM (Simultaneous Localization And Mapping). Er kan dan met een bepaalde zekerheid bepaald worden waar de robot zich momenteel bevindt. Het is de bedoeling dat de robot in een gebied rond kan rijden en hierbij een goede kaart kan maken. Zo moet hij bijvoorbeeld na het rijden van een rondje weer hetzelfde deel van de kaart zien (mits er niks veranderd is aan de omgeving).
 
 \section{Feature detection}
+\label{sec:featdetc}
 De gebruikte versie van SLAM, fastSLAM, maakt gebruik van ruwe odometrie data en features welke gedetecteerd worden door de laserscan.
 Als feature zal gebruik gemaakt worden van hoeken van lijnen. Om de corners te kunnen vinden zullen eerst de lijnen gevonden moeten worden uit de ruwe punten data die de laserscan aanlevert. Om deze lijnen te kunnen detecteren wordt gebruik gemaakt van het split \& merge algoritme. Het split en merge algoritme is in stappen uitgelegd in listing \ref{lst:splitmerge}.
 
@@ -126,7 +127,7 @@ $dth_n$ is de toegevoegde noise voor de afgelegde hoek $dth$.
 $dr_n$ is de toegevoegde noise voor de afgelegde afstand.\\
 Het is belangrijk te vermelden dat er meerdere odometrie updates kunnen voorkomen voordat stap 2 uitgevoerd wordt. Hierdoor kan de error in de particle positie vrij hoog oplopen. Deze error moet dat naar beneden gebracht worden door de data uit de laserscan (stap 2).\\
 \\
-Stap 2 is de laserscan update
+Stap 2 is de laserscan update. In de laserscan update wordt de error verkleind door een aantal particles weg te gooien. De particles die worden weggegooit hebben daarbij de kleinste dat de robot op de positie van deze particles is. Dit wordt gedaan door de ruwe laserscan data om te zetten in features (hoeken in dit geval) zoals is uitgwerkt in sectie \ref{sec:featdetc}. Als de gedetecteerde features al eens eerder gedetecteerd waren kunnen we een aantal particles weg gooien aangezien we de positie van deze features al weten. Door voor elk particle te voorspellen waar de feature zich zou moeten bevinden als de robot op die positie zou zijn, en dit te vergelijken met de gedetecteerde positie kunnen we elk particle een gewicht geven. Dit gewicht is hoger naar mate de gedetecteerde positie meer overeenkomt met de voorspelde positie. Aan de hand van deze weights gaat het algoritme de particle set resamplen. De particles met de laagste weights worden hierbij verwijderd. Aangezien de overgebleven particles weer een error met een bepaalde distrubtie voorstellen kunnen we uit deze distibutie nieuwe posities trekken om zo het aantal particles gelijk te houden aan het aantal van voor de resampling.
 
 \section{Deel 2, Eigen data}
 \subsection{Offline SLAM met behulp van een dataset}
