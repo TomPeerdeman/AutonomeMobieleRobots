@@ -9,6 +9,7 @@
 \usepackage{graphicx}
 \usepackage{tabulary}
 \usepackage{siunitx}
+\usepackage{caption}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -129,6 +130,13 @@ Het is belangrijk te vermelden dat er meerdere odometrie updates kunnen voorkome
 \\
 Stap 2 is de laserscan update. In de laserscan update wordt de error verkleind door een aantal particles weg te gooien. De particles die worden weggegooit hebben daarbij de kleinste dat de robot op de positie van deze particles is. Dit wordt gedaan door de ruwe laserscan data om te zetten in features (hoeken in dit geval) zoals is uitgwerkt in sectie \ref{sec:featdetc}. Als de gedetecteerde features al eens eerder gedetecteerd waren kunnen we een aantal particles weg gooien aangezien we de positie van deze features al weten. Door voor elk particle te voorspellen waar de feature zich zou moeten bevinden als de robot op die positie zou zijn, en dit te vergelijken met de gedetecteerde positie kunnen we elk particle een gewicht geven. Dit gewicht is hoger naar mate de gedetecteerde positie meer overeenkomt met de voorspelde positie. Aan de hand van deze weights gaat het algoritme de particle set resamplen. De particles met de laagste weights worden hierbij verwijderd. Aangezien de overgebleven particles weer een error met een bepaalde distrubtie voorstellen kunnen we uit deze distibutie nieuwe posities trekken om zo het aantal particles gelijk te houden aan het aantal van voor de resampling.
 
+\section{Schatten van SLAM parameters}
+SLAM maakt gebruik van enkele parameters. Deze parameters moeten worden geschat, om het beste resultaat te verkrijgen. Met behulp van een meegeleverde test log, kunnen enkele experimenten met verschillende waarden voor deze parameters worden gedaan. De te schatten parameters zijn, $NPARTICLES$, $sigmaX$, $sigmaTH$, $sigmaR$ en $sigmaB$. $NPARTICLES$ geeft aan hoeveel deeltjes (locaties) er moeten worden weergegeven waar de robot momenteel kan zijn. $sigmaX$ en $sigmaTH$ geven de variantie in de odometrie aan, de afwijking van de gegeven waarden voor respectievelijk de gereden afstand en de hoek. $sigmaR$ en $sigmaB$ geven de variantie aan die de laserscan als afstanden tot lijnen teruggeeft (de rangesensor).
+\subsection{Experimenten}
+In figuur \ref{fig:npart}, figuur \ref{fig:odoexp} en figuur \ref{fig:rangeexp}\footnote{deze figuren staan aan het einde van dit labreport, i.v.m. structuur behoudt van het labreport} zijn de resultaten te zien van de gemaakt experimenten. Duidelijk is te zien dat met het verhogen van het aantal $NPARTICLES$ de dikte van de lijn gestaag toeneemt. Door $NPARTICLES =200$ te kiezen wordt ervoor gezorgd dat de lijn niet te dun wordt en niet te dik.\\
+Zoals te verwachten viel, is met een lage variantie in de odometrie minder ruis voor de gedetecteerde muren zichtbaar. Deze variantie moet dus laag gehouden worden om nog een duidelijke kaart te kunnen opbouwen. Een variantie van $sigmaX=0.00003m$ en $sigmaTH=\SI{0.0002}{\degree}$ zorgt voor een duidelijk resultaat.\\
+Opvallend is het extreem dikker worden van de locatie van de robot zodra een lage variantie wordt gekozen voor de rangesensor. De rangesensor is blijkbaar niet gevoelig genoeg om met grote zekerheid de werkelijke afstand terug te geven, dus moet een grotere waarde voor de variantie worden gekozen. $sigmaR=0.7$ en $sigmaB=0.7$ levert een niet al te dikke locatielijn op, en een duidelijk resultaat voor de locatie van de muren.
+
 \section{Deel 2, Eigen data}
 \subsection{Offline SLAM met behulp van een dataset}
 Er moet worden gewerkt met een offline dataset, in verband met tijdgebrek en het niet aanwezig zijn van voldoende robots. De meegeleverde dataset bestaat uit 61 fotos.
@@ -165,4 +173,44 @@ De gevonden afstanden kloppen grotendeels. Ze zijn niet volledig accuraat vanweg
 \subsection{Verbeteringen}
 De odometrie houdt momenteel alleen rekening met de afgelegde afstand in de huidige rijrichting van de robot. Het is hierdoor niet mogelijk om met behulp van fotos een daadwerkelijke bocht aan te geven. Het algoritme denkt nu dat er een rechte lijn wordt gereden en vervolgens wordt gedraaid, in plaats van een continue draaiing over de af te leggen afstand uit te voeren. Daarnaast zullen er betere resultaten worden verkregen als er per locatie meerdere metingen worden gemaakt en de afstand tussen de metingen verkleind wordt. Daar komt bij dat tijdens het maken van de dataset het aan te raden is de afgelegde afstanden en draaihoeken worden opgeschreven, zodat deze niet achteraf geschat hoeven te worden. Tot slot zou een verbeterde omni-directionele camera, die op een juiste manier de pixelafstanden om kan zetten naar werkelijke afstanden een uitkomst bieden op betere resultaten.
 
+\newpage
+\section{Parameter experimenten figuren}
+\begin{figure}[h]
+\captionsetup{justification=centering}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[width=0.5\textwidth]{{img/slam5particles}.png} &
+\includegraphics[width=0.5\textwidth]{{img/slam20particles}.png}\\
+\includegraphics[width=0.5\textwidth]{{img/slam100particles}.png} &
+\includegraphics[width=0.5\textwidth]{{img/slam200particles}.png}
+\end{array}$
+\includegraphics[width=0.5\textwidth]{{img/slam1000particles}.png}
+\end{center}
+\caption{Het aantal $NPARTICLES$,\\linksboven $NPARTICLES=5$, rechtsboven $NPARTICLES=20$\\linksmidden $NPARTICLES=100$, rechtsmidden $NPARTICLES=200$\\Onderaan $NPARTICLES=1000$}
+\label{fig:npart}
+\end{figure}
+
+\begin{figure}[h]
+\captionsetup{justification=centering}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[width=0.5\textwidth]{{img/slam0.00003-0.0002odonoise}.png} &
+\includegraphics[width=0.5\textwidth]{{img/slam0.3-0.2odonoise}.png}
+\end{array}$
+\end{center}
+\caption{Odometrie variantie,\\ links $sigmaX=0.00003m$ en $sigmaTH=\SI{0.0002}{\degree}$ \\ rechts $sigmaX=0.3m$ en $sigmaTH=\SI{0.2}{\degree}$}
+\label{fig:odoexp}
+\end{figure}
+
+\begin{figure}[h]
+\captionsetup{justification=centering}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[width=0.5\textwidth]{{img/slam0.0001-0.0001lasernoise}.png} &
+\includegraphics[width=0.5\textwidth]{{img/slam0.7-0.7lasernoise}.png}
+\end{array}$
+\end{center}
+\caption{Rangesensor variantie,\\ links $sigmaR=0.0001$ en $sigmaB=0.0001$ \\ rechts $sigmaR=0.7$ en $sigmaB=0.7$}
+\label{fig:rangeexp}
+\end{figure}
 \end{document}
