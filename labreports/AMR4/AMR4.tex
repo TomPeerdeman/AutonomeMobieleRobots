@@ -211,4 +211,156 @@ De odometrie houdt momenteel alleen rekening met de afgelegde afstand in de huid
 \caption{Rangesensor variantie,\\ links $sigmaR=0.0001$ en $sigmaB=0.0001$ \\ rechts $sigmaR=0.7$ en $sigmaB=0.7$}
 \label{fig:rangeexp}
 \end{figure}
+
+\section{Code snippets}
+Hieronder zijn enkele code snippets te vinden van files die flink zijn aangepast ten opzichte van hoe ze zijn geleverd.\\
+FitLine.m bevat de code om de hoek en de afstand tot een lijn te bepalen.
+\begin{lstlisting}[caption= Fitline.m, label=lst:checkconcat, numbers=left]
+%---------------------------------------------------------------------
+% This function computes the parameters (r, alpha) of a line passing
+% through input points that minimize the total-least-square error.
+%
+% Input:   XY - [2,N] : Input points
+%          
+% Output:  r, alpha: paramters of the fitted line
+
+function [r, alpha] = FitLine(XY)
+  
+  % Compute the centroid of the point set (xmw, ymw) considering that 
+  % the centroid of a finite set of points can be computed as
+  % the arithmetic mean of each coordinate of the points.
+
+  % XY(1,:) contains x position of the points
+  % XY(2,:) contains y position of the points  
+
+  xmw = mean(XY(1,:));
+  ymw = mean(XY(2,:));
+
+  % compute parameter alpha (see exercise pages)
+  nom = 0;
+  denom = 0;
+  for i=1:size(XY,2)
+      nom = nom + ((XY(1,i) - xmw) * (XY(2,i) - ymw));
+      denom = denom + ((XY(2,i) - ymw)^2 - (XY(1,i) - xmw)^2);
+  end
+  
+  nom = -2 * nom;
+  
+  alpha = 0.5 * atan2(nom, denom);
+  
+  % compute parameter r (see exercise pages)
+  r = xmw * cos(alpha) + ymw * sin(alpha);
+  
+  % Eliminate negative radii
+  if r < 0,
+    alpha = alpha + pi;
+    if alpha > pi, alpha = alpha - 2 * pi; end
+    r = -r;
+  end;
+  
+  return  % function FitLine
+\end{lstlisting}
+predict\_odo.m bevat de code die de odometrie voorspelt aan de hand van meegegeven variantie parameters.
+\begin{lstlisting}[caption= predict\_odo.m, label=lst:checkconcat, numbers=left]
+function particle = predict_odo(particle, dr, dth, Q)
+% Q  cov matrix, noise odometry
+% dr and dth is retrieved from the encoders (that is delta_r and delta_theta) in dt
+% time.
+
+Dmv = multivariate_gauss([dr; dth], Q, 1);
+dr_n = Dmv(1); 
+dth_n = Dmv(2);
+
+
+% predict state
+xv= particle.xv;
+
+% xv contains the *LAST* position of the considered particle in world coordinate frame, such as:
+% xv(1) = last x
+% xv(2) = last y
+% xv(3) = last theta
+
+% In order to obtain the prediction step for the current particle 'particle'
+% consider then the measurements of the odometry of the robot that are:
+% dr_n  = noise added measurement of dr using  cov. matrix Q
+% dth_n = noise added measurement of d_th using  cov. matrix Q
+
+% Hint:
+% x_new = x_old + dn_rn*cos(dth_rn + theta_old)
+
+particle.xv= [ (xv(1) + dr_n * cos(dth_n + xv(3))) ; 
+               (xv(2) + dr_n * sin(dth_n + xv(3))) ;
+              pi_to_pi(pi_to_pi(xv(3)) + dth)];
+ 
+ 
+% pi_to_pi is a *safe* function that converts angles from [0,2*pi] into the
+% standard convention {[0,pi], (-pi, 0]}
+\end{lstlisting}
+logger/MainOffline.m bevat de code voor het opbouwen van de log voor de gebruikte offline dataset.
+\begin{lstlisting}[caption= logger/MainOffline.m, label=lst:checkconcat, numbers=left]
+% =================================================================
+% 
+%  Main.m
+%  Closed-loop position control for differential-drive robots.
+% 
+%  The calling syntax is:
+%       Main
+%
+%  Reference:
+%  Introduction to: Autonomous Mobile Robots, Chapter 3.
+% 
+%  This is an M-file for MATLAB.  
+%  Tested in: Matlab 7.1.0
+%  Date: 12.04.07
+%
+% =================================================================*/
+
+clc; % clear console
+
+path(path, './scans/');
+path(path, './odometry/');
+
+load('est_odo.mat');
+
+
+%===================================%
+%   PARAMETERS TO CHANGE            %
+%===================================%
+
+% NUMBER OF SCANS:
+N = 360;
+
+% TIME BETWEEN TWO SNAPSHOTS:
+T_b_S = 0.5;  %[s]
+
+% FREQUENCY OF ODOMETRY UPDATE:
+F_O_U = 5;  %[Hz]
+
+% NAME OF THE LOG FILE:
+Log_name = 'log.txt';
+
+%===================================%
+
+% Open the log file for writing the data
+FILE = fopen(Log_name, 'w')
+
+tic;
+for i=1:61
+    % Schat hier dx en dtheta
+    dx = est_odo(i, 1);
+    dtheta = deg2rad(est_odo(i, 2));
+    SaveEncoderData(FILE, toc, dx, dtheta, N);
+
+    disp(sprintf('Taking laser data %d', (i + 10)));
+    laser_scans = GetLaserScans(N, i+10);
+    SaveLaserData(FILE, toc, laser_scans); 
+    
+    pause(T_b_S);
+end
+
+fclose(FILE);
+
+display('Execution Complete!');
+\end{lstlisting}
+
 \end{document}
