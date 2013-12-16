@@ -8,7 +8,7 @@ figure(4);
 
 % read the logfile 
 % **CHANGE LOG FILENAME HERE**
-log = ReadLogFile('../Exercise4_examplelog.txt');
+log = ReadLogFile('log.txt');
 logmatrix = log;
 
 % matrix size

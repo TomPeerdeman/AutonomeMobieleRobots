@@ -1,6 +1,6 @@
 close all;
 
-log = ReadLogFile('../Exercise4_examplelog.txt');
+log = ReadLogFile('log.txt');
 logmatrix = log;
 m_size = size(logmatrix, 1);
 c_size = size(logmatrix, 2);
